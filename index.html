@@ -1,127 +1,213 @@
-import React from "react";
-import { motion } from "framer-motion";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <style>
+    /* Import fonts and reset basic styles */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      background: black;
+      overflow-x: hidden;
+    }
 
-const Portfolio = () => {
-  return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      {/* Header Section */}
-      <motion.header
-        className="p-4 flex justify-between items-center bg-gray-900 shadow-lg"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-2xl font-bold">Grace's Portfolio</h1>
-        <nav>
-          <ul className="flex gap-4">
-            <li><a href="#hero" className="hover:text-gray-400">Home</a></li>
-            <li><a href="#whoami" className="hover:text-gray-400">Who Am I</a></li>
-            <li><a href="#projects" className="hover:text-gray-400">Projects</a></li>
-            <li><a href="#contact" className="hover:text-gray-400">Contact</a></li>
-          </ul>
-        </nav>
-      </motion.header>
+    section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      transition: transform 0.8s ease-in-out;
+    }
 
-      {/* Hero Section */}
-      <motion.section
-        className="flex items-center justify-center h-screen bg-gradient-to-b from-gray-900 to-black"
-        id="hero"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="text-center">
-          <h2 className="text-4xl md:text-6xl font-extrabold">Hi, I'm Grace</h2>
-          <p className="mt-4 text-gray-400">A 15-year-old passionate full-stack developer.</p>
-        </div>
-      </motion.section>
+    /* Smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+    }
 
-      {/* Who Am I Section */}
-      <motion.section
-        id="whoami"
-        className="p-8 md:p-16 bg-black text-gray-300"
-        initial={{ x: "-100%" }}
-        whileInView={{ x: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h3 className="text-3xl font-bold mb-4">Who Am I?</h3>
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <img src="https://via.placeholder.com/200" alt="Your Picture" className="rounded-lg shadow-lg" />
-          <p className="leading-loose">
-            Hi, my name's Grace, and I have a passion for scripting in various languages like Lua, JS, Python, AHK, and a bit of HTML. I take scripting commissions for these languages and complete them all within a week. Here's a bit more about me and my journey.
-          </p>
-        </div>
-      </motion.section>
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+    }
 
-      {/* Projects Section */}
-      <motion.section
-        id="projects"
-        className="p-8 md:p-16 bg-gray-800 text-gray-300"
-        initial={{ x: "100%" }}
-        whileInView={{ x: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h3 className="text-3xl font-bold mb-4">My Projects</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <motion.div
-            className="p-4 bg-gray-700 rounded-lg shadow-md"
-            whileHover={{ scale: 1.05 }}
-          >
-            <h4 className="text-xl font-bold">Project 1</h4>
-            <p className="text-gray-400">My first project was, and still is, learning one coding language each year. It might be a tough challenge, but it's one I enjoy tackling.</p>
-          </motion.div>
-          <motion.div
-            className="p-4 bg-gray-700 rounded-lg shadow-md"
-            whileHover={{ scale: 1.05 }}
-          >
-            <h4 className="text-xl font-bold">Project 2</h4>
-            <p className="text-gray-400">A custom automation tool using AHK that improved efficiency for a small business.</p>
-          </motion.div>
-          <motion.div
-            className="p-4 bg-gray-700 rounded-lg shadow-md"
-            whileHover={{ scale: 1.05 }}
-          >
-            <h4 className="text-xl font-bold">Project 3</h4>
-            <p className="text-gray-400">A Lua-based game mod that added custom features and improved gameplay for players.</p>
-          </motion.div>
-        </div>
-      </motion.section>
+    header a {
+      text-decoration: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      transition: color 0.3s;
+    }
 
-      {/* Contact Section */}
-      <motion.section
-        id="contact"
-        className="p-8 md:p-16 bg-black text-gray-300"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h3 className="text-3xl font-bold mb-4">Contact</h3>
-        <p className="mb-4">Feel free to reach out to me through any of the platforms below:</p>
-        <ul className="flex gap-4">
-          <li><a href="#" className="text-gray-400 hover:text-white">LinkedIn</a></li>
-          <li><a href="#" className="text-gray-400 hover:text-white">GitHub</a></li>
-          <li><a href="#" className="text-gray-400 hover:text-white">Email</a></li>
-        </ul>
-      </motion.section>
+    header a:hover {
+      color: gray;
+    }
 
-      {/* Extra Tabs Section */}
-      <motion.section
-        id="extras"
-        className="p-8 md:p-16 bg-gray-800 text-gray-300"
-        initial={{ x: "-100%" }}
-        whileInView={{ x: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h3 className="text-3xl font-bold mb-4">Extras</h3>
-        <p className="leading-loose">This section is left for any future additions you might want to include, such as a blog, certifications, or testimonials.</p>
-      </motion.section>
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      text-align: center;
+      padding: 2rem;
+    }
 
-      {/* Footer */}
-      <footer className="p-4 bg-gray-900 text-center text-gray-500">
-        &copy; {new Date().getFullYear()} Grace's Portfolio. All rights reserved.
-      </footer>
+    .hero h1 {
+      font-size: 4rem;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .about, .projects, .contact {
+      background: #121212;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .about h2, .projects h2, .contact h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .about p, .projects p, .contact p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .projects .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .projects .card {
+      background: #1a1a1a;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .projects .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .projects .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .contact form input, .contact form textarea, .contact form button {
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      outline: none;
+    }
+
+    .contact form button {
+      background: #333;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact form button:hover {
+      background: gray;
+    }
+
+    footer {
+      padding: 1rem;
+      text-align: center;
+      background: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </header>
+
+  <section id="home" class="hero">
+    <h1>Welcome to My Portfolio</h1>
+    <p>Modern, sleek, and minimalistic — showcasing my achievements with style.</p>
+  </section>
+
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <p>
+      I am a passionate developer/designer who loves crafting visually stunning and functional digital experiences. With expertise in modern technologies and a drive to innovate, I aim to make a lasting impression in every project I undertake.
+    </p>
+  </section>
+
+  <section id="projects" class="projects">
+    <h2>My Projects</h2>
+    <p>Here are some of the amazing projects I've worked on recently:</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Project 1</h3>
+        <p>An innovative web application built to simplify your workflow.</p>
+      </div>
+      <div class="card">
+        <h3>Project 2</h3>
+        <p>A sleek e-commerce platform with exceptional user experience.</p>
+      </div>
+      <div class="card">
+        <h3>Project 3</h3>
+        <p>A creative portfolio showcasing artistic projects and skills.</p>
+      </div>
     </div>
-  );
-};
+  </section>
 
-export default Portfolio;
+  <section id="contact" class="contact">
+    <h2>Contact Me</h2>
+    <p>Feel free to reach out for collaborations or just to say hi!</p>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Your Name. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+
