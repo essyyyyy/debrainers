@@ -1,209 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
+import React from "react";
+import { motion } from "framer-motion";
 
-        body {
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: #fff;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: rgba(0, 0, 0, 0.5);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header h1 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-        }
-
-        header nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        header nav ul li {
-            margin: 0 1rem;
-        }
-
-        header nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 400;
-            transition: color 0.3s;
-        }
-
-        header nav ul li a:hover {
-            color: #00aaff;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: slideDown 1s ease forwards;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInText 2s ease 1s forwards;
-        }
-
-        .hero a {
-            padding: 0.75rem 2rem;
-            background: #00aaff;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        .hero a:hover {
-            background: #005f8c;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes fadeInText {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        section {
-            padding: 5rem 2rem;
-        }
-
-        .about, .projects, .whoami {
-            text-align: center;
-        }
-
-        .whoami {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 800px;
-        }
-
-        .whoami img {
-            max-width: 200px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .projects .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .project:hover {
-            transform: translateY(-10px);
-        }
-
-        .contact {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 2rem;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>my portfolio i guess!</h1>
+const Portfolio = () => {
+  return (
+    <div className="min-h-screen bg-black text-white font-sans">
+      {/* Header Section */}
+      <motion.header
+        className="p-4 flex justify-between items-center bg-gray-900 shadow-lg"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="text-2xl font-bold">Grace's Portfolio</h1>
         <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#whoami">Who Am I?</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+          <ul className="flex gap-4">
+            <li><a href="#hero" className="hover:text-gray-400">Home</a></li>
+            <li><a href="#whoami" className="hover:text-gray-400">Who Am I</a></li>
+            <li><a href="#projects" className="hover:text-gray-400">Projects</a></li>
+            <li><a href="#contact" className="hover:text-gray-400">Contact</a></li>
+          </ul>
         </nav>
-    </header>
+      </motion.header>
 
-    <section class="hero">
-        <h1>so uh welcome</h1>
-        <p>here i really showcase what i actually do and still have planned.</p>
-        <a href="#about">learn More</a>
-    </section>
-
-    <section id="about" class="about">
-        <h2>about me</h2>
-        <p>hi im grace 15 years old and would consider myself a full stack dev.</p>
-    </section>
-
-    <section id="whoami" class="whoami">
-        <h2>Who Am I?</h2>
-        <img src="https://via.placeholder.com/200" alt="Your Picture">
-        <p>hi my names grace and i have a passion for scripting in various languages like lua u, js, python, ahk, and a bit of html. i take scripting commissions for any of those languages and complete them all with in a week. heres a bit more about me and my journey</p>
-    </section>
-
-    <section id="projects" class="projects">
-        <h2>My Projects</h2>
-        <div class="project-grid">
-            <div class="project">
-                <h3>project 1</h3>
-                <p>my first project was and still is simply learning one coding language each year. might be something hard to work on but ill see how i can handle this chat</p>
-            </div>
-            <div class="project">
-                <h3>Project 2</h3>
-                <p>no idea!</p>
-            </div>
+      {/* Hero Section */}
+      <motion.section
+        className="flex items-center justify-center h-screen bg-gradient-to-b from-gray-900 to-black"
+        id="hero"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="text-center">
+          <h2 className="text-4xl md:text-6xl font-extrabold">Hi, I'm Grace</h2>
+          <p className="mt-4 text-gray-400">A 15-year-old passionate full-stack developer.</p>
         </div>
-    </section>
+      </motion.section>
 
-    <section id="contact" class="contact">
-        <h2>Contact Me</h2>
-        <p>Email: [Your Email]</p>
-    </section>
-</body>
-</html>
+      {/* Who Am I Section */}
+      <motion.section
+        id="whoami"
+        className="p-8 md:p-16 bg-black text-gray-300"
+        initial={{ x: "-100%" }}
+        whileInView={{ x: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h3 className="text-3xl font-bold mb-4">Who Am I?</h3>
+        <div className="flex flex-col md:flex-row items-center gap-8">
+          <img src="https://via.placeholder.com/200" alt="Your Picture" className="rounded-lg shadow-lg" />
+          <p className="leading-loose">
+            Hi, my name's Grace, and I have a passion for scripting in various languages like Lua, JS, Python, AHK, and a bit of HTML. I take scripting commissions for these languages and complete them all within a week. Here's a bit more about me and my journey.
+          </p>
+        </div>
+      </motion.section>
+
+      {/* Projects Section */}
+      <motion.section
+        id="projects"
+        className="p-8 md:p-16 bg-gray-800 text-gray-300"
+        initial={{ x: "100%" }}
+        whileInView={{ x: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h3 className="text-3xl font-bold mb-4">My Projects</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div
+            className="p-4 bg-gray-700 rounded-lg shadow-md"
+            whileHover={{ scale: 1.05 }}
+          >
+            <h4 className="text-xl font-bold">Project 1</h4>
+            <p className="text-gray-400">My first project was, and still is, learning one coding language each year. It might be a tough challenge, but it's one I enjoy tackling.</p>
+          </motion.div>
+          <motion.div
+            className="p-4 bg-gray-700 rounded-lg shadow-md"
+            whileHover={{ scale: 1.05 }}
+          >
+            <h4 className="text-xl font-bold">Project 2</h4>
+            <p className="text-gray-400">A custom automation tool using AHK that improved efficiency for a small business.</p>
+          </motion.div>
+          <motion.div
+            className="p-4 bg-gray-700 rounded-lg shadow-md"
+            whileHover={{ scale: 1.05 }}
+          >
+            <h4 className="text-xl font-bold">Project 3</h4>
+            <p className="text-gray-400">A Lua-based game mod that added custom features and improved gameplay for players.</p>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Contact Section */}
+      <motion.section
+        id="contact"
+        className="p-8 md:p-16 bg-black text-gray-300"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h3 className="text-3xl font-bold mb-4">Contact</h3>
+        <p className="mb-4">Feel free to reach out to me through any of the platforms below:</p>
+        <ul className="flex gap-4">
+          <li><a href="#" className="text-gray-400 hover:text-white">LinkedIn</a></li>
+          <li><a href="#" className="text-gray-400 hover:text-white">GitHub</a></li>
+          <li><a href="#" className="text-gray-400 hover:text-white">Email</a></li>
+        </ul>
+      </motion.section>
+
+      {/* Extra Tabs Section */}
+      <motion.section
+        id="extras"
+        className="p-8 md:p-16 bg-gray-800 text-gray-300"
+        initial={{ x: "-100%" }}
+        whileInView={{ x: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h3 className="text-3xl font-bold mb-4">Extras</h3>
+        <p className="leading-loose">This section is left for any future additions you might want to include, such as a blog, certifications, or testimonials.</p>
+      </motion.section>
+
+      {/* Footer */}
+      <footer className="p-4 bg-gray-900 text-center text-gray-500">
+        &copy; {new Date().getFullYear()} Grace's Portfolio. All rights reserved.
+      </footer>
+    </div>
+  );
+};
+
+export default Portfolio;
