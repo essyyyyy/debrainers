@@ -225,37 +225,41 @@
     <p>&copy; 2025 Debrainers. All rights reserved!</p>
   </footer>
 
-  <script>
-    // Add form submission logic
-    document.getElementById('contactForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const name = e.target.name.value;
-      const email = e.target.email.value;
-      const message = e.target.message.value;
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const message = e.target.message.value;
 
-      // Replace with your webhook URL
-      const webhookUrl = 'https://discord.com/api/webhooks/1333540300190122055/a-ofU5wcMUkP6rMskxiwcD0Wj0F391z_TjTdC-i6PZhWn29yO3iUKB1f3Ya6lIlPUcEi'; 
+    // Your Discord webhook URL
+    const webhookUrl = 'https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN';
 
-      try {
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name, email, message }),
-        });
+    // Prepare the payload for Discord
+    const payload = {
+      content: `**New Contact Form Submission**\nName: ${name}\nEmail: ${email}\nMessage: ${message}`
+    };
 
-        if (response.ok) {
-          alert('Message sent successfully!');
-          e.target.reset();
-        } else {
-          alert('Failed to send message. Please try again.');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while sending the message.');
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert('Message sent successfully!');
+        e.target.reset();
+      } else {
+        alert('Failed to send message. Please check your webhook URL.');
       }
-    });
-  </script>
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while sending the message.');
+    }
+  });
+</script>
 </body>
 </html>
