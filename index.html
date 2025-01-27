@@ -153,6 +153,22 @@
       text-align: center;
       background: #1a1a1a;
     }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1.2rem;
+      }
+      .about h2, .projects h2, .contact h2 {
+        font-size: 2.5rem;
+      }
+      .about p, .projects p, .contact p {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -164,32 +180,32 @@
   </header>
 
   <section id="home" class="hero">
-    <h1>welcome to my portfolio</h1>
-    <p>portfolio created by the one and only debrainers!!</p>
+    <h1>Welcome to My Portfolio</h1>
+    <p>Portfolio created by the one and only debrainers!!</p>
   </section>
 
   <section id="about" class="about">
     <h2>About Me</h2>
     <p>
-      hi my names grace and i have a passion for scripting in various languages like lua u, js, python, ahk, and a bit of html. i take scripting commissions for any of those languages and complete them all with in a week. I aim to make a lasting impression in every project I undertake.
+      Hi, my name's Grace, and I have a passion for scripting in various languages like Lua, JS, Python, AHK, and a bit of HTML. I take scripting commissions for any of those languages and complete them all within a week. I aim to make a lasting impression on every project I undertake.
     </p>
   </section>
 
   <section id="projects" class="projects">
     <h2>My Projects</h2>
-    <p>here are some of the projects and plans ive been working on.:</p>
+    <p>Here are some of the projects and plans I've been working on:</p>
     <div class="grid">
       <div class="card">
         <h3>Project 1</h3>
-        <p>learning atleast one scripting language per year</p>
+        <p>Learning at least one scripting language per year</p>
       </div>
       <div class="card">
         <h3>Project 2</h3>
-        <p>a auto trading bot in development for forex eur/usd</p>
+        <p>An auto-trading bot in development for Forex EUR/USD</p>
       </div>
       <div class="card">
         <h3>Project 3</h3>
-        <p>finding back doors or exploits in various games and helping people fix exactly this.</p>
+        <p>Finding backdoors or exploits in various games and helping people fix them.</p>
       </div>
     </div>
   </section>
@@ -197,17 +213,49 @@
   <section id="contact" class="contact">
     <h2>Contact Me</h2>
     <p>Feel free to reach out for collaborations or just to say hi!</p>
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" rows="5" required></textarea>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
       <button type="submit">Send Message</button>
     </form>
   </section>
 
   <footer>
-    <p>&copy; 2025 debrainers. all rights reserved!</p>
+    <p>&copy; 2025 Debrainers. All rights reserved!</p>
   </footer>
+
+  <script>
+    // Add form submission logic
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const name = e.target.name.value;
+      const email = e.target.email.value;
+      const message = e.target.message.value;
+
+      // Replace with your webhook URL
+      const webhookUrl = 'https://discord.com/api/webhooks/1333540300190122055/a-ofU5wcMUkP6rMskxiwcD0Wj0F391z_TjTdC-i6PZhWn29yO3iUKB1f3Ya6lIlPUcEi'; 
+
+      try {
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, message }),
+        });
+
+        if (response.ok) {
+          alert('Message sent successfully!');
+          e.target.reset();
+        } else {
+          alert('Failed to send message. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while sending the message.');
+      }
+    });
+  </script>
 </body>
 </html>
-
