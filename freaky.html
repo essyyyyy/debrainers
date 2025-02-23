@@ -3,77 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freaky Loader</title>
+    <title>Loading...</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
+            background-color: #121212;
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .loader {
             text-align: center;
+            padding: 20px;
         }
-        .loader h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
+        .loading {
+            font-size: 24px;
+            margin-top: 20%;
+            animation: fadein 3s ease-in-out;
         }
-        .loader p {
-            font-size: 1.2em;
-            margin: 5px 0;
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .info {
+            display: none;
+            font-size: 18px;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
         }
     </style>
 </head>
 <body>
-    <div class="loader">
-        <h1>Loading...</h1>
-        <p id="info"></p>
-    </div>
-
+    <div class="loading">Loading...</div>
+    <pre class="info"></pre>
+    
     <script>
-        async function fetchUserInfo() {
-            const response = await fetch('/freaky');
-            const data = await response.json();
-            return data;
-        }
-
-        function typeText(element, text, speed = 50) {
+        setTimeout(() => {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.info').style.display = 'block';
+            
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    let infoText = `Date/Time: ${new Date().toUTCString()}\n`;
+                    infoText += `IP Address: ${data.ip}\n`;
+                    infoText += `Country: ${data.country_name}, ${data.region}\n`;
+                    infoText += `ISP: ${data.org}\n`;
+                    infoText += `User Agent: ${navigator.userAgent}\n`;
+                    infoText += `Referring URL: ${document.referrer || 'no referrer'}\n`;
+                    infoText += `Host Name: ${data.asn_domain || 'N/A'}\n`;
+                    infoText += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
+                    infoText += `\nHello person in ${data.country_name}!`;
+                    
+                    typeText(infoText);
+                });
+        }, 3000);
+        
+        function typeText(text) {
             let i = 0;
-            return new Promise((resolve) => {
-                const interval = setInterval(() => {
-                    if (i < text.length) {
-                        element.textContent += text.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(interval);
-                        resolve();
-                    }
-                }, speed);
-            });
+            let interval = setInterval(() => {
+                if (i < text.length) {
+                    document.querySelector('.info').textContent += text[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
         }
-
-        async function displayUserInfo() {
-            const infoElement = document.getElementById('info');
-            const userInfo = await fetchUserInfo();
-
-            await typeText(infoElement, `Date/Time: ${userInfo.dateTime}\n`);
-            await typeText(infoElement, `IP Address: ${userInfo.ip}\n`);
-            await typeText(infoElement, `VPN/Proxy Detection: ${userInfo.vpnProxy}\n`);
-            await typeText(infoElement, `Country: ${userInfo.country}\n`);
-            await typeText(infoElement, `Name: ${userInfo.name}\n`);
-            await typeText(infoElement, `User Agent: ${userInfo.userAgent}\n`);
-            await typeText(infoElement, `Referring URL: ${userInfo.referrer}\n`);
-            await typeText(infoElement, `Host Name: ${userInfo.hostName}\n`);
-            await typeText(infoElement, `ISP: ${userInfo.isp}\n`);
-
-            await typeText(infoElement, `Hello person in ${userInfo.country}!`);
-        }
-
-        displayUserInfo();
     </script>
 </body>
 </html>
