@@ -53,12 +53,23 @@
                     infoText += `User Agent: ${navigator.userAgent}\n`;
                     infoText += `Browser Language: ${navigator.language}\n`;
                     infoText += `Screen Resolution: ${window.screen.width}x${window.screen.height}\n`;
+                    infoText += `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`;
+                    infoText += `Device Memory: ${navigator.deviceMemory || 'Unknown'} GB\n`;
+                    infoText += `CPU Cores: ${navigator.hardwareConcurrency || 'Unknown'}\n`;
+                    infoText += `Battery Status: Checking...\n`;
+                    infoText += `Platform: ${navigator.platform}\n`;
+                    infoText += `Cookies Enabled: ${navigator.cookieEnabled}\n`;
+                    infoText += `Do Not Track: ${navigator.doNotTrack || 'Unknown'}\n`;
+                    infoText += `Online Status: ${navigator.onLine ? 'Online' : 'Offline'}\n`;
                     infoText += `Referring URL: ${document.referrer || 'no referrer'}\n`;
                     infoText += `Host Name: ${data.asn_domain || 'N/A'}\n`;
                     infoText += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
                     infoText += `\nHello person in ${data.country_name}!`;
                     
-                    typeText(infoText);
+                    navigator.getBattery().then(battery => {
+                        infoText = infoText.replace('Battery Status: Checking...', `Battery Status: ${Math.round(battery.level * 100)}%`);
+                        typeText(infoText);
+                    });
                 });
         }, 3000);
         
@@ -71,7 +82,7 @@
                 } else {
                     clearInterval(interval);
                 }
-            }, 25);
+            }, 20);
         }
     </script>
 </body>
