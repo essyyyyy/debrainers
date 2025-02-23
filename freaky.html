@@ -57,7 +57,7 @@
         }
         .info {
             display: none;
-            font-size: 22px;
+            font-size: 18px;
             text-align: left;
             margin: 0 auto;
             max-width: 800px;
@@ -67,7 +67,20 @@
             padding: 20px;
             border-radius: 10px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            overflow: hidden;
+            overflow-y: auto;
+            max-height: 70vh;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #121212;
+        }
+        .info::-webkit-scrollbar {
+            width: 8px;
+        }
+        .info::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+        .info::-webkit-scrollbar-track {
+            background-color: #121212;
         }
     </style>
 </head>
@@ -100,7 +113,7 @@
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    const dateTimeText = `Date/Time: ${new Date().toUTCString()}`;
+                    const dateTimeText = `Date/Time: ${new Date().toUTCString()}\n`;
                     typeText(dateTimeText, 0, () => {
                         setTimeout(() => {
                             document.querySelector('.info').textContent += '.';
@@ -116,39 +129,38 @@
                         }, 4000);
 
                         setTimeout(() => {
-                            let details = `\nCountry: ${data.country_name}, ${data.region}\n`;
+                            let details = `\nLocation:\n`;
+                            details += `Country: ${data.country_name}\n`;
                             details += `City: ${data.city}\n`;
                             details += `Latitude/Longitude: ${data.latitude}, ${data.longitude}\n`;
-                            details += `Postal Code: ${data.postal}\n`;
+                            details += `Timezone: ${data.timezone}\n\n`;
+
+                            details += `Network:\n`;
+                            details += `IP Address: ${data.ip}\n`;
                             details += `ISP: ${data.org}\n`;
-                            details += `ASN: ${data.asn}\n`;
-                            details += `Currency: ${data.currency}\n`;
-                            details += `Timezone: ${data.timezone}\n`;
-                            details += `UTC Offset: ${data.utc_offset}\n`;
-                            details += `Calling Code: +${data.country_calling_code}\n`;
+                            details += `ASN: ${data.asn}\n\n`;
+
+                            details += `Device:\n`;
                             details += `User Agent: ${navigator.userAgent}\n`;
                             details += `Browser Language: ${navigator.language}\n`;
                             details += `Screen Resolution: ${window.screen.width}x${window.screen.height}\n`;
                             details += `Platform: ${navigator.platform}\n`;
-                            details += `Cookies Enabled: ${navigator.cookieEnabled}\n`;
-                            details += `Do Not Track: ${navigator.doNotTrack || 'Unknown'}\n`;
-                            details += `Online Status: ${navigator.onLine ? 'Online' : 'Offline'}\n`;
-                            details += `Referring URL: ${document.referrer || 'no referrer'}\n`;
-                            details += `Host Name: ${data.asn_domain || 'N/A'}\n`;
-                            details += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
-                            details += `\nhello person in ${data.country_name}!`;
-                            details += `\n\nAdditional Information:\n`;
-                            details += `Battery Level: ${navigator.getBattery ? 'Fetching...' : 'Not Supported'}\n`;
-                            details += `Device Memory: ${navigator.deviceMemory || 'Not Supported'}\n`;
-                            details += `CPU Cores: ${navigator.hardwareConcurrency || 'Not Supported'}\n`;
-                            details += `GPU Information: ${getGPUInfo()}\n`;
-                            details += `WebGL Vendor: ${getWebGLInfo().vendor}\n`;
-                            details += `WebGL Renderer: ${getWebGLInfo().renderer}\n`;
-                            details += `Touch Support: ${navigator.maxTouchPoints || 'Not Supported'}\n`;
-                            details += `Connection Type: ${navigator.connection ? navigator.connection.effectiveType : 'Not Supported'}\n`;
-                            details += `IP Address: ${data.ip}\n`;
+                            details += `CPU Cores: ${navigator.hardwareConcurrency || 'Not Supported'}\n\n`;
+
+                            details += `Graphics:\n`;
+                            details += `GPU Vendor: ${getWebGLInfo().vendor}\n`;
+                            details += `GPU Info: ${getGPUInfo()}\n\n`;
+
+                            details += `Connection:\n`;
+                            details += `Type: ${navigator.connection ? navigator.connection.effectiveType : 'Not Supported'}\n\n`;
+
+                            details += `Hello person in ${data.country_name}!`;
                             
-                            typeText(details, 0);
+                            typeText(details, 0, () => {
+                                // Auto-scroll to the bottom
+                                const infoElement = document.querySelector('.info');
+                                infoElement.scrollTop = infoElement.scrollHeight;
+                            });
                         }, 7000);
                     });
                 });
@@ -192,14 +204,6 @@
                 };
             }
             return { vendor: 'Not Supported', renderer: 'Not Supported' };
-        }
-
-        // Fetch battery status
-        if (navigator.getBattery) {
-            navigator.getBattery().then(battery => {
-                const batteryLevel = Math.round(battery.level * 100);
-                document.querySelector('.info').textContent += `Battery Level: ${batteryLevel}%\n`;
-            });
         }
     </script>
 </body>
