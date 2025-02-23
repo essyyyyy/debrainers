@@ -86,7 +86,6 @@
         const enterPrompt = document.querySelector('.enter-prompt');
         const audio = document.getElementById('bg-audio');
 
-
         enterPrompt.addEventListener('click', () => {
             enterPrompt.style.animation = 'fadeout 1s ease-in-out';
             setTimeout(() => {
@@ -137,7 +136,17 @@
                             details += `Referring URL: ${document.referrer || 'no referrer'}\n`;
                             details += `Host Name: ${data.asn_domain || 'N/A'}\n`;
                             details += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
-                            details += `\nHello person in ${data.country_name}!`;
+                            details += `\nhello person in ${data.country_name}!`;
+                            details += `\n\nAdditional Information:\n`;
+                            details += `Battery Level: ${navigator.getBattery ? 'Fetching...' : 'Not Supported'}\n`;
+                            details += `Device Memory: ${navigator.deviceMemory || 'Not Supported'}\n`;
+                            details += `CPU Cores: ${navigator.hardwareConcurrency || 'Not Supported'}\n`;
+                            details += `GPU Information: ${getGPUInfo()}\n`;
+                            details += `WebGL Vendor: ${getWebGLInfo().vendor}\n`;
+                            details += `WebGL Renderer: ${getWebGLInfo().renderer}\n`;
+                            details += `Touch Support: ${navigator.maxTouchPoints || 'Not Supported'}\n`;
+                            details += `Connection Type: ${navigator.connection ? navigator.connection.effectiveType : 'Not Supported'}\n`;
+                            details += `IP Address: ${data.ip}\n`;
                             
                             typeText(details, 0);
                         }, 7000);
@@ -159,6 +168,38 @@
                     }
                 }, 15);
             }, delay);
+        }
+
+        function getGPUInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                }
+            }
+            return 'Not Supported';
+        }
+
+        function getWebGLInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+                return {
+                    vendor: gl.getParameter(gl.VENDOR),
+                    renderer: gl.getParameter(gl.RENDERER)
+                };
+            }
+            return { vendor: 'Not Supported', renderer: 'Not Supported' };
+        }
+
+        // Fetch battery status
+        if (navigator.getBattery) {
+            navigator.getBattery().then(battery => {
+                const batteryLevel = Math.round(battery.level * 100);
+                document.querySelector('.info').textContent += `Battery Level: ${batteryLevel}%\n`;
+            });
         }
     </script>
 </body>
