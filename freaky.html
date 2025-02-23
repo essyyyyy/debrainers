@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cooked.</title>
     
-    <!-- Open Graph Meta Tags for Discord Embed -->
     <meta property="og:title" content="cooked.">
     <meta property="og:description" content="hello! cool website">
-    <meta property="og:image" content="https://i.imgur.com/0xCwzux.png"> <!-- Replace with an image URL -->
-    <meta property="og:url" content="https://debrainers.xyz/freaky"> <!-- Replace with your website URL -->
+    <meta property="og:image" content="https://i.imgur.com/0xCwzux.png">
+    <meta property="og:url" content="https://debrainers.xyz/freaky">
     <meta property="og:type" content="website">
     
-    <!-- Twitter Card Meta Tags (optional, for better Twitter embeds) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="cooked.">
     <meta name="twitter:description" content="welcome to my website. click to enter and explore.">
@@ -88,29 +86,23 @@
         const enterPrompt = document.querySelector('.enter-prompt');
         const audio = document.getElementById('bg-audio');
 
-        // Handle click to enter
+
         enterPrompt.addEventListener('click', () => {
-            // Fade out the "Click to Enter" prompt
             enterPrompt.style.animation = 'fadeout 1s ease-in-out';
             setTimeout(() => {
                 enterPrompt.style.display = 'none';
             }, 1000);
 
-            // Start audio playback
             audio.play().catch(error => console.warn("Audio playback failed:", error));
 
-            // Show background video and info box
             document.querySelector('.background-video').style.display = 'block';
             document.querySelector('.info').style.display = 'block';
 
-            // Fetch and display data
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    // Animate the Date/Time line
                     const dateTimeText = `Date/Time: ${new Date().toUTCString()}`;
                     typeText(dateTimeText, 0, () => {
-                        // Add delayed dots and question mark
                         setTimeout(() => {
                             document.querySelector('.info').textContent += '.';
                         }, 500);
@@ -124,7 +116,6 @@
                             document.querySelector('.info').textContent += '?';
                         }, 4000);
 
-                        // Add detailed info after 2 seconds
                         setTimeout(() => {
                             let details = `\nCountry: ${data.country_name}, ${data.region}\n`;
                             details += `City: ${data.city}\n`;
@@ -148,14 +139,12 @@
                             details += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
                             details += `\nHello person in ${data.country_name}!`;
                             
-                            // Append the details with typing animation
                             typeText(details, 0);
-                        }, 7000); // Load detailed info 2 seconds after "?"
+                        }, 7000);
                     });
                 });
         });
 
-        // Function to type out text with animation
         function typeText(text, delay = 0, callback) {
             setTimeout(() => {
                 let i = 0;
@@ -168,7 +157,7 @@
                         clearInterval(interval);
                         if (callback) callback();
                     }
-                }, 15); // Adjust typing speed here
+                }, 15);
             }, delay);
         }
     </script>
