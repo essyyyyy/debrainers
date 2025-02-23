@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cooked.</title>
+    
+    <meta property="og:title" content="cooked.">
+    <meta property="og:description" content="hello! cool website">
+    <meta property="og:image" content="https://i.imgur.com/0xCwzux.png">
+    <meta property="og:url" content="https://debrainers.xyz/freaky">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="cooked.">
+    <meta name="twitter:description" content="welcome to my website. click to enter and explore.">
+    <meta name="twitter:image" content="https://i.imgur.com/0xCwzux.png">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cooked.</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            overflow: hidden;
+        }
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            display: none;
+        }
+        .enter-prompt {
+            font-size: 32px;
+            margin-top: 20%;
+            animation: fadein 3s ease-in-out;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeout {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .info {
+            display: none;
+            font-size: 18px;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            overflow-y: auto;
+            max-height: 70vh;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #121212;
+        }
+        .info::-webkit-scrollbar {
+            width: 8px;
+        }
+        .info::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+        .info::-webkit-scrollbar-track {
+            background-color: #121212;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-audio" loop>
+        <source src="https://files.catbox.moe/x40ei9.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="enter-prompt">click ON THIS to enter</div>
+    <video class="background-video" autoplay loop muted>
+        <source src="https://i.imgur.com/AlCaO4F.mp4" type="video/mp4">
+    </video>
+    <pre class="info"></pre>
+    
+    <script>
+        const enterPrompt = document.querySelector('.enter-prompt');
+        const audio = document.getElementById('bg-audio');
+
+        enterPrompt.addEventListener('click', () => {
+            enterPrompt.style.animation = 'fadeout 1s ease-in-out';
+            setTimeout(() => {
+                enterPrompt.style.display = 'none';
+            }, 1000);
+
+            audio.play().catch(error => console.warn("Audio playback failed:", error));
+
+            document.querySelector('.background-video').style.display = 'block';
+            document.querySelector('.info').style.display = 'block';
+
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const dateTimeText = `Date/Time: ${new Date().toUTCString()}`;
+                    typeText(dateTimeText, 0, () => {
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '.';
+                        }, 500);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '.';
+                        }, 1500);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '.';
+                        }, 2700);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '?';
+                        }, 4000);
+
+                        setTimeout(() => {
+                            let details = `\nLocation:\n`;
+                            details += `Country: ${data.country_name}\n`;
+                            details += `City: ${data.city}\n`;
+                            details += `Latitude/Longitude: ${data.latitude}, ${data.longitude}\n`;
+                            details += `Timezone: ${data.timezone}\n\n`;
+
+                            details += `Network:\n`;
+                            details += `IP Address: ${data.ip}\n`;
+                            details += `ISP: ${data.org}\n`;
+                            details += `ASN: ${data.asn}\n\n`;
+
+                            details += `Device:\n`;
+                            details += `User Agent: ${navigator.userAgent}\n`;
+                            details += `Browser Language: ${navigator.language}\n`;
+                            details += `Screen Resolution: ${window.screen.width}x${window.screen.height}\n`;
+                            details += `Platform: ${navigator.platform}\n`;
+                            details += `CPU Cores: ${navigator.hardwareConcurrency || 'Not Supported'}\n\n`;
+
+                            details += `Graphics:\n`;
+                            details += `GPU Vendor: ${getWebGLInfo().vendor}\n`;
+                            details += `GPU Info: ${getGPUInfo()}\n\n`;
+
+                            details += `Connection:\n`;
+                            details += `Type: ${navigator.connection ? navigator.connection.effectiveType : 'Not Supported'}\n\n`;
+
+                            details += `Hello person in ${data.country_name}!`;
+                            
+                            typeText(details, 0, () => {
+                                // Auto-scroll to the bottom
+                                const infoElement = document.querySelector('.info');
+                                infoElement.scrollTop = infoElement.scrollHeight;
+                            });
+                        }, 7000);
+                    });
+                });
+        });
+
+        function typeText(text, delay = 0, callback) {
+            setTimeout(() => {
+                let i = 0;
+                const infoElement = document.querySelector('.info');
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        infoElement.textContent += text[i];
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        if (callback) callback();
+                    }
+                }, 15);
+            }, delay);
+        }
+
+        function getGPUInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                }
+            }
+            return 'Not Supported';
+        }
+
+        function getWebGLInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+                return {
+                    vendor: gl.getParameter(gl.VENDOR),
+                    renderer: gl.getParameter(gl.RENDERER)
+                };
+            }
+            return { vendor: 'Not Supported', renderer: 'Not Supported' };
+        }
+    </script>
+</body>
+</html>
