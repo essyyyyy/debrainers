@@ -47,8 +47,12 @@
                     let infoText = `Date/Time: ${new Date().toUTCString()}\n`;
                     infoText += `IP Address: ${data.ip}\n`;
                     infoText += `Country: ${data.country_name}, ${data.region}\n`;
+                    infoText += `City: ${data.city}\n`;
+                    infoText += `Latitude/Longitude: ${data.latitude}, ${data.longitude}\n`;
                     infoText += `ISP: ${data.org}\n`;
                     infoText += `User Agent: ${navigator.userAgent}\n`;
+                    infoText += `Browser Language: ${navigator.language}\n`;
+                    infoText += `Screen Resolution: ${window.screen.width}x${window.screen.height}\n`;
                     infoText += `Referring URL: ${document.referrer || 'no referrer'}\n`;
                     infoText += `Host Name: ${data.asn_domain || 'N/A'}\n`;
                     infoText += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
@@ -67,7 +71,7 @@
                 } else {
                     clearInterval(interval);
                 }
-            }, 50);
+            }, 25);
         }
     </script>
 </body>
