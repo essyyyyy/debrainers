@@ -113,7 +113,7 @@
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    const dateTimeText = `Date/Time: ${new Date().toUTCString()}\n`;
+                    const dateTimeText = `Date/Time: ${new Date().toUTCString()}`;
                     typeText(dateTimeText, 0, () => {
                         setTimeout(() => {
                             document.querySelector('.info').textContent += '.';
