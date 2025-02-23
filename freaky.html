@@ -13,7 +13,6 @@
             padding: 20px;
             margin: 0;
             overflow: hidden;
-            /* Removed bloom effect */
         }
         .background-video {
             position: fixed;
@@ -23,18 +22,22 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
-            /* Removed bloom effect */
             display: none;
         }
-        .loading {
+        .enter-prompt {
             font-size: 32px;
             margin-top: 20%;
             animation: fadein 3s ease-in-out;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
         }
         @keyframes fadein {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        @keyframes fadeout {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
         .info {
             display: none;
@@ -44,12 +47,10 @@
             max-width: 800px;
             white-space: pre-wrap;
             overflow-wrap: break-word;
-            /* Adjusted background for better readability */
             background: rgba(0, 0, 0, 0.5);
             padding: 20px;
             border-radius: 10px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            /* Ensure the background doesn't overflow */
             overflow: hidden;
         }
     </style>
@@ -59,24 +60,32 @@
         <source src="https://files.catbox.moe/x40ei9.mp3" type="audio/mpeg">
     </audio>
     
-    <div class="loading">Loading...</div>
+    <div class="enter-prompt">Click to Enter</div>
     <video class="background-video" autoplay loop muted>
         <source src="https://i.imgur.com/AlCaO4F.mp4" type="video/mp4">
     </video>
     <pre class="info"></pre>
     
     <script>
-        // Start audio immediately after user interaction
-        document.addEventListener("click", () => {
-            const audio = document.getElementById("bg-audio");
-            audio.play().catch(error => console.warn("Audio playback failed:", error));
-        });
+        const enterPrompt = document.querySelector('.enter-prompt');
+        const audio = document.getElementById('bg-audio');
 
-        setTimeout(() => {
-            document.querySelector('.loading').style.display = 'none';
-            document.querySelector('.info').style.display = 'block';
+        // Handle click to enter
+        enterPrompt.addEventListener('click', () => {
+            // Fade out the "Click to Enter" prompt
+            enterPrompt.style.animation = 'fadeout 1s ease-in-out';
+            setTimeout(() => {
+                enterPrompt.style.display = 'none';
+            }, 1000);
+
+            // Start audio playback
+            audio.play().catch(error => console.warn("Audio playback failed:", error));
+
+            // Show background video and info box
             document.querySelector('.background-video').style.display = 'block';
-            
+            document.querySelector('.info').style.display = 'block';
+
+            // Fetch and display data
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
@@ -92,12 +101,12 @@
                         }, 1000);
                         setTimeout(() => {
                             document.querySelector('.info').textContent += '.';
-                        }, 2000);
+                        }, 1500);
                         setTimeout(() => {
                             document.querySelector('.info').textContent += '?';
                         }, 3250);
 
-                        // Add detailed info after delay
+                        // Add detailed info after 2 seconds
                         setTimeout(() => {
                             let details = `\nCountry: ${data.country_name}, ${data.region}\n`;
                             details += `City: ${data.city}\n`;
@@ -122,11 +131,11 @@
                             details += `\nHello person in ${data.country_name}!`;
                             
                             // Append the details with typing animation
-                            typeText(details, 8000);
-                        }, 8000);
+                            typeText(details, 0);
+                        }, 2000); // Load detailed info 2 seconds after "?"
                     });
                 });
-        }, 3000);
+        });
 
         // Function to type out text with animation
         function typeText(text, delay = 0, callback) {
