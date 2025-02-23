@@ -13,7 +13,7 @@
             padding: 20px;
             margin: 0;
             overflow: hidden;
-            filter: brightness(1.2) contrast(1.2);
+            /* Removed bloom effect */
         }
         .background-video {
             position: fixed;
@@ -23,8 +23,8 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
+            /* Removed bloom effect */
             display: none;
-            filter: brightness(1.5) contrast(1.3) saturate(1.2);
         }
         .loading {
             font-size: 32px;
@@ -44,10 +44,13 @@
             max-width: 800px;
             white-space: pre-wrap;
             overflow-wrap: break-word;
-            background: rgba(0, 0, 0, 0.7);
+            /* Adjusted background for better readability */
+            background: rgba(0, 0, 0, 0.5);
             padding: 20px;
             border-radius: 10px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            /* Ensure the background doesn't overflow */
+            overflow: hidden;
         }
     </style>
 </head>
@@ -63,7 +66,8 @@
     <pre class="info"></pre>
     
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        // Start audio immediately after user interaction
+        document.addEventListener("click", () => {
             const audio = document.getElementById("bg-audio");
             audio.play().catch(error => console.warn("Audio playback failed:", error));
         });
@@ -76,60 +80,69 @@
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
-                    let infoText = `Date/Time: ${new Date().toUTCString()}`;
-                    document.querySelector('.info').textContent = infoText;
-                    
-                    setTimeout(() => {
-                        document.querySelector('.info').textContent += '.';
-                    }, 1000);
-                    setTimeout(() => {
-                        document.querySelector('.info').textContent += '.';
-                    }, 2000);
-                    setTimeout(() => {
-                        document.querySelector('.info').textContent += '.';
-                    }, 3000);
-                    setTimeout(() => {
-                        document.querySelector('.info').textContent += '?';
-                    }, 6000);
-                    
-                    setTimeout(() => {
-                        let details = `\nCountry: ${data.country_name}, ${data.region}\n`;
-                        details += `City: ${data.city}\n`;
-                        details += `Latitude/Longitude: ${data.latitude}, ${data.longitude}\n`;
-                        details += `Postal Code: ${data.postal}\n`;
-                        details += `ISP: ${data.org}\n`;
-                        details += `ASN: ${data.asn}\n`;
-                        details += `Currency: ${data.currency}\n`;
-                        details += `Timezone: ${data.timezone}\n`;
-                        details += `UTC Offset: ${data.utc_offset}\n`;
-                        details += `Calling Code: +${data.country_calling_code}\n`;
-                        details += `User Agent: ${navigator.userAgent}\n`;
-                        details += `Browser Language: ${navigator.language}\n`;
-                        details += `Screen Resolution: ${window.screen.width}x${window.screen.height}\n`;
-                        details += `Platform: ${navigator.platform}\n`;
-                        details += `Cookies Enabled: ${navigator.cookieEnabled}\n`;
-                        details += `Do Not Track: ${navigator.doNotTrack || 'Unknown'}\n`;
-                        details += `Online Status: ${navigator.onLine ? 'Online' : 'Offline'}\n`;
-                        details += `Referring URL: ${document.referrer || 'no referrer'}\n`;
-                        details += `Host Name: ${data.asn_domain || 'N/A'}\n`;
-                        details += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
-                        details += `\nHello person in ${data.country_name}!`;
-                        
-                        typeText(details);
-                    }, 8000);
+                    // Animate the Date/Time line
+                    const dateTimeText = `Date/Time: ${new Date().toUTCString()}`;
+                    typeText(dateTimeText, 0, () => {
+                        // Add delayed dots and question mark
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '.';
+                        }, 500);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '.';
+                        }, 1000);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '.';
+                        }, 2000);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '?';
+                        }, 3250);
+
+                        // Add detailed info after delay
+                        setTimeout(() => {
+                            let details = `\nCountry: ${data.country_name}, ${data.region}\n`;
+                            details += `City: ${data.city}\n`;
+                            details += `Latitude/Longitude: ${data.latitude}, ${data.longitude}\n`;
+                            details += `Postal Code: ${data.postal}\n`;
+                            details += `ISP: ${data.org}\n`;
+                            details += `ASN: ${data.asn}\n`;
+                            details += `Currency: ${data.currency}\n`;
+                            details += `Timezone: ${data.timezone}\n`;
+                            details += `UTC Offset: ${data.utc_offset}\n`;
+                            details += `Calling Code: +${data.country_calling_code}\n`;
+                            details += `User Agent: ${navigator.userAgent}\n`;
+                            details += `Browser Language: ${navigator.language}\n`;
+                            details += `Screen Resolution: ${window.screen.width}x${window.screen.height}\n`;
+                            details += `Platform: ${navigator.platform}\n`;
+                            details += `Cookies Enabled: ${navigator.cookieEnabled}\n`;
+                            details += `Do Not Track: ${navigator.doNotTrack || 'Unknown'}\n`;
+                            details += `Online Status: ${navigator.onLine ? 'Online' : 'Offline'}\n`;
+                            details += `Referring URL: ${document.referrer || 'no referrer'}\n`;
+                            details += `Host Name: ${data.asn_domain || 'N/A'}\n`;
+                            details += `VPN/Proxy Detection: ${data.threat ? 'Possible VPN/Proxy' : 'None detected'}\n`;
+                            details += `\nHello person in ${data.country_name}!`;
+                            
+                            // Append the details with typing animation
+                            typeText(details, 8000);
+                        }, 8000);
+                    });
                 });
         }, 3000);
-        
-        function typeText(text) {
-            let i = 0;
-            let interval = setInterval(() => {
-                if (i < text.length) {
-                    document.querySelector('.info').textContent += text[i];
-                    i++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 15);
+
+        // Function to type out text with animation
+        function typeText(text, delay = 0, callback) {
+            setTimeout(() => {
+                let i = 0;
+                const infoElement = document.querySelector('.info');
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        infoElement.textContent += text[i];
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        if (callback) callback();
+                    }
+                }, 15); // Adjust typing speed here
+            }, delay);
         }
     </script>
 </body>
