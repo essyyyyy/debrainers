@@ -98,13 +98,13 @@
                         }, 500);
                         setTimeout(() => {
                             document.querySelector('.info').textContent += '.';
-                        }, 1000);
-                        setTimeout(() => {
-                            document.querySelector('.info').textContent += '.';
                         }, 1500);
                         setTimeout(() => {
-                            document.querySelector('.info').textContent += '?';
+                            document.querySelector('.info').textContent += '.';
                         }, 3250);
+                        setTimeout(() => {
+                            document.querySelector('.info').textContent += '?';
+                        }, 5250);
 
                         // Add detailed info after 2 seconds
                         setTimeout(() => {
@@ -132,7 +132,7 @@
                             
                             // Append the details with typing animation
                             typeText(details, 0);
-                        }, 4900); // Load detailed info 2 seconds after "?"
+                        }, 7000); // Load detailed info 2 seconds after "?"
                     });
                 });
         });
