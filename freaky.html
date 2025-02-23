@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
+    <title>cooked.</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,6 +13,7 @@
             padding: 20px;
             margin: 0;
             overflow: hidden;
+            filter: brightness(1.2) contrast(1.2) blur(2px);
         }
         .background-video {
             position: fixed;
@@ -44,6 +45,7 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -61,7 +63,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const audio = document.getElementById("bg-audio");
-            audio.play().catch(error => console.warn("Audio playback failed:", error));
+            audio.volume = 0.5;
+            const playAudio = () => {
+                audio.play().catch(error => console.warn("Audio playback failed:", error));
+                document.removeEventListener("click", playAudio);
+            };
+            document.addEventListener("click", playAudio);
         });
 
         setTimeout(() => {
@@ -109,7 +116,7 @@
                 } else {
                     clearInterval(interval);
                 }
-            }, 15);
+            }, 10);
         }
     </script>
 </body>
