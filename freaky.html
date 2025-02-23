@@ -16,49 +16,64 @@
             margin: 0;
         }
         .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .message {
-            margin-top: 20px;
-            font-size: 1.5em;
             text-align: center;
+        }
+        .loader h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .loader p {
+            font-size: 1.2em;
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
-    <div>
-        <div class="loader"></div>
-        <div class="message" id="message">Loading...</div>
+    <div class="loader">
+        <h1>Loading...</h1>
+        <p id="info"></p>
     </div>
 
     <script>
-        async function fetchIPAndCountry() {
-            try {
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                const ip = ipData.ip;
-
-                const countryResponse = await fetch(`https://ipapi.co/${ip}/country_name/`);
-                const country = await countryResponse.text();
-
-                const message = document.getElementById('message');
-                message.innerHTML = `Hello person in ${country}`;
-            } catch (error) {
-                console.error('Error fetching IP or country:', error);
-                document.getElementById('message').innerHTML = 'Error loading your location.';
-            }
+        async function fetchUserInfo() {
+            const response = await fetch('/freaky');
+            const data = await response.json();
+            return data;
         }
 
-        setTimeout(fetchIPAndCountry, 3000); // Simulate a 3-second loading time
+        function typeText(element, text, speed = 50) {
+            let i = 0;
+            return new Promise((resolve) => {
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, speed);
+            });
+        }
+
+        async function displayUserInfo() {
+            const infoElement = document.getElementById('info');
+            const userInfo = await fetchUserInfo();
+
+            await typeText(infoElement, `Date/Time: ${userInfo.dateTime}\n`);
+            await typeText(infoElement, `IP Address: ${userInfo.ip}\n`);
+            await typeText(infoElement, `VPN/Proxy Detection: ${userInfo.vpnProxy}\n`);
+            await typeText(infoElement, `Country: ${userInfo.country}\n`);
+            await typeText(infoElement, `Name: ${userInfo.name}\n`);
+            await typeText(infoElement, `User Agent: ${userInfo.userAgent}\n`);
+            await typeText(infoElement, `Referring URL: ${userInfo.referrer}\n`);
+            await typeText(infoElement, `Host Name: ${userInfo.hostName}\n`);
+            await typeText(infoElement, `ISP: ${userInfo.isp}\n`);
+
+            await typeText(infoElement, `Hello person in ${userInfo.country}!`);
+        }
+
+        displayUserInfo();
     </script>
 </body>
 </html>
