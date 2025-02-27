@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Wasted Time Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #1a1a2e, #16213e);
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            font-size: 2em;
+        }
+        .stats {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Steam Time & Money Tracker</h1>
+        <div class="stats" id="stats">
+            Fetching data...
+        </div>
+    </div>
+
+    <script>
+        const steamID = "76561199547841887";
+        const apiKey = "BDEA466A203AAF5EAAE193FEE8702AD2";
+
+        async function fetchSteamData() {
+            try {
+                let response = await fetch(`https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${steamID}&include_played_free_games=true&include_appinfo=true`);
+                let data = await response.json();
+                let games = data.response.games;
+                let totalHours = games.reduce((sum, game) => sum + (game.playtime_forever / 60), 0);
+
+                document.getElementById("stats").innerHTML = `
+                    <p>Total Hours Wasted: <strong>${totalHours.toFixed(2)}</strong></p>
+                `;
+            } catch (error) {
+                document.getElementById("stats").innerHTML = "Failed to fetch data.";
+                console.error(error);
+            }
+        }
+
+        fetchSteamData();
+    </script>
+</body>
+</html>
