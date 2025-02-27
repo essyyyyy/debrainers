@@ -177,25 +177,28 @@
                             details += `GPU Vendor: ${getGPUInfo().vendor}\n`;
                             details += `GPU Info: ${getGPUInfo().renderer}\n`;
 
-                            typeText(details, 0, infoDiv);
+                            typeText(details, 0, () => {
+                                // Auto-fit text in real-time
+                                setInterval(() => autoFitText(infoDiv), 100); // Update every 0.1 seconds
+                            });
                         });
                 }, 3000);
             });
         }
 
-        function typeText(text, delay = 0, element) {
+        function typeText(text, delay = 0, callback) {
             setTimeout(() => {
                 let i = 0;
-                const rows = text.split('\n'); // Split text into rows
+                const infoElement = document.querySelector('.info');
                 const interval = setInterval(() => {
-                    if (i < rows.length) {
-                        element.textContent += rows[i] + '\n'; // Add one row at a time
+                    if (i < text.length) {
+                        infoElement.textContent += text[i];
                         i++;
-                        autoFitText(element); // Auto-fit after each row
                     } else {
                         clearInterval(interval);
+                        if (callback) callback();
                     }
-                }, 100); // Adjust typing speed here
+                }, 10); // Faster typing speed
             }, delay);
         }
 
