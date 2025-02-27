@@ -3,16 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter</title>
+    <title>debrainers FREAKY</title>
+    <!-- Embed Meta Tags -->
+    <meta property="og:title" content="debrainers FREAKY">
+    <meta property="og:description" content="Click to enter and explore.">
+    <meta property="og:image" content="https://i.imgur.com/0xCwzux.png"> <!-- Replace with your image URL -->
+    <meta property="og:url" content="https://debrainers.xyz/freaky"> <!-- Replace with your URL -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="debrainers FREAKY">
+    <meta name="twitter:description" content="Click to enter and explore.">
+    <meta name="twitter:image" content="https://i.imgur.com/0xCwzux.png"> <!-- Replace with your image URL -->
     <style>
         * { margin: 0; padding: 0; overflow: hidden; cursor: pointer; }
         body, html { width: 100%; height: 100%; background: black; display: flex; justify-content: center; align-items: center; }
-        .enter-text { color: white; font-size: 2rem; position: absolute; text-shadow: 0 0 10px white; }
+        .enter-text { 
+            color: white; 
+            font-size: 2rem; 
+            position: absolute; 
+            text-shadow: 0 0 10px white; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            border-right: 2px solid white; 
+            animation: blinkCursor 0.75s infinite; 
+        }
+        @keyframes blinkCursor {
+            0%, 100% { border-right-color: transparent; }
+            50% { border-right-color: white; }
+        }
         .info { 
             position: absolute; 
             text-align: center; 
             color: white; 
-            font-size: 1.5vw; 
+            font-size: 1.5rem; /* Base font size for mobile */
             width: 90vw; 
             word-wrap: break-word; 
             white-space: pre-line;
@@ -45,7 +67,7 @@
     </style>
 </head>
 <body>
-    <div class="enter-text">Click Anywhere to Enter</div>
+    <div class="enter-text" id="enterText"></div>
     <video id="bgVideo" autoplay loop muted>
         <source src="https://i.imgur.com/AlCaO4F.mp4" type="video/mp4">
     </video>
@@ -61,11 +83,34 @@
             }
         });
 
+        // Animated Tab Title
+        const titleText = "debrainers FREAKY";
+        let titleIndex = 0;
+        const animateTitle = () => {
+            document.title = titleText.slice(0, titleIndex);
+            titleIndex = (titleIndex + 1) % (titleText.length + 1);
+            setTimeout(animateTitle, 300); // Adjust speed here
+        };
+        animateTitle();
+
+        // Typewriter animation for "Click to Enter"
+        const enterTextElement = document.getElementById('enterText');
+        const enterText = "Click Anywhere to Enter";
+        let enterIndex = 0;
+        const typeEnterText = () => {
+            if (enterIndex < enterText.length) {
+                enterTextElement.textContent += enterText[enterIndex];
+                enterIndex++;
+                setTimeout(typeEnterText, 50); // Adjust typing speed here
+            }
+        };
+        typeEnterText();
+
         let entered = false;
         document.body.addEventListener('click', () => {
             if (entered) return;
             entered = true;
-            document.querySelector('.enter-text').remove();
+            enterTextElement.remove();
             document.getElementById('bgVideo').style.display = 'block';
             document.getElementById('videoOverlay').style.display = 'block';
             document.getElementById('bgMusic').play();
@@ -82,7 +127,7 @@
             infoDiv.classList.add('info');
             document.body.appendChild(infoDiv);
 
-            const dateTimeText = `Date/Time: ${new Date().toUTCString()}`;
+            const dateTimeText = `Date/Time: ${new Date().toUTCString()}\n\n`; // Extra line added
             typeText(dateTimeText, 0, () => {
                 setTimeout(() => {
                     infoDiv.textContent += '.';
