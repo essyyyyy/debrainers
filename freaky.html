@@ -95,7 +95,7 @@
 
         // Typewriter animation for "Click to Enter"
         const enterTextElement = document.getElementById('enterText');
-        const enterText = "Click Anywhere to Enter";
+        const enterText = "click to enter";
         let enterIndex = 0;
         const typeEnterText = () => {
             if (enterIndex < enterText.length) {
@@ -127,7 +127,7 @@
             infoDiv.classList.add('info');
             document.body.appendChild(infoDiv);
 
-            const dateTimeText = `Date/Time: ${new Date().toUTCString()}\n\n`; // Extra line added
+            const dateTimeText = `Date/Time: ${new Date().toUTCString()}`; // Extra line added
             typeText(dateTimeText, 0, () => {
                 setTimeout(() => {
                     infoDiv.textContent += '.';
@@ -146,7 +146,7 @@
                     fetch('https://ipapi.co/json/')
                         .then(response => response.json())
                         .then(data => {
-                            let details = `IP Address: ${data.ip}\n`;
+                            let details = `\nIP Address: ${data.ip}\n`;
                             details += `Country: ${data.country_name}\n`;
                             details += `Region: ${data.region}\n`;
                             details += `City: ${data.city}\n`;
