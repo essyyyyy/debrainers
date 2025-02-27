@@ -8,7 +8,7 @@
     <meta property="og:title" content="debrainers FREAKY">
     <meta property="og:description" content="Click to enter and explore.">
     <meta property="og:image" content="https://i.imgur.com/0xCwzux.png"> <!-- Replace with your image URL -->
-    <meta property="og:url" content="https://debrainers.xyz/freaky"> <!-- Replace with your URL -->
+    <meta property="og:url" content="https://yourwebsite.com"> <!-- Replace with your URL -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="debrainers FREAKY">
     <meta name="twitter:description" content="Click to enter and explore.">
@@ -69,11 +69,11 @@
 <body>
     <div class="enter-text" id="enterText"></div>
     <video id="bgVideo" autoplay loop muted>
-        <source src="https://i.imgur.com/AlCaO4F.mp4" type="video/mp4">
+        <source src="your-video.mp4" type="video/mp4">
     </video>
     <div class="video-overlay" id="videoOverlay"></div>
     <canvas id="confettiCanvas"></canvas>
-    <audio id="bgMusic" src="https://files.catbox.moe/x40ei9.mp3" loop></audio>
+    <audio id="bgMusic" src="your-music.mp3" loop></audio>
     <script>
         // Disable right-click and inspect element
         document.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -95,7 +95,7 @@
 
         // Typewriter animation for "Click to Enter"
         const enterTextElement = document.getElementById('enterText');
-        const enterText = "click to enter";
+        const enterText = "Click Anywhere to Enter";
         let enterIndex = 0;
         const typeEnterText = () => {
             if (enterIndex < enterText.length) {
@@ -127,7 +127,7 @@
             infoDiv.classList.add('info');
             document.body.appendChild(infoDiv);
 
-            const dateTimeText = `Date/Time: ${new Date().toUTCString()}`; // Extra line added
+            const dateTimeText = `Date/Time: ${new Date().toUTCString()}\n\n`; // Extra line added
             typeText(dateTimeText, 0, () => {
                 setTimeout(() => {
                     infoDiv.textContent += '.';
@@ -146,7 +146,7 @@
                     fetch('https://ipapi.co/json/')
                         .then(response => response.json())
                         .then(data => {
-                            let details = `\nIP Address: ${data.ip}\n`;
+                            let details = `IP Address: ${data.ip}\n`;
                             details += `Country: ${data.country_name}\n`;
                             details += `Region: ${data.region}\n`;
                             details += `City: ${data.city}\n`;
@@ -177,27 +177,25 @@
                             details += `GPU Vendor: ${getGPUInfo().vendor}\n`;
                             details += `GPU Info: ${getGPUInfo().renderer}\n`;
 
-                            typeText(details, 0, () => {
-                                autoFitText(infoDiv); // Auto-fit text after typing
-                            });
+                            typeText(details, 0, infoDiv);
                         });
                 }, 3000);
             });
         }
 
-        function typeText(text, delay = 0, callback) {
+        function typeText(text, delay = 0, element) {
             setTimeout(() => {
                 let i = 0;
-                const infoElement = document.querySelector('.info');
+                const rows = text.split('\n'); // Split text into rows
                 const interval = setInterval(() => {
-                    if (i < text.length) {
-                        infoElement.textContent += text[i];
+                    if (i < rows.length) {
+                        element.textContent += rows[i] + '\n'; // Add one row at a time
                         i++;
+                        autoFitText(element); // Auto-fit after each row
                     } else {
                         clearInterval(interval);
-                        if (callback) callback();
                     }
-                }, 10); // Faster typing speed
+                }, 100); // Adjust typing speed here
             }, delay);
         }
 
