@@ -22,15 +22,41 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            width: 100%;
         }
         .counter-item {
             margin: 20px 0;
             font-size: 1.2rem;
             text-shadow: 0 0 5px white;
         }
+        .debug-info {
+            margin-top: 30px;
+            text-align: left;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
         h1 {
             text-shadow: 0 0 10px white;
             margin-bottom: 30px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        .status.good {
+            background: rgba(0, 255, 0, 0.2);
+            color: #90ff90;
+        }
+        .status.bad {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff9090;
         }
     </style>
 </head>
@@ -39,18 +65,84 @@
         <h1>Visit Statistics</h1>
         <div id="freaky" class="counter-item">freaky.html visits: Loading...</div>
         <div id="rwzst" class="counter-item">rwzst.html visits: Loading...</div>
+        <div class="debug-info" id="debugInfo">Loading debug information...</div>
     </div>
     <script>
-        // Function to get visit counts from localStorage
+        // Function to decrypt stored values
+        function decrypt(val) {
+            try {
+                return parseInt(atob(val).split('').reverse().join(''));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // Function to get visit counts and debug info from localStorage
         function getVisitCounts() {
             const freakyKey = '_dfv_' + btoa('/freaky.html');
             const rwzstKey = '_drv_' + btoa('/rwzst.html');
             
+            // Get regular counts
             const freakyCount = localStorage.getItem(freakyKey) || '0';
             const rwzstCount = localStorage.getItem(rwzstKey) || '0';
             
-            document.getElementById('freaky').textContent = `freaky.html visits: ${freakyCount}`;
-            document.getElementById('rwzst').textContent = `rwzst.html visits: ${rwzstCount}`;
+            // Get encrypted counts
+            const freakyEncrypted = localStorage.getItem(freakyKey + '_enc');
+            const rwzstEncrypted = localStorage.getItem(rwzstKey + '_enc');
+            
+            // Get IP tracking data
+            const freakyIPs = localStorage.getItem(freakyKey + '_ips');
+            const rwzstIPs = localStorage.getItem(rwzstKey + '_ips');
+            
+            // Update visit counts with verification status
+            document.getElementById('freaky').innerHTML = `freaky.html visits: ${freakyCount}` + 
+                getVerificationStatus(freakyCount, freakyEncrypted);
+            document.getElementById('rwzst').innerHTML = `rwzst.html visits: ${rwzstCount}` + 
+                getVerificationStatus(rwzstCount, rwzstEncrypted);
+            
+            // Build debug information
+            let debugInfo = 'Debug Information:\n\n';
+            
+            // Freaky.html debug info
+            debugInfo += 'freaky.html:\n';
+            debugInfo += `- Raw Count: ${freakyCount}\n`;
+            debugInfo += `- Encrypted Count: ${freakyEncrypted}\n`;
+            debugInfo += `- Decrypted Count: ${decrypt(freakyEncrypted)}\n`;
+            debugInfo += `- IP Tracking: ${formatIPData(freakyIPs)}\n\n`;
+            
+            // Rwzst.html debug info
+            debugInfo += 'rwzst.html:\n';
+            debugInfo += `- Raw Count: ${rwzstCount}\n`;
+            debugInfo += `- Encrypted Count: ${rwzstEncrypted}\n`;
+            debugInfo += `- Decrypted Count: ${decrypt(rwzstEncrypted)}\n`;
+            debugInfo += `- IP Tracking: ${formatIPData(rwzstIPs)}\n\n`;
+            
+            // LocalStorage usage info
+            const used = JSON.stringify(localStorage).length;
+            const max = 5 * 1024 * 1024; // 5MB typical limit
+            debugInfo += `LocalStorage Usage: ${(used / 1024).toFixed(2)}KB / ${(max / 1024).toFixed(2)}KB\n`;
+            
+            document.getElementById('debugInfo').textContent = debugInfo;
+        }
+
+        function getVerificationStatus(count, encrypted) {
+            if (!encrypted) return '<span class="status bad">No Encryption</span>';
+            const decrypted = decrypt(encrypted);
+            return count === String(decrypted) 
+                ? '<span class="status good">Verified</span>' 
+                : '<span class="status bad">Tampered</span>';
+        }
+
+        function formatIPData(ipData) {
+            try {
+                const data = JSON.parse(ipData || '{}');
+                const ips = Object.keys(data);
+                if (ips.length === 0) return 'No IPs tracked';
+                return `${ips.length} IPs tracked\nLast visits:\n` + 
+                    ips.map(ip => `  ${ip}: ${new Date(data[ip]).toLocaleString()}`).join('\n');
+            } catch (e) {
+                return 'Invalid IP data';
+            }
         }
 
         // Update counts every second
