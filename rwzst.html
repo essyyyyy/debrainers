@@ -292,6 +292,87 @@
             }
             animate();
         }
+
+        // Anti-copying measures
+        (function(){
+            // Disable selection
+            document.onselectstart = () => false;
+            document.ondragstart = () => false;
+            
+            // Disable view source and dev tools shortcuts
+            document.onkeydown = function(e) {
+                if (e.ctrlKey && 
+                    (e.keyCode === 85 || // U
+                     e.keyCode === 83 || // S
+                     e.keyCode === 73 || // I
+                     e.keyCode === 67 || // C
+                     e.keyCode === 86 || // V
+                     e.keyCode === 123)) { // F12
+                    return false;
+                }
+                if(e.key === 'F12') {
+                    return false;
+                }
+            };
+            
+            // Disable right click
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            // Visit counter implementation with IP-based rate limiting
+            async function updateVisitCounter() {
+                try {
+                    // Get visitor's IP
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    const visitorIP = ipData.ip;
+                    
+                    // Keys for storing visit data
+                    const counterKey = '_drv_' + btoa(window.location.pathname);
+                    const ipKey = counterKey + '_ips';
+                    
+                    // Get or initialize visit count
+                    let visits = parseInt(localStorage.getItem(counterKey)) || 0;
+                    
+                    // Get or initialize IP tracking object
+                    let ipTracker = JSON.parse(localStorage.getItem(ipKey) || '{}');
+                    
+                    // Check if this IP has visited recently (within last hour)
+                    const now = Date.now();
+                    const lastVisit = ipTracker[visitorIP] || 0;
+                    const oneHour = 60 * 60 * 1000; // milliseconds
+                    
+                    if (now - lastVisit >= oneHour) {
+                        // If it's been more than an hour since last visit, count it
+                        visits++;
+                        ipTracker[visitorIP] = now;
+                        
+                        // Store updated values
+                        localStorage.setItem(counterKey, visits);
+                        localStorage.setItem(ipKey, JSON.stringify(ipTracker));
+                        
+                        // Clean up old IP entries (older than 24 hours)
+                        const cleanup = {};
+                        const dayAgo = now - (24 * oneHour);
+                        for (let ip in ipTracker) {
+                            if (ipTracker[ip] > dayAgo) {
+                                cleanup[ip] = ipTracker[ip];
+                            }
+                        }
+                        localStorage.setItem(ipKey, JSON.stringify(cleanup));
+                        
+                        // Encrypt visit count
+                        const encrypt = (val) => btoa(String(val).split('').reverse().join(''));
+                        localStorage.setItem(counterKey + '_enc', encrypt(visits));
+                    }
+                } catch (error) {
+                    console.error('Error updating visit counter:', error);
+                }
+            }
+            
+            // Update visit counter when page loads
+            updateVisitCounter();
+            
+        })();
     </script>
 </body>
 </html>
