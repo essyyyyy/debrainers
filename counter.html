@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Counter Stats</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .counter-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .counter-item {
+            margin: 20px 0;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px white;
+        }
+        h1 {
+            text-shadow: 0 0 10px white;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <h1>Visit Statistics</h1>
+        <div id="freaky" class="counter-item">freaky.html visits: Loading...</div>
+        <div id="rwzst" class="counter-item">rwzst.html visits: Loading...</div>
+    </div>
+    <script>
+        // Function to get visit counts from localStorage
+        function getVisitCounts() {
+            const freakyKey = '_dfv_' + btoa('/freaky.html');
+            const rwzstKey = '_drv_' + btoa('/rwzst.html');
+            
+            const freakyCount = localStorage.getItem(freakyKey) || '0';
+            const rwzstCount = localStorage.getItem(rwzstKey) || '0';
+            
+            document.getElementById('freaky').textContent = `freaky.html visits: ${freakyCount}`;
+            document.getElementById('rwzst').textContent = `rwzst.html visits: ${rwzstCount}`;
+        }
+
+        // Update counts every second
+        setInterval(getVisitCounts, 1000);
+        getVisitCounts(); // Initial load
+    </script>
+</body>
+</html> 
