@@ -1,0 +1,493 @@
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+WindUI:SetTheme("Dark")
+
+-- Global Variables
+    -- Get Game Name
+local MarketplaceService = game:GetService("MarketplaceService")
+local success, info = pcall(function()
+    return MarketplaceService:GetProductInfo(game.PlaceId)
+end)
+local gameName = success and info.Name or "Unknown Game"
+    -- Shorten Variables
+getgenv().settings = {rebith = false, drill = false, sell = false, collect = false, storage = false}
+local plr = game:GetService("Players").LocalPlayer
+local sellPart = workspace:FindFirstChild("Scripted"):FindFirstChild("Sell")
+local drillsUi = plr.PlayerGui:FindFirstChild("Menu"):FindFirstChild("CanvasGroup").Buy
+local handdrillsUi = plr.PlayerGui:FindFirstChild("Menu"):FindFirstChild("CanvasGroup").HandDrills
+local plot = nil
+
+if plr then
+    for _, p in ipairs(workspace.Plots:GetChildren()) do
+        if p:FindFirstChild("Owner") and p.Owner.Value == plr then
+            plot = p
+            break
+        end
+    end
+end
+
+     -- Sell Variables
+local lastPos = nil
+local function sell()
+    lastPos = plr.Character:FindFirstChild("HumanoidRootPart").CFrame
+
+    plr.Character:FindFirstChild("HumanoidRootPart").CFrame = sellPart.CFrame
+    task.wait(0.2)
+
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Knit = require(ReplicatedStorage.Packages:WaitForChild("Knit"))
+    local OreService = Knit.GetService("OreService")
+
+    OreService.SellAll:Fire()
+    task.wait(0.2)
+
+    if lastPos then
+        plr.Character:FindFirstChild("HumanoidRootPart").CFrame = lastPos
+    end
+end
+
+-- Window Name
+
+local Window = WindUI:CreateWindow({
+    Title = gameName,
+    Icon = "door-open",
+    Author = "by real_autherium",
+    Folder = "Auth",
+    Size = UDim2.fromOffset(580, 460),
+    Transparent = true,
+    Theme = "Dark",
+    User = {
+        Enabled = true,
+        Callback = function()
+            end,
+        Anonymous = false
+    },
+    SideBarWidth = 200,
+    --Background = "rbxassetid://13511292247",
+    HasOutline = true,
+    KeySystem = {
+        Key = { "debrainers", "freak", "nigger" },
+        Note = "Key System: \n\nThe Key is 'nigger' or 'debrainers",
+        -- Thumbnail = {
+        --     Image = "rbxassetid://18220445082", -- rbxassetid only
+        --     Title = "Thumbnail"
+        -- },
+        URL = "https://discord.gg/SbDtadDG5Y",
+        SaveKey = true,
+    },
+})
+
+
+--Window:SetBackgroundImage("rbxassetid://13511292247")
+
+
+Window:EditOpenButton({
+    Title = "Autherium",
+    Icon = "monitor",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new(
+        Color3.fromHex("FF0F7B"), 
+        Color3.fromHex("F89B29")
+    ),
+    Draggable = false,
+})
+
+-- Create Tabs
+
+local Tabs = {
+    MainTab = Window:Tab({ Title = "Main Tab", Icon = "house" }),
+    OtherTab = Window:Tab({ Title = "Shop Tab", Icon = "shopping-cart" }),
+    UtilityTab = Window:Tab({ Title = "About Me Tab", Icon = "hammer" }),
+    divider1 = Window:Divider(),
+    --
+    ConfigTab = Window:Tab({ 
+        Title = "Configuration Tab", 
+        Icon = "settings", 
+        ShowTabTitle = true }),
+    CreateThemeTab = Window:Tab({
+        Title = "Theme Tab",
+        Icon = "palette" }),
+        ShowTabTitle = true
+}
+
+Window:SelectTab(1)
+
+-- Main Tab Features
+    -- Variables
+        -- Button, Toggle, Paragraph, Code, Input, Colorpicker, Slider, Keybind, Dropdown
+
+Tabs.MainTab:Toggle({
+    Title = "Auto Drill",
+    Desc = "Hold Drill",
+    Value = false,
+    Callback = function(bool)
+        settings.drill = bool
+        if settings.drill then
+            task.spawn(
+                function()
+                    while settings.drill do
+                        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild(
+                            "Services"
+                        ):WaitForChild("OreService"):WaitForChild("RE"):WaitForChild("RequestRandomOre"):FireServer()
+                        task.wait(0.01)
+                    end
+                end
+            )
+        end
+   end,
+})
+
+ Tabs.MainTab:Button({
+     Title = "Sell Ores",
+     Desc = "Sell All Ores",
+     Callback = function()
+        sell()
+     end,
+ })
+ 
+ Tabs.MainTab:Toggle({
+    Title = "Auto Sell",
+    Desc = "Auto Sell Ores",
+    Value = false,
+    Callback = function(bool)
+        settings.sell = bool
+        if settings.sell then
+            task.spawn(
+                function()
+                    while settings.sell do
+                        sell()
+                        task.wait(10)
+                    end
+                end
+            )
+        end
+   end,
+})
+
+Tabs.MainTab:Toggle({
+    Title = "Auto Rebirth",
+    Desc = "Auto Rebirth Player",
+    Value = false,
+    Callback = function(bool)
+        settings.rebith = bool
+        if settings.rebith then
+            task.spawn(
+                function()
+                    while settings.rebith do
+                        game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("RebirthService"):WaitForChild("RE"):WaitForChild("RebirthRequest"):FireServer()
+                        task.wait(1)
+                    end
+                end
+            )
+        end
+   end,
+})
+
+Tabs.MainTab:Toggle({
+    Title = "Auto Collect Drill",
+    Callback = function(bool)
+        settings.collect = bool
+        if settings.collect then
+            task.spawn(
+                function()
+                    while settings.collect do
+                        if plot and plot:FindFirstChild("Drills") then
+                            for _, drill in pairs(plot.Drills:GetChildren()) do
+                                if not settings.collect then
+                                    break
+                                end
+                                game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild(
+                                    "Services"
+                                ):WaitForChild("PlotService"):WaitForChild("RE"):WaitForChild("CollectDrill"):FireServer(
+                                    drill
+                                )
+                            end
+                        end
+                        task.wait(1)
+                    end
+                end
+            )
+        end
+   end,
+})
+
+Tabs.MainTab:Toggle({
+    Title = "Auto Collect Storage",
+    Value = false,
+    Callback = function(bool)
+        settings.storage = bool
+        if settings.storage then
+            task.spawn(
+                function()
+                    while settings.storage do
+                        if plot and plot:FindFirstChild("Storage") then
+                            for _, storage in pairs(plot.Storage:GetChildren()) do
+                                if not settings.storage then
+                                    break
+                                end
+                                game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild(
+                                    "Services"
+                                ):WaitForChild("PlotService"):WaitForChild("RE"):WaitForChild("CollectDrill"):FireServer(
+                                    storage
+                                )
+                            end
+                        end
+                        task.wait(1)
+                    end
+                end
+            )
+        end
+   end,
+})
+
+-- Other Tab Features
+Tabs.OtherTab:Paragraph({
+    Title = "Add Soon",
+})
+
+-- Configuration (Optional)
+local HttpService = game:GetService("HttpService")
+
+local folderPath = "Auth"
+makefolder(folderPath)
+
+local function SaveFile(fileName, data)
+    local filePath = folderPath .. "/" .. fileName .. ".json"
+    local jsonData = HttpService:JSONEncode(data)
+    writefile(filePath, jsonData)
+end
+
+local function LoadFile(fileName)
+    local filePath = folderPath .. "/" .. fileName .. ".json"
+    if isfile(filePath) then
+        local jsonData = readfile(filePath)
+        return HttpService:JSONDecode(jsonData)
+    end
+end
+
+local function ListFiles()
+    local files = {}
+    for _, file in ipairs(listfiles(folderPath)) do
+        local fileName = file:match("([^/]+)%.json$")
+        if fileName then
+            table.insert(files, fileName)
+        end
+    end
+    return files
+end
+
+Tabs.ConfigTab:Section({ Title = "Configuration" })
+
+local themeValues = {}
+for name, _ in pairs(WindUI:GetThemes()) do
+    table.insert(themeValues, name)
+end
+
+local themeDropdown = Tabs.CreateThemeTab:Dropdown({
+    Title = "Select Theme",
+    Multi = false,
+    AllowNone = false,
+    Value = nil,
+    Values = themeValues,
+    Callback = function(theme)
+        WindUI:SetTheme(theme)
+    end
+})
+themeDropdown:Select(WindUI:GetCurrentTheme())
+
+local ToggleTransparency = Tabs.ConfigTab:Toggle({
+    Title = "Toggle Window Transparency",
+    Callback = function(e)
+        Window:ToggleTransparency(e)
+    end,
+    Value = WindUI:GetTransparency()
+})
+
+Tabs.ConfigTab:Section({ Title = "Save" })
+
+local fileNameInput = ""
+Tabs.ConfigTab:Input({
+    Title = "Write File Name",
+    PlaceholderText = "Enter file name",
+    Callback = function(text)
+        fileNameInput = text
+    end
+})
+
+Tabs.ConfigTab:Button({
+    Title = "Save File",
+    Callback = function()
+        if fileNameInput ~= "" then
+            SaveFile(fileNameInput, { Transparent = WindUI:GetTransparency(), Theme = WindUI:GetCurrentTheme() })
+        end
+    end
+})
+
+Tabs.ConfigTab:Section({ Title = "Load" })
+
+local filesDropdown
+local files = ListFiles()
+
+filesDropdown = Tabs.ConfigTab:Dropdown({
+    Title = "Select File",
+    Multi = false,
+    AllowNone = true,
+    Values = files,
+    Callback = function(selectedFile)
+        fileNameInput = selectedFile
+    end
+})
+
+Tabs.ConfigTab:Button({
+    Title = "Load File",
+    Callback = function()
+        if fileNameInput ~= "" then
+            local data = LoadFile(fileNameInput)
+            if data then
+                WindUI:Notify({
+                    Title = "File Loaded",
+                    Content = "Loaded data: " .. HttpService:JSONEncode(data),
+                    Duration = 5,
+                })
+                if data.Transparent then 
+                    Window:ToggleTransparency(data.Transparent)
+                    ToggleTransparency:SetValue(data.Transparent)
+                end
+                if data.Theme then WindUI:SetTheme(data.Theme) end
+            end
+        end
+    end
+})
+
+Tabs.ConfigTab:Button({
+    Title = "Overwrite File",
+    Callback = function()
+        if fileNameInput ~= "" then
+            SaveFile(fileNameInput, { Transparent = WindUI:GetTransparency(), Theme = WindUI:GetCurrentTheme() })
+        end
+    end
+})
+
+Tabs.ConfigTab:Button({
+    Title = "Refresh List",
+    Callback = function()
+        filesDropdown:Refresh(ListFiles())
+    end
+})
+
+local currentThemeName = WindUI:GetCurrentTheme()
+local themes = WindUI:GetThemes()
+
+local ThemeAccent = themes[currentThemeName].Accent
+local ThemeOutline = themes[currentThemeName].Outline
+local ThemeText = themes[currentThemeName].Text
+local ThemePlaceholderText = themes[currentThemeName].Placeholder
+
+function updateTheme()
+    WindUI:AddTheme({
+        Name = currentThemeName,
+        Accent = ThemeAccent,
+        Outline = ThemeOutline,
+        Text = ThemeText,
+        Placeholder = ThemePlaceholderText
+    })
+    WindUI:SetTheme(currentThemeName)
+end
+
+local CreateInput = Tabs.CreateThemeTab:Input({
+    Title = "Theme Name",
+    Value = currentThemeName,
+    Callback = function(name)
+        currentThemeName = name
+    end
+})
+
+Tabs.CreateThemeTab:Colorpicker({
+    Title = "Background Color",
+    Default = Color3.fromHex(ThemeAccent),
+    Callback = function(color)
+        ThemeAccent = color:ToHex()
+    end
+})
+
+Tabs.CreateThemeTab:Colorpicker({
+    Title = "Outline Color",
+    Default = Color3.fromHex(ThemeOutline),
+    Callback = function(color)
+        ThemeOutline = color:ToHex()
+    end
+})
+
+Tabs.CreateThemeTab:Colorpicker({
+    Title = "Text Color",
+    Default = Color3.fromHex(ThemeText),
+    Callback = function(color)
+        ThemeText = color:ToHex()
+    end
+})
+
+Tabs.CreateThemeTab:Colorpicker({
+    Title = "Placeholder Text Color",
+    Default = Color3.fromHex(ThemePlaceholderText),
+    Callback = function(color)
+        ThemePlaceholderText = color:ToHex()
+    end
+})
+
+Tabs.CreateThemeTab:Button({
+    Title = "Update Theme",
+    Callback = function()
+        updateTheme()
+    end
+})
+
+local InviteCode = "SbDtadDG5Y"
+local DiscordAPI = "https://discord.com/api/v10/invites/"..InviteCode.."?with_counts=true&with_expiration=true"
+
+local Response = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
+    Url = DiscordAPI,
+    Method = "GET",
+    Headers = {
+        ["User-Agent"] = "RobloxBot/1.0",
+        ["Accept"] = "application/json"
+    }
+}).Body)
+
+if Response and Response.guild then
+    local DiscordInfo = Tabs.UtilityTab:Paragraph({
+        Title = Response.guild.name,
+        Desc = 
+            ' <font color="#52525b">•</font> Member Count : ' .. tostring(Response.approximate_member_count) .. 
+            '\n <font color="#16a34a">•</font> Online Count : ' .. tostring(Response.approximate_presence_count)
+        ,
+        Image = "https://cdn.discordapp.com/icons/" .. Response.guild.id .. "/" .. Response.guild.icon .. ".png?size=1024",
+        ImageSize = 42,
+    })
+
+    Tabs.UtilityTab:Button({
+        Title = "Refresh",
+        Image = "refresh-ccw",
+        Callback = function()
+            local UpdatedResponse = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
+                Url = DiscordAPI,
+                Method = "GET",
+            }).Body)
+            
+            if UpdatedResponse and UpdatedResponse and UpdatedResponse.guild then
+                DiscordInfo:SetDesc(
+                    ' <font color="#52525b">•</font> Member Count : ' .. tostring(UpdatedResponse.approximate_member_count) .. 
+                    '\n <font color="#16a34a">•</font> Online Count : ' .. tostring(UpdatedResponse.approximate_presence_count)
+                )
+            end
+        end
+    })
+else
+    Tabs.UtilityTab:Paragraph({
+        Title = "Error when receiving information about the Discord server",
+        Desc = game:GetService("HttpService"):JSONEncode(Response),
+        Image = "triangle-alert",
+        ImageSize = 26,
+        Color = "Red",
+    })
+end
