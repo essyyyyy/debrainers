@@ -188,10 +188,20 @@ local function teleportToSpawn()
 end
 
 local function performAttack()
-    -- Use VirtualUser for clicking
-    VirtualUser:Button1Down(Vector2.new(0, 0))
-    wait(0.1)
-    VirtualUser:Button1Up(Vector2.new(0, 0))
+    -- Use FireClickDetector for clicking
+    local character = LocalPlayer.Character
+    if character then
+        local tool = character:FindFirstChild("Wooden Skewer")
+        if tool then
+            local handle = tool:FindFirstChild("Handle")
+            if handle then
+                local clickDetector = handle:FindFirstChild("ClickDetector")
+                if clickDetector then
+                    fireclickdetector(clickDetector)
+                end
+            end
+        end
+    end
     
     lastAttackTime = tick()
     hasClicked = true
@@ -199,10 +209,20 @@ local function performAttack()
 end
 
 local function pressE()
-    -- Use VirtualInputManager for E press
-    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-    wait(0.1)
-    game:GetService("VirtualInputManager"):SendKeyEvent(false, "E", false, game)
+    -- Use FireClickDetector for E press
+    local character = LocalPlayer.Character
+    if character then
+        local tool = character:FindFirstChild("Wooden Skewer")
+        if tool then
+            local handle = tool:FindFirstChild("Handle")
+            if handle then
+                local clickDetector = handle:FindFirstChild("ClickDetector")
+                if clickDetector then
+                    fireclickdetector(clickDetector)
+                end
+            end
+        end
+    end
 end
 
 local function getCurrentTool()
