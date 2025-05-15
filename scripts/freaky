@@ -188,23 +188,18 @@ local function teleportToSpawn()
 end
 
 local function performAttack()
-    mouse1click()
+    -- Use VirtualUser for clicking
+    VirtualUser:Button1Down(Vector2.new(0, 0))
+    wait(0.1)
+    VirtualUser:Button1Up(Vector2.new(0, 0))
+    
     lastAttackTime = tick()
     hasClicked = true
     objectCount = objectCount + 1
 end
 
 local function pressE()
-    VirtualUser:Button1Down(Vector2.new(0, 0))
-    wait(0.1)
-    VirtualUser:Button1Up(Vector2.new(0, 0))
-    
-    -- Also try direct key press
-    keypress(0x45)
-    wait(0.1)
-    keyrelease(0x45)
-    
-    -- And try sending input
+    -- Use VirtualInputManager for E press
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
     wait(0.1)
     game:GetService("VirtualInputManager"):SendKeyEvent(false, "E", false, game)
@@ -214,7 +209,7 @@ local function getCurrentTool()
     -- Check backpack first
     local backpack = LocalPlayer:FindFirstChild("Backpack")
     if backpack then
-        local tool = backpack:FindFirstChild("Boulder Skewer")
+        local tool = backpack:FindFirstChild("Wooden Skewer")
         if tool then
             return tool
         end
@@ -223,7 +218,7 @@ local function getCurrentTool()
     -- Check character
     local character = LocalPlayer.Character
     if character then
-        local tool = character:FindFirstChild("Boulder Skewer")
+        local tool = character:FindFirstChild("Wooden Skewer")
         if tool then
             return tool
         end
@@ -238,7 +233,7 @@ local function countObjectsInFolders()
     -- Check backpack path
     local backpack = LocalPlayer:FindFirstChild("Backpack")
     if backpack then
-        local toolFolder = backpack:FindFirstChild("Boulder Skewer")
+        local toolFolder = backpack:FindFirstChild("Wooden Skewer")
         if toolFolder then
             local bodiesFolder = toolFolder:FindFirstChild("Bodies")
             if bodiesFolder then
@@ -251,7 +246,7 @@ local function countObjectsInFolders()
     for _, player in ipairs(Players:GetPlayers()) do
         local workspaceFolder = workspace:FindFirstChild(player.Name)
         if workspaceFolder then
-            local toolFolder = workspaceFolder:FindFirstChild("Boulder Skewer")
+            local toolFolder = workspaceFolder:FindFirstChild("Wooden Skewer")
             if toolFolder then
                 local bodiesFolder = toolFolder:FindFirstChild("Bodies")
                 if bodiesFolder then
