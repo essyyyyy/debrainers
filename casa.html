@@ -567,11 +567,11 @@
                         <div class="language-dropdown">
                             <button class="language-btn">English</button>
                             <div class="language-content">
-                                <a href="https://translate.google.com/translate?sl=auto&tl=en&u=https://debrainers-xyz.translate.goog/casa.html" target="_blank">English</a>
-                                <a href="https://translate.google.com/translate?sl=auto&tl=es&u=https://debrainers-xyz.translate.goog/casa.html" target="_blank">Español</a>
-                                <a href="https://translate.google.com/translate?sl=auto&tl=de&u=https://debrainers-xyz.translate.goog/casa.html" target="_blank">Deutsch</a>
-                                <a href="https://translate.google.com/translate?sl=auto&tl=fr&u=https://debrainers-xyz.translate.goog/casa.html" target="_blank">Français</a>
-                                <a href="https://translate.google.com/translate?sl=auto&tl=sv&u=https://debrainers-xyz.translate.goog/casa.html" target="_blank">Svenska</a>
+                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp" target="_blank">English</a>
+                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=wapp" target="_blank">Español</a>
+                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=de&_x_tr_hl=de&_x_tr_pto=wapp" target="_blank">Deutsch</a>
+                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=fr&_x_tr_hl=fr&_x_tr_pto=wapp" target="_blank">Français</a>
+                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=sv&_x_tr_hl=sv&_x_tr_pto=wapp" target="_blank">Svenska</a>
                             </div>
                         </div>
                     </li>
@@ -876,6 +876,16 @@
                 languageBtn.classList.remove('active');
                 languageContent.classList.remove('show');
             }
+        });
+
+        // Update button text when language is selected
+        document.querySelectorAll('.language-content a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const btnText = this.textContent;
+                languageBtn.textContent = btnText;
+                window.location.href = this.href;
+            });
         });
 
         // Mobile menu functionality
