@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Redirect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1DB954, #1ed760);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Redirecting to Spotify Visualizer...</h2>
+        <p>Please wait while we redirect you back to your local app.</p>
+    </div>
+
+    <script>
+        // Get the authorization code from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        
+        // Redirect back to localhost with the same parameters
+        if (code) {
+            const redirectUrl = `http://localhost:5000/callback?code=${code}${state ? '&state=' + state : ''}`;
+            
+            // Small delay to show the loading message
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 1000);
+        } else {
+            // If no code, redirect to localhost main page
+            setTimeout(() => {
+                window.location.href = 'http://localhost:5000';
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 
