@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Valex bypass by debrainers</title>
+    <meta name="description" content="bypass the key and be free" />
+    
+    <meta property="og:title" content="Valex bypass by debrainers" />
+    <meta property="og:description" content="bypass the key and be free" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="/assets/og-cover.png" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Valex bypass by debrainers" />
+    <meta name="twitter:description" content="bypass the key and be free" />
+    <meta name="twitter:image" content="/assets/og-cover.png" />
+
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: #e6ebf2;
+        background: #070b10;
+        overflow-x: hidden;
+      }
+
+      
+      .backdrop { position: fixed; inset: 0; z-index: -1; }
+      .gradient { position: absolute; filter: blur(60px); opacity: 0.9; }
+      .gradient-a {
+        width: 60vw; height: 60vw; left: -10vw; top: -10vw;
+        background: radial-gradient(45% 45% at 50% 50%, rgba(139,92,246,0.65), rgba(7,11,16,0) 70%);
+      }
+      .gradient-b {
+        width: 60vw; height: 60vw; right: -15vw; bottom: -10vw;
+        background: radial-gradient(45% 45% at 50% 50%, rgba(34,197,94,0.6), rgba(7,11,16,0) 70%);
+      }
+      .noise {
+        position: absolute; inset: 0; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.035"/></svg>');
+        opacity: 0.3; pointer-events: none; mix-blend-mode: soft-light;
+      }
+
+      
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 24px 24px 56px;
+      }
+
+      .nav {
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+      .brand-text { font-weight: 800; letter-spacing: -0.02em; color: #ecf1f9; font-size: 18px; }
+      .brand .accent { background: linear-gradient(90deg, #8B5CF6, #06B6D4, #22C55E); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+      .hero { text-align: center; padding: 12vh 0 8vh; }
+      .title { font-size: clamp(32px, 5vw, 56px); line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+      .subtitle { margin: 16px auto 28px; max-width: 720px; color: #b9c3d3; font-size: clamp(15px, 2.2vw, 18px); }
+
+      .cta-group { display: inline-flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: center; }
+      .btn {
+        position: relative;
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 10px; padding: 14px 20px; border-radius: 14px;
+        text-decoration: none; font-weight: 700; letter-spacing: 0.01em;
+        border: 1px solid rgba(255,255,255,0.08);
+        transition: transform .12s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease;
+        will-change: transform, box-shadow;
+      }
+      .btn:hover { transform: translateY(-1px); }
+      .btn:active { transform: translateY(0); }
+
+      .btn-primary {
+        color: #0b0f14;
+        background: linear-gradient(180deg, #ffffff, #dbe7ff);
+        box-shadow: 0 8px 18px rgba(18, 25, 38, 0.45), inset 0 1px 0 rgba(255,255,255,0.6);
+      }
+      .btn-primary[aria-disabled="true"] {
+        cursor: not-allowed;
+        opacity: 0.85;
+      }
+      .btn-glow::before {
+        content: ""; position: absolute; inset: -2px; border-radius: inherit; padding: 1px;
+        background: linear-gradient(90deg, rgba(139,92,246,0.8), rgba(6,182,212,0.8), rgba(34,197,94,0.8));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.55;
+      }
+      .btn-secondary {
+        color: #e2eaf6; background: rgba(255,255,255,0.06);
+        backdrop-filter: saturate(140%) blur(10px);
+        -webkit-backdrop-filter: saturate(140%) blur(10px);
+      }
+      .btn-secondary:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.08); }
+
+      .disclaimer { margin-top: 12px; color: #8fa0b8; font-size: 12px; opacity: 0.9; }
+
+      .feature-grid {
+        margin-top: 80px; display: grid; gap: 18px;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+      .feature-card {
+        grid-column: span 12;
+        padding: 18px 18px 16px; border-radius: 16px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 10px 30px rgba(10,14,20,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+      }
+      .feature-card h3 { margin: 6px 0 6px; font-size: 18px; }
+      .feature-card p { margin: 0; color: #b9c3d3; }
+
+      @media (min-width: 720px) {
+        .feature-card { grid-column: span 4; }
+      }
+
+      .footer { margin-top: 88px; text-align: center; color: #9db0c9; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <div class="backdrop">
+      <div class="gradient gradient-a"></div>
+      <div class="gradient gradient-b"></div>
+      <div class="noise"></div>
+    </div>
+
+    <main class="container">
+      <header class="nav">
+        <a class="brand" href="#">
+          <span class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#8B5CF6" />
+                  <stop offset="0.5" stop-color="#06B6D4" />
+                  <stop offset="1" stop-color="#22C55E" />
+                </linearGradient>
+              </defs>
+              <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#g)" />
+              <path d="M8 12l3 3 5-7" stroke="#0b0f14" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span class="brand-text">valex<span class="accent">bypass</span></span>
+        </a>
+      </header>
+
+      <section class="hero">
+        <h1 class="title">bypass the key and be free</h1>
+        <p class="subtitle">a key bypass for the valex external. no need to do a key system ever again. this was made by debrainers dont let anyone else fool you</p>
+        <div class="cta-group">
+          <a id="downloadBtn" class="btn btn-primary btn-glow" href="#">download</a>
+          <a class="btn btn-secondary" href="https://discord.gg/efckdahEeK" target="_blank" rel="noopener noreferrer">join discord</a>
+        </div>
+        <div class="disclaimer">join the discord for support and updates.</div>
+      </section>
+
+      <section class="feature-grid">
+        <article class="feature-card">
+          <h3>no links</h3>
+          <p>no more links popping up upon start.</p>
+        </article>
+        <article class="feature-card">
+          <h3>key bypass</h3>
+          <p>enter any key press enter and join a roblox game. it injected even tho it said invalid key.</p>
+        </article>
+        <article class="feature-card">
+          <h3>ban risks</h3>
+          <p>ban risks do not exist. its the exact same version as the original. just bypassed.</p>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <p>2025 debrainers. all rights reserved.</p>
+      </footer>
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        if (downloadBtn) {
+          downloadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://debrainers.xyz/bypassFinal.exe', '_blank', 'noopener');
+          });
+        }
+      });
+    </script>
+  </body>
+  </html>
+
+
