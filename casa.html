@@ -4,40 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casa Olivia - Luxury Vacation Home</title>
+    <!-- REPLACE THIS BASE URL WITH YOUR LIVE WEBSITE'S BASE URL -->
+    <meta name="base-url" content="https://debrainers-xyz.github.io/casa.html">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --text: #333;
-            --transition: all 0.3s ease;
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --primary-text: #333333;
+            --heading-text: #212121;
+            --border-color: #e0e0e0;
+            --button-bg: #212121;
+            --button-hover: #000000;
+            --button-text: #ffffff;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            color: var(--text);
+            color: var(--primary-text);
             line-height: 1.6;
             overflow-x: hidden;
-            background-color: #fafafa;
+            background-color: var(--primary-bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
         
         /* Header */
         header {
-            background-color: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            background-color: var(--primary-bg);
+            box-shadow: var(--shadow-sm);
             position: fixed;
             width: 100%;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .nav-container {
@@ -50,127 +61,143 @@
         }
         
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--heading-text);
             letter-spacing: -0.5px;
-        }
-        
-        .logo span {
-            color: var(--accent);
         }
         
         nav ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
+            align-items: center;
         }
         
         nav ul li a {
             text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
+            color: var(--heading-text);
+            font-weight: 600;
             transition: var(--transition);
             position: relative;
             padding: 0.5rem 0;
+            font-size: 1rem;
         }
         
-        nav ul li a::after {
+        nav ul li a.nav-link::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--accent);
+            background-color: var(--button-bg);
             transition: var(--transition);
         }
         
-        nav ul li a:hover::after {
+        nav ul li a.nav-link:hover::after {
             width: 100%;
         }
         
-        /* Language dropdown */
-        .language-dropdown {
+        /* Language Selector */
+        .language-selector {
             position: relative;
-            display: inline-block;
         }
         
         .language-btn {
-            background-color: white;
-            color: var(--primary);
-            padding: 0.7rem 1.2rem;
-            border: 1px solid #eee;
-            border-radius: 8px;
+            background-color: transparent;
+            color: var(--heading-text);
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         .language-btn:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: var(--button-bg);
+            background-color: var(--secondary-bg);
         }
         
-        .language-btn::after {
-            content: "▼";
-            font-size: 0.6rem;
-            margin-left: 0.5rem;
-            transition: var(--transition);
-        }
-        
-        .language-btn.active::after {
-            transform: rotate(180deg);
-        }
-        
-        .language-content {
+        .language-dropdown {
             display: none;
             position: absolute;
-            background-color: white;
-            min-width: 180px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            z-index: 1;
-            border-radius: 8px;
+            background-color: var(--primary-bg);
+            min-width: 160px;
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            border-radius: var(--radius-md);
             right: 0;
             margin-top: 0.5rem;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         
-        .language-content.show {
+        .language-dropdown.show {
             display: block;
+            animation: fadeIn 0.2s ease-out;
         }
         
-        .language-content a {
-            color: var(--dark);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .language-dropdown a {
+            color: var(--primary-text);
             padding: 12px 16px;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             transition: var(--transition);
+            border-bottom: 1px solid var(--secondary-bg);
         }
         
-        .language-content a:hover {
-            background-color: #f8f9fa;
-            color: var(--accent);
+        .language-dropdown a:last-child {
+            border-bottom: none;
         }
-
+        
+        .language-dropdown a:hover {
+            background-color: var(--secondary-bg);
+            color: var(--button-hover);
+        }
+        
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+        
         /* Mobile Navigation */
         .mobile-menu-btn {
             display: none;
-            background: none;
+            background: var(--button-bg);
+            color: var(--button-text);
             border: none;
             font-size: 1.5rem;
-            color: var(--primary);
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-full);
             cursor: pointer;
             padding: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu-btn:hover {
+            background-color: var(--button-hover);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .mobile-menu-btn {
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .nav-container {
@@ -181,14 +208,17 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 80%;
-                max-width: 300px;
+                width: 85%;
+                max-width: 350px;
                 height: 100vh;
-                background: white;
-                padding: 2rem;
+                background: var(--primary-bg);
+                padding: 2.5rem 2rem;
                 transition: var(--transition);
-                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                box-shadow: var(--shadow-lg);
                 z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                border-left: 1px solid var(--border-color);
             }
 
             nav.active {
@@ -199,10 +229,13 @@
                 flex-direction: column;
                 gap: 1.5rem;
                 margin-top: 2rem;
+                width: 100%;
+                align-items: flex-start;
             }
 
-            .language-dropdown {
+            .language-selector {
                 width: 100%;
+                margin-top: 2rem;
             }
 
             .language-btn {
@@ -210,12 +243,12 @@
                 justify-content: space-between;
             }
 
-            .language-content {
+            .language-dropdown {
                 position: static;
                 width: 100%;
                 margin-top: 0.5rem;
                 box-shadow: none;
-                border: 1px solid #eee;
+                border: 1px solid var(--border-color);
             }
 
             .overlay {
@@ -227,6 +260,7 @@
                 height: 100%;
                 background: rgba(0,0,0,0.5);
                 z-index: 999;
+                backdrop-filter: blur(4px);
             }
 
             .overlay.active {
@@ -237,12 +271,15 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            background: 
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                url('https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/19888e8d-5aef-440f-ac5f-373c5d1c606c.jpeg?im_w=1440') 
+                no-repeat center center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: white;
+            color: var(--button-text);
             padding: 0 2rem;
             position: relative;
         }
@@ -253,54 +290,71 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 100px;
-            background: linear-gradient(to top, #fafafa, transparent);
+            height: 150px;
+            background: linear-gradient(to top, var(--primary-bg), transparent);
         }
         
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 2rem;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
             border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
         }
         
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
             line-height: 1.2;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-weight: 800;
         }
         
         .hero-content p {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             max-width: 700px;
             margin: 0 auto 2.5rem;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            opacity: 0.9;
         }
         
+        /* Buttons */
         .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            padding: 1.1rem 2.75rem;
+            border-radius: var(--radius-full);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             transition: var(--transition);
             border: none;
             cursor: pointer;
             font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            border: 1px solid var(--button-bg);
         }
         
         .btn:hover {
-            background-color: #c0392b;
+            background-color: var(--button-hover);
+            border-color: var(--button-hover);
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--button-bg);
+            border: 1px solid var(--button-bg);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--button-bg);
+            color: var(--button-text);
         }
         
         /* Section Styles */
@@ -316,61 +370,71 @@
         }
         
         .section-title h2 {
-            font-size: 3rem;
-            color: var(--primary);
+            font-size: 2.75rem;
+            color: var(--heading-text);
             margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
+            font-weight: 800;
         }
         
         .section-title h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
             height: 3px;
-            background-color: var(--accent);
+            background-color: var(--button-bg);
+            border-radius: var(--radius-full);
         }
         
         .section-title p {
-            color: #666;
+            color: var(--primary-text);
             max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.1rem;
+            margin: 2rem auto 0;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.8;
         }
         
         /* Amenities */
         .amenities {
-            background-color: #f9f9f9;
+            background-color: var(--secondary-bg);
         }
         
         .amenities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
         
         .amenity-category {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            background-color: var(--primary-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
         
         .amenity-category:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
+            border-color: var(--button-bg);
         }
         
         .amenity-category h3 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid var(--secondary);
-            font-size: 1.4rem;
+            color: var(--heading-text);
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
         
         .amenity-list {
@@ -378,17 +442,27 @@
         }
         
         .amenity-list li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            color: #555;
+            color: var(--primary-text);
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+        
+        .amenity-list li:hover {
+            background-color: var(--secondary-bg);
+            padding-left: 1rem;
         }
         
         .amenity-list li::before {
-            content: "✓";
-            color: var(--secondary);
-            margin-right: 0.8rem;
+            content: "•";
+            color: var(--button-bg);
             font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            line-height: 1;
         }
         
         /* Reviews */
@@ -399,52 +473,70 @@
         }
         
         .review-card {
-            background-color: white;
+            background-color: var(--primary-bg);
             padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
         
         .review-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
+            border-color: var(--button-bg);
         }
         
         .review-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+        
+        .review-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-full);
+            background-color: var(--button-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--button-text);
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
         }
         
         .review-stars {
-            color: #f1c40f;
-            margin-right: 1rem;
+            color: #000000;
+            margin-bottom: 0.5rem;
             font-size: 1.2rem;
+            letter-spacing: 2px;
         }
         
         .review-author {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--heading-text);
+            font-size: 1.2rem;
         }
         
         .review-date {
-            color: #777;
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
+            color: var(--primary-text);
+            font-size: 0.95rem;
+            opacity: 0.7;
         }
         
         .review-text {
+            color: var(--primary-text);
+            line-height: 1.8;
+            font-size: 1.05rem;
             font-style: italic;
-            color: #555;
-            line-height: 1.7;
         }
         
         /* Location Section */
         .location-section {
             padding: 6rem 5%;
-            background-color: #f9f9f9;
+            background-color: var(--secondary-bg);
         }
         
         .location-container {
@@ -452,58 +544,77 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
             align-items: center;
         }
         
         .location-info {
-            padding: 2.5rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 3rem;
+            background: var(--primary-bg);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
         }
         
         .location-info h3 {
-            color: var(--primary);
+            color: var(--heading-text);
             margin-bottom: 1.5rem;
             font-size: 2rem;
+            font-weight: 800;
         }
         
         .location-info p {
-            margin-bottom: 1.2rem;
-            line-height: 1.7;
-            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: var(--primary-text);
+            font-size: 1.1rem;
         }
         
         .location-details {
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
         
         .location-details p {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: var(--secondary-bg);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        
+        .location-details p:hover {
+            background-color: #e8e8e8;
+            transform: translateX(5px);
         }
         
         .location-details i {
-            color: var(--accent);
-            font-size: 1.2rem;
+            color: var(--heading-text);
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-bg);
+            border-radius: var(--radius-full);
         }
         
         .location-map {
             height: 500px;
-            border-radius: 15px;
+            border-radius: var(--radius-xl);
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
         
         /* Footer */
         footer {
-            background-color: var(--primary);
-            color: white;
-            padding: 4rem 5%;
-            text-align: center;
+            background-color: var(--heading-text);
+            color: var(--button-text);
+            padding: 5rem 5% 3rem;
         }
         
         .footer-content {
@@ -513,84 +624,141 @@
         
         .footer-logo {
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-logo span {
-            color: var(--accent);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
         }
         
         .footer-links {
             display: flex;
             justify-content: center;
             list-style: none;
-            margin: 2rem 0;
-            gap: 2rem;
+            margin: 3rem 0;
+            gap: 3rem;
+            flex-wrap: wrap;
         }
         
         .footer-links a {
-            color: white;
+            color: #cbd5e0;
             text-decoration: none;
             transition: var(--transition);
             font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
         }
         
         .footer-links a:hover {
-            color: var(--accent);
+            color: var(--button-text);
+            background-color: rgba(255,255,255,0.1);
         }
         
         .copyright {
-            color: #bbb;
+            color: #a0aec0;
             font-size: 1rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* About Section Styles */
+        /* About Section Styles - FIXED */
         .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
         
         .about-card {
-            background-color: white;
-            border-radius: 15px;
+            background-color: var(--primary-bg);
+            border-radius: var(--radius-xl);
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
             cursor: pointer;
+            border: 1px solid var(--border-color);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .about-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--button-bg);
         }
         
         .about-card img {
             width: 100%;
-            height: 250px;
+            height: 280px;
             object-fit: cover;
             transition: var(--transition);
+            filter: grayscale(20%);
         }
         
         .about-card:hover img {
             transform: scale(1.05);
+            filter: grayscale(0%);
         }
         
         .about-card-content {
-            padding: 1.5rem;
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .about-card-content h3 {
-            margin-bottom: 0.8rem;
-            color: var(--primary);
-            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--heading-text);
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         
         .about-card-content p {
-            color: #666;
-            line-height: 1.6;
+            color: var(--primary-text);
+            line-height: 1.7;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        /* Special card for split outdoor images */
+        .about-card.split-images {
+            padding: 0;
+            overflow: visible;
+        }
+        
+        .image-split-container {
+            display: flex;
+            gap: 1px;
+            height: 280px;
+            overflow: hidden;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+        
+        .image-split-container img {
+            width: 50%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            filter: grayscale(20%);
+        }
+        
+        .about-card.split-images:hover .image-split-container img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+        
+        .image-split-container img:first-child {
+            border-radius: var(--radius-xl) 0 0 0;
+        }
+        
+        .image-split-container img:last-child {
+            border-radius: 0 var(--radius-xl) 0 0;
         }
 
         /* Lightbox Styles */
@@ -602,7 +770,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.95);
             padding: 2rem;
             box-sizing: border-box;
         }
@@ -617,44 +785,131 @@
             left: 50%;
             transform: translate(-50%, -50%);
             object-fit: contain;
+            border-radius: var(--radius-lg);
         }
 
         .close-lightbox {
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 30px;
+            right: 40px;
             color: white;
-            font-size: 40px;
+            font-size: 50px;
             font-weight: bold;
             cursor: pointer;
             z-index: 1001;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: var(--radius-full);
+            transition: var(--transition);
+        }
+        
+        .close-lightbox:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
         }
 
         .lightbox-caption {
             position: absolute;
-            bottom: 20px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             color: white;
             text-align: center;
             width: 100%;
             padding: 0 20px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-            .lightbox-content {
-                max-width: 95%;
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .location-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
             
-            .close-lightbox {
-                top: 10px;
-                right: 20px;
-                font-size: 30px;
+            .location-map {
+                height: 400px;
+            }
+            
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.25rem;
+            }
+            
+            .section {
+                padding: 6rem 5%;
+            }
+            
+            .location-info, .amenity-category, .review-card {
+                padding: 2rem;
+            }
+            
+            .footer-links {
+                gap: 1.5rem;
+            }
+            
+            .image-split-container {
+                flex-direction: column;
+                height: 350px;
+            }
+            
+            .image-split-container img {
+                width: 100%;
+                height: 50%;
+            }
+            
+            .image-split-container img:first-child {
+                border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            }
+            
+            .image-split-container img:last-child {
+                border-radius: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content {
+                padding: 2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 1rem 2rem;
+                width: 100%;
+            }
+            
+            .amenities-grid, .reviews-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header with Navigation -->
@@ -666,20 +921,40 @@
             </button>
             <nav>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#amenities">Amenities</a></li>
-                    <li><a href="#reviews">Reviews</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#amenities" class="nav-link">Amenities</a></li>
+                    <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#location" class="nav-link">Location</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                     <li>
-                        <div class="language-dropdown">
-                            <button class="language-btn">English</button>
-                            <div class="language-content">
-                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp#home">English</a>
-                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=wapp#home">Español</a>
-                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=de&_x_tr_hl=de&_x_tr_pto=wapp#home">Deutsch</a>
-                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=fr&_x_tr_hl=fr&_x_tr_pto=wapp#home">Français</a>
-                                <a href="https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=sv&_x_tr_hl=sv&_x_tr_pto=wapp#home">Svenska</a>
+                        <div class="language-selector">
+                            <button class="language-btn">
+                                <i class="fas fa-language"></i>
+                                <span>English</span>
+                                <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.5rem;"></i>
+                            </button>
+                            <div class="language-dropdown" id="languageDropdown">
+                                <a href="#" class="translate-link" data-lang="en" data-name="English">
+                                    <img src="https://flagcdn.com/w40/gb.png" class="language-flag">
+                                    English
+                                </a>
+                                <a href="#" class="translate-link" data-lang="es" data-name="Español">
+                                    <img src="https://flagcdn.com/w40/es.png" class="language-flag">
+                                    Español
+                                </a>
+                                <a href="#" class="translate-link" data-lang="fr" data-name="Français">
+                                    <img src="https://flagcdn.com/w40/fr.png" class="language-flag">
+                                    Français
+                                </a>
+                                <a href="#" class="translate-link" data-lang="de" data-name="Deutsch">
+                                    <img src="https://flagcdn.com/w40/de.png" class="language-flag">
+                                    Deutsch
+                                </a>
+                                <a href="#" class="translate-link" data-lang="it" data-name="Italiano">
+                                    <img src="https://flagcdn.com/w40/it.png" class="language-flag">
+                                    Italiano
+                                </a>
                             </div>
                         </div>
                     </li>
@@ -694,33 +969,44 @@
         <div class="hero-content">
             <h1>Experience Luxury at Casa Olivia</h1>
             <p>Your perfect vacation home with private pool, just minutes from the beach. Modern amenities in a serene setting for unforgettable holidays.</p>
-            <a href="#contact" class="btn">Book Now</a>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem;">
+                <a href="#contact" class="btn">Book Now</a>
+                <a href="#about" class="btn btn-outline">Explore More</a>
+            </div>
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Section - FIXED CARDS -->
     <section class="section" id="about">
         <div class="section-title">
             <h2>Your Home Away From Home</h2>
             <p>Casa Olivia offers a perfect blend of comfort and luxury in a prime location near the beach and local amenities.</p>
         </div>
         <div class="about-grid">
+            <!-- Card 1: Spacious Living -->
             <div class="about-card">
-                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Living Area" class="gallery-img">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NzE4ODIwMjU0NDg3MDIwMzgw/original/dace2a77-e90f-43e8-94b3-1eeb331f79bf.jpeg?im_w=1440" alt="Spacious Living Area" class="gallery-img">
                 <div class="about-card-content">
                     <h3>Spacious Living</h3>
                     <p>Modern, air-conditioned rooms with comfortable furnishings and all the amenities you need for a perfect stay.</p>
                 </div>
             </div>
+            
+            <!-- Card 2: Private Heated Pool -->
             <div class="about-card">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Private Pool" class="gallery-img">
+                <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/42a88971-ec45-4fa7-ba17-df1b6d632f52.jpeg?im_w=1200" alt="Private Heated Pool" class="gallery-img">
                 <div class="about-card-content">
                     <h3>Private Heated Pool</h3>
                     <p>Enjoy our saltwater pool available year-round, heated to the perfect temperature for your relaxation.</p>
                 </div>
             </div>
-            <div class="about-card">
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Outdoor Area" class="gallery-img">
+            
+            <!-- Card 3: Outdoor Oasis (Split Images) -->
+            <div class="about-card split-images">
+                <div class="image-split-container">
+                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/a5b8913d-4108-47ff-8984-222888bbbff8.jpeg?im_w=1440" alt="Outdoor Dining Area" class="gallery-img">
+                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/6a8a5005-d38f-49bd-b2ab-91ee70a69914.jpeg?im_w=1440" alt="Outdoor Lounge Area" class="gallery-img">
+                </div>
                 <div class="about-card-content">
                     <h3>Outdoor Oasis</h3>
                     <p>Beautiful patio with sun loungers, outdoor dining, and BBQ facilities for perfect al fresco evenings.</p>
@@ -834,8 +1120,9 @@
         <div class="reviews-container">
             <div class="review-card">
                 <div class="review-header">
-                    <div class="review-stars">★★★★★</div>
+                    <div class="review-avatar">M</div>
                     <div>
+                        <div class="review-stars">★★★★★</div>
                         <div class="review-author">Madeleine</div>
                         <div class="review-date">January 2025</div>
                     </div>
@@ -846,8 +1133,9 @@
             </div>
             <div class="review-card">
                 <div class="review-header">
-                    <div class="review-stars">★★★★★</div>
+                    <div class="review-avatar">T</div>
                     <div>
+                        <div class="review-stars">★★★★★</div>
                         <div class="review-author">Terhi</div>
                         <div class="review-date">December 2024</div>
                     </div>
@@ -858,8 +1146,9 @@
             </div>
             <div class="review-card">
                 <div class="review-header">
-                    <div class="review-stars">★★★★★</div>
+                    <div class="review-avatar">M</div>
                     <div>
+                        <div class="review-stars">★★★★★</div>
                         <div class="review-author">Maria</div>
                         <div class="review-date">June 2024</div>
                     </div>
@@ -868,42 +1157,9 @@
                     "We are very happy with our stay and would not hesitate to come back for another stay in Nikolas' house! Especially the outdoor area with the pool was much appreciated and exactly what we wanted when travelling with a 6-month old baby. Nikolas is very helpful and reliable and we can warmly recommend others to book this house! :)"
                 </div>
             </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-stars">★★★★★</div>
-                    <div>
-                        <div class="review-author">Philip</div>
-                        <div class="review-date">May 2024</div>
-                    </div>
-                </div>
-                <div class="review-text">
-                    "Nikolas was an amazing host! He helped us wherever we needed help! Thanks for the great time at Casa Oliva! Highly recommend!"
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-stars">★★★★★</div>
-                    <div>
-                        <div class="review-author">Betty</div>
-                        <div class="review-date">September 2024</div>
-                    </div>
-                </div>
-                <div class="review-text">
-                    "Very lovely property and very quick to reply. Helped us with transfers to and from the airport and was a lovely relaxing stay"
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-stars">★★★★★</div>
-                    <div>
-                        <div class="review-author">Mikaela Natalia</div>
-                        <div class="review-date">June 2024</div>
-                    </div>
-                </div>
-                <div class="review-text">
-                    "Incredibly nice and private villa located a few minutes walk from the boardwalk and restaurants. The pool area was amazing and there was everything one needs to cook and prepare food in the kitchen. Air conditioning was available in each room and the bathrooms were spacious and clean."
-                </div>
-            </div>
+        </div>
+        <div style="text-align: center; margin-top: 4rem;">
+            <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn btn-outline">Read All Reviews</a>
         </div>
     </section>
 
@@ -914,7 +1170,10 @@
             <p>Ready to experience Casa Olivia for yourself? Contact us to check availability or ask any questions.</p>
         </div>
         <div style="text-align: center;">
-            <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn">Contact Us</a>
+            <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn" style="padding: 1.2rem 3rem; font-size: 1.2rem;">
+                <i class="fas fa-calendar-check"></i>
+                Book Now on Airbnb
+            </a>
         </div>
     </section>
 
@@ -931,9 +1190,10 @@
                 <p>Torrevieja, Spain</p>
                 <p>Just minutes away from the beach and local amenities</p>
                 <div class="location-details">
-                    <p><i class="fas fa-walking"></i> 5 minutes to the beach</p>
-                    <p><i class="fas fa-shopping-bag"></i> 3 minutes to supermarkets</p>
-                    <p><i class="fas fa-utensils"></i> 5 minutes to restaurants</p>
+                    <p><i class="fas fa-walking"></i> <span>5 minutes to the beach</span></p>
+                    <p><i class="fas fa-shopping-bag"></i> <span>3 minutes to supermarkets</span></p>
+                    <p><i class="fas fa-utensils"></i> <span>5 minutes to restaurants</span></p>
+                    <p><i class="fas fa-car"></i> <span>Free parking available</span></p>
                 </div>
             </div>
             <div class="location-map">
@@ -959,103 +1219,176 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#amenities">Amenities</a></li>
                 <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#location">Location</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="copyright">
-                &copy; 2025 Casa Olivia. All rights reserved.
+                &copy; 2025 Casa Olivia. All rights reserved. | Luxury Vacation Home in Torrevieja, Spain
             </div>
         </div>
     </footer>
 
     <script>
-        // Language dropdown functionality
-        const languageBtn = document.querySelector('.language-btn');
-        const languageContent = document.querySelector('.language-content');
-
-        languageBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            this.classList.toggle('active');
-            languageContent.classList.toggle('show');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.language-dropdown')) {
-                languageBtn.classList.remove('active');
-                languageContent.classList.remove('show');
+        // Translation Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const baseUrlMeta = document.querySelector('meta[name="base-url"]');
+            const baseUrl = baseUrlMeta ? baseUrlMeta.getAttribute('content') : window.location.href;
+            
+            // Function to generate Google Translate URL
+            function generateTranslateUrl(targetLang) {
+                // Construct URL similar to: https://debrainers-xyz.translate.goog/casa?_x_tr_sl=en&_x_tr_tl=ru&_x_tr_hl=de&_x_tr_pto=wapp
+                const sourceLang = 'en'; // Your website's source language
+                const translateUrl = baseUrl.replace(/^https?:\/\//, 'https://$&translate.goog/');
+                
+                // Build query parameters
+                const params = new URLSearchParams({
+                    '_x_tr_sl': sourceLang,      // Source language
+                    '_x_tr_tl': targetLang,      // Target language
+                    '_x_tr_hl': targetLang,      // UI language (same as target)
+                    '_x_tr_pto': 'wapp'          // pto parameter
+                });
+                
+                return `${translateUrl}?${params.toString()}`;
             }
-        });
-
-        // Update button text when language is selected
-        document.querySelectorAll('.language-content a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const btnText = this.textContent;
-                languageBtn.textContent = btnText;
-                window.location.href = this.href;
+            
+            // Set up translation links
+            const translateLinks = document.querySelectorAll('.translate-link');
+            const languageBtn = document.querySelector('.language-btn span');
+            const languageBtnIcon = document.querySelector('.language-btn .fa-language');
+            
+            translateLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetLang = this.getAttribute('data-lang');
+                    const languageName = this.getAttribute('data-name');
+                    
+                    // Update button text
+                    if (languageBtn) languageBtn.textContent = languageName;
+                    
+                    // Close dropdown if open
+                    const dropdown = document.getElementById('languageDropdown');
+                    dropdown.classList.remove('show');
+                    
+                    // Generate and navigate to translation URL
+                    const translateUrl = generateTranslateUrl(targetLang);
+                    window.open(translateUrl, '_blank');
+                });
             });
-        });
-
-        // Mobile menu functionality
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const nav = document.querySelector('nav');
-        const overlay = document.querySelector('.overlay');
-
-        mobileMenuBtn.addEventListener('click', function() {
-            nav.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
-        });
-
-        overlay.addEventListener('click', function() {
-            nav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                nav.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-        });
-
-        // Lightbox functionality
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxCaption = document.querySelector('.lightbox-caption');
-        const closeLightbox = document.querySelector('.close-lightbox');
-        const galleryImages = document.querySelectorAll('.gallery-img');
-
-        galleryImages.forEach(img => {
-            img.addEventListener('click', function() {
-                lightbox.style.display = 'block';
-                lightboxImg.src = this.src;
-                lightboxCaption.textContent = this.alt;
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        closeLightbox.addEventListener('click', function() {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-
-        lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+            
+            // Language dropdown functionality
+            const languageDropdownBtn = document.querySelector('.language-btn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            
+            if (languageDropdownBtn) {
+                languageDropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    languageDropdown.classList.toggle('show');
+                });
             }
-        });
-
-        // Close lightbox with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.language-selector')) {
+                    languageDropdown.classList.remove('show');
+                }
+            });
+            
+            // Mobile menu functionality
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('nav');
+            const overlay = document.querySelector('.overlay');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    nav.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+                });
             }
+            
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    nav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+            
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    nav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+            
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.querySelector('.lightbox-caption');
+            const closeLightbox = document.querySelector('.close-lightbox');
+            const galleryImages = document.querySelectorAll('.gallery-img');
+            
+            galleryImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    lightbox.style.display = 'block';
+                    lightboxImg.src = this.src;
+                    lightboxCaption.textContent = this.alt;
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            if (closeLightbox) {
+                closeLightbox.addEventListener('click', function() {
+                    lightbox.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+            }
+            
+            if (lightbox) {
+                lightbox.addEventListener('click', function(e) {
+                    if (e.target === lightbox) {
+                        lightbox.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+            
+            // Close lightbox with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightbox.style.display === 'block') {
+                    lightbox.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 100) {
+                    header.style.boxShadow = 'var(--shadow-md)';
+                } else {
+                    header.style.boxShadow = 'var(--shadow-sm)';
+                }
+            });
         });
     </script>
 </body>
