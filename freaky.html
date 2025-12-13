@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>debrainers FREAKY</title>
-    <!-- Embed Meta Tags -->
     <meta property="og:title" content="debrainers FREAKY">
     <meta property="og:description" content="Click to enter and explore!!">
-    <meta property="og:image" content="https://i.imgur.com/0xCwzux.png"> <!-- Replace with your image URL -->
-    <meta property="og:url" content="https://debrainers.xyz/freaky"> <!-- Replace with your URL -->
+    <meta property="og:image" content="https://i.imgur.com/0xCwzux.png">
+    <meta property="og:url" content="https://debrainers.xyz/freaky">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="debrainers FREAKY">
     <meta name="twitter:description" content="Click to enter and explore!!!">
-    <meta name="twitter:image" content="https://i.imgur.com/0xCwzux.png"> <!-- Replace with your image URL -->
+    <meta name="twitter:image" content="https://i.imgur.com/0xCwzux.png">
     <style>
         * { margin: 0; padding: 0; overflow: hidden; cursor: pointer; }
         body, html { width: 100%; height: 100%; background: black; display: flex; justify-content: center; align-items: center; }
@@ -24,9 +23,9 @@
             white-space: nowrap; 
             overflow: hidden; 
             border-right: 2px solid white; 
-            animation: blinkCursor 0.75s infinite; 
+            animation: a 0.75s infinite; 
         }
-        @keyframes blinkCursor {
+        @keyframes a {
             0%, 100% { border-right-color: transparent; }
             50% { border-right-color: white; }
         }
@@ -34,7 +33,7 @@
             position: absolute; 
             text-align: center; 
             color: white; 
-            font-size: 1.5rem; /* Base font size for mobile */
+            font-size: 1.5rem; 
             width: 90vw; 
             word-wrap: break-word; 
             white-space: pre-line;
@@ -60,7 +59,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.5); /* Default darkness: 0.5 */
+            background: rgba(0, 0, 0, 0.5);
             display: none;
         }
         canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
@@ -75,7 +74,6 @@
     <canvas id="confettiCanvas"></canvas>
     <audio id="bgMusic" src="https://github.com/essyyyyy/debrainers/raw/refs/heads/main/Billy%20Idol%20-%20Eyes%20Without%20A%20Face.mp3" loop></audio>
     <script>
-        // Disable right-click and inspect element
         document.addEventListener('contextmenu', (e) => e.preventDefault());
         document.addEventListener('keydown', (e) => {
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
@@ -83,295 +81,275 @@
             }
         });
 
-        // Animated Tab Title
-        const titleText = "debrainers FREAKY";
-        let titleIndex = 0;
-        const animateTitle = () => {
-            document.title = titleText.slice(0, titleIndex);
-            titleIndex = (titleIndex + 1) % (titleText.length + 1);
-            setTimeout(animateTitle, 300); // Adjust speed here
+        const a = "debrainers FREAKY";
+        let b = 0;
+        const c = () => {
+            document.title = a.slice(0, b);
+            b = (b + 1) % (a.length + 1);
+            setTimeout(c, 300);
         };
-        animateTitle();
+        c();
 
-        // Typewriter animation for "Click to Enter"
-        const enterTextElement = document.getElementById('enterText');
-        const enterText = "click to enter";
-        let enterIndex = 0;
-        const typeEnterText = () => {
-            if (enterIndex < enterText.length) {
-                enterTextElement.textContent += enterText[enterIndex];
-                enterIndex++;
-                setTimeout(typeEnterText, 50); // Adjust typing speed here
+        const d = document.getElementById('enterText');
+        const e = "click to enter";
+        let f = 0;
+        const g = () => {
+            if (f < e.length) {
+                d.textContent += e[f];
+                f++;
+                setTimeout(g, 50);
             }
         };
-        typeEnterText();
+        g();
 
-        let entered = false;
+        let h = false;
         document.body.addEventListener('click', () => {
-            if (entered) return;
-            entered = true;
-            enterTextElement.remove();
+            if (h) return;
+            h = true;
+            d.remove();
             document.getElementById('bgVideo').style.display = 'block';
             document.getElementById('videoOverlay').style.display = 'block';
             document.getElementById('bgMusic').play();
-            showInfo();
-            startConfetti();
+            i();
+            j();
         });
 
-        // Customizable darkness for the video overlay
-        const darkness = 0.5; // Set this value between 0 (no darkness) and 1 (fully black)
-        document.getElementById('videoOverlay').style.backgroundColor = `rgba(0, 0, 0, ${darkness})`;
+        const k = 0.5;
+        document.getElementById('videoOverlay').style.backgroundColor = `rgba(0, 0, 0, ${k})`;
 
-        function showInfo() {
-            const infoDiv = document.createElement('div');
-            infoDiv.classList.add('info');
-            document.body.appendChild(infoDiv);
+        function i() {
+            const l = document.createElement('div');
+            l.classList.add('info');
+            document.body.appendChild(l);
 
-            const dateTimeText = `Date/Time: ${new Date().toUTCString()}`; // Extra line added
-            typeText(dateTimeText, 0, () => {
+            const m = `Date/Time: ${new Date().toUTCString()}`;
+            n(m, 0, () => {
                 setTimeout(() => {
-                    infoDiv.textContent += '.';
+                    l.textContent += '.';
                 }, 500);
                 setTimeout(() => {
-                    infoDiv.textContent += '.';
+                    l.textContent += '.';
                 }, 1000);
                 setTimeout(() => {
-                    infoDiv.textContent += '.';
+                    l.textContent += '.';
                 }, 1500);
                 setTimeout(() => {
-                    infoDiv.textContent += '?';
+                    l.textContent += '?';
                 }, 2000);
 
                 setTimeout(() => {
                     fetch('https://ipapi.co/json/')
                         .then(response => response.json())
                         .then(data => {
-                            let details = `\nIP Address: ${data.ip}\n`;
-                            details += `Country: ${data.country_name}\n`;
-                            details += `Region: ${data.region}\n`;
-                            details += `City: ${data.city}\n`;
-                            details += `ZIP Code: ${data.postal}\n`;
-                            details += `Full Location: ${data.country_name}\n`;
-                            details += `Latitude: ${data.latitude}\n`;
-                            details += `Longitude: ${data.longitude}\n`;
-                            details += `Timezone: ${data.timezone}\n`;
-                            details += `Current Time: ${new Date().toLocaleString()}\n`;
-                            details += `ISP: ${data.org}\n`;
-                            details += `Organization: ${data.org}\n`;
-                            details += `Autonomous System: ${data.asn}\n`;
-                            details += `Browser Name: ${navigator.appName}\n`;
-                            details += `Platform Name: ${navigator.platform}\n`;
-                            details += `Browser Version: ${navigator.appVersion}\n`;
-                            details += `Mobile/Tablet: ${/Mobi/.test(navigator.userAgent) ? 'Yes' : 'No'}\n`;
-                            details += `Referrer: ${document.referrer || 'None'}\n`;
-                            details += `System Languages: ${navigator.languages.join(', ')}\n`;
-                            details += `Screen Width: ${window.screen.width}\n`;
-                            details += `Screen Height: ${window.screen.height}\n`;
-                            details += `Window Width: ${window.innerWidth}\n`;
-                            details += `Window Height: ${window.innerHeight}\n`;
-                            details += `Display Pixel Depth: ${window.screen.colorDepth}\n`;
-                            details += `Screen Orientation: ${window.screen.orientation.type}\n`;
-                            details += `Screen Rotation: 0\n`; // Not directly available in JS
-                            details += `CPU Threads: ${navigator.hardwareConcurrency}\n`;
-                            details += `Available Browser Memory: ${(performance.memory ? (performance.memory.jsHeapSizeLimit / 1024 / 1024).toFixed(2) : 'N/A')} MB\n`;
-                            details += `GPU Vendor: ${getGPUInfo().vendor}\n`;
-                            details += `GPU Info: ${getGPUInfo().renderer}\n`;
+                            let o = `\nIP Address: ${data.ip}\n`;
+                            o += `Country: ${data.country_name}\n`;
+                            o += `Region: ${data.region}\n`;
+                            o += `City: ${data.city}\n`;
+                            o += `ZIP Code: ${data.postal}\n`;
+                            o += `Full Location: ${data.country_name}\n`;
+                            o += `Latitude: ${data.latitude}\n`;
+                            o += `Longitude: ${data.longitude}\n`;
+                            o += `Timezone: ${data.timezone}\n`;
+                            o += `Current Time: ${new Date().toLocaleString()}\n`;
+                            o += `ISP: ${data.org}\n`;
+                            o += `Organization: ${data.org}\n`;
+                            o += `Autonomous System: ${data.asn}\n`;
+                            o += `Browser Name: ${navigator.appName}\n`;
+                            o += `Platform Name: ${navigator.platform}\n`;
+                            o += `Browser Version: ${navigator.appVersion}\n`;
+                            o += `Mobile/Tablet: ${/Mobi/.test(navigator.userAgent) ? 'Yes' : 'No'}\n`;
+                            o += `Referrer: ${document.referrer || 'None'}\n`;
+                            o += `System Languages: ${navigator.languages.join(', ')}\n`;
+                            o += `Screen Width: ${window.screen.width}\n`;
+                            o += `Screen Height: ${window.screen.height}\n`;
+                            o += `Window Width: ${window.innerWidth}\n`;
+                            o += `Window Height: ${window.innerHeight}\n`;
+                            o += `Display Pixel Depth: ${window.screen.colorDepth}\n`;
+                            o += `Screen Orientation: ${window.screen.orientation.type}\n`;
+                            o += `Screen Rotation: 0\n`;
+                            o += `CPU Threads: ${navigator.hardwareConcurrency}\n`;
+                            o += `Available Browser Memory: ${(performance.memory ? (performance.memory.jsHeapSizeLimit / 1024 / 1024).toFixed(2) : 'N/A')} MB\n`;
+                            o += `GPU Vendor: ${p().vendor}\n`;
+                            o += `GPU Info: ${p().renderer}\n`;
 
-                            typeText(details, 0, () => {
-                                // Auto-fit text in real-time
-                                setInterval(() => autoFitText(infoDiv), 100); // Update every 0.1 seconds
+                            n(o, 0, () => {
+                                setInterval(() => q(l), 100);
                             });
                         });
                 }, 3000);
             });
         }
 
-        function typeText(text, delay = 0, callback) {
+        function n(r, s = 0, t) {
             setTimeout(() => {
-                let i = 0;
-                const infoElement = document.querySelector('.info');
-                const interval = setInterval(() => {
-                    if (i < text.length) {
-                        infoElement.textContent += text[i];
-                        i++;
+                let u = 0;
+                const v = document.querySelector('.info');
+                const w = setInterval(() => {
+                    if (u < r.length) {
+                        v.textContent += r[u];
+                        u++;
                     } else {
-                        clearInterval(interval);
-                        if (callback) callback();
+                        clearInterval(w);
+                        if (t) t();
                     }
-                }, 10); // Faster typing speed
-            }, delay);
+                }, 10);
+            }, s);
         }
 
-        function autoFitText(element) {
-            let fontSize = parseFloat(window.getComputedStyle(element).fontSize);
-            while (element.scrollHeight > window.innerHeight && fontSize > 10) {
-                fontSize -= 1;
-                element.style.fontSize = `${fontSize}px`;
+        function q(x) {
+            let y = parseFloat(window.getComputedStyle(x).fontSize);
+            while (x.scrollHeight > window.innerHeight && y > 10) {
+                y -= 1;
+                x.style.fontSize = `${y}px`;
             }
         }
 
-        function getGPUInfo() {
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-            if (gl) {
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                if (debugInfo) {
+        function p() {
+            const z = document.createElement('canvas');
+            const A = z.getContext('webgl') || z.getContext('experimental-webgl');
+            if (A) {
+                const B = A.getExtension('WEBGL_debug_renderer_info');
+                if (B) {
                     return {
-                        vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
-                        renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+                        vendor: A.getParameter(B.UNMASKED_VENDOR_WEBGL),
+                        renderer: A.getParameter(B.UNMASKED_RENDERER_WEBGL)
                     };
                 }
             }
             return { vendor: 'N/A', renderer: 'N/A' };
         }
 
-        function startConfetti() {
-            const canvas = document.getElementById('confettiCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const confetti = [];
-            const maxConfetti = 100;
+        function j() {
+            const C = document.getElementById('confettiCanvas');
+            const D = C.getContext('2d');
+            C.width = window.innerWidth;
+            C.height = window.innerHeight;
+            const E = [];
+            const F = 100;
             
-            const confettiSettings = {
+            const G = {
                 density: 0.3,
                 speed: 1.2,
                 fallDistance: 2
             };
             
-            function ConfettiPiece(x, y) {
-                this.x = x;
-                this.y = y;
+            function H(I, J) {
+                this.x = I;
+                this.y = J;
                 this.size = 10;
                 this.color = Math.random() < 0.5 ? 'blue' : 'white';
-                this.velocityX = (Math.random() - 0.5) * confettiSettings.speed;
-                this.velocityY = Math.random() * confettiSettings.speed + 0.5;
+                this.velocityX = (Math.random() - 0.5) * G.speed;
+                this.velocityY = Math.random() * G.speed + 0.5;
                 this.opacity = 1;
                 this.life = 150;
                 this.oscillation = Math.random() * 2 - 1;
             }
             
-            ConfettiPiece.prototype.update = function(frame) {
-                this.x += this.velocityX + Math.sin(frame / 5) * this.oscillation;
-                this.y += this.velocityY * confettiSettings.fallDistance;
+            H.prototype.update = function(K) {
+                this.x += this.velocityX + Math.sin(K / 5) * this.oscillation;
+                this.y += this.velocityY * G.fallDistance;
                 this.velocityY += 0.02;
                 this.life -= 1;
                 this.opacity = this.life / 150;
                 this.size = Math.max(this.life / 10, 2);
             };
             
-            ConfettiPiece.prototype.draw = function() {
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                ctx.font = this.size + "px Arial";
-                ctx.fillText("+", this.x, this.y);
-                ctx.globalAlpha = 1;
+            H.prototype.draw = function() {
+                D.globalAlpha = this.opacity;
+                D.fillStyle = this.color;
+                D.font = this.size + "px Arial";
+                D.fillText("+", this.x, this.y);
+                D.globalAlpha = 1;
             };
             
-            document.addEventListener('mousemove', (e) => {
-                if (Math.random() < confettiSettings.density) {
-                    confetti.push(new ConfettiPiece(e.clientX, e.clientY));
+            document.addEventListener('mousemove', (L) => {
+                if (Math.random() < G.density) {
+                    E.push(new H(L.clientX, L.clientY));
                 }
-                if (confetti.length > maxConfetti) {
-                    confetti.shift();
+                if (E.length > F) {
+                    E.shift();
                 }
             });
             
-            function animate(frame = 0) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = confetti.length - 1; i >= 0; i--) {
-                    confetti[i].update(frame);
-                    confetti[i].draw();
-                    if (confetti[i].life <= 0) {
-                        confetti.splice(i, 1);
+            function M(N = 0) {
+                D.clearRect(0, 0, C.width, C.height);
+                for (let O = E.length - 1; O >= 0; O--) {
+                    E[O].update(N);
+                    E[O].draw();
+                    if (E[O].life <= 0) {
+                        E.splice(O, 1);
                     }
                 }
-                setTimeout(() => requestAnimationFrame(() => animate(frame + 1)), 30);
+                setTimeout(() => requestAnimationFrame(() => M(N + 1)), 30);
             }
-            animate();
+            M();
         }
 
-        // Anti-copying measures
         (function(){
-            // Disable selection
             document.onselectstart = () => false;
             document.ondragstart = () => false;
             
-            // Disable view source and dev tools shortcuts
-            document.onkeydown = function(e) {
-                if (e.ctrlKey && 
-                    (e.keyCode === 85 || // U
-                     e.keyCode === 83 || // S
-                     e.keyCode === 73 || // I
-                     e.keyCode === 67 || // C
-                     e.keyCode === 86 || // V
-                     e.keyCode === 123)) { // F12
+            document.onkeydown = function(P) {
+                if (P.ctrlKey && 
+                    (P.keyCode === 85 || 
+                     P.keyCode === 83 || 
+                     P.keyCode === 73 || 
+                     P.keyCode === 67 || 
+                     P.keyCode === 86 || 
+                     P.keyCode === 123)) {
                     return false;
                 }
-                if(e.key === 'F12') {
+                if(P.key === 'F12') {
                     return false;
                 }
             };
             
-            // Disable right click
-            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('contextmenu', Q => Q.preventDefault());
             
-            // Visit counter implementation with IP-based rate limiting
-            async function updateVisitCounter() {
+            async function R() {
                 try {
-                    // Get visitor's IP
-                    const ipResponse = await fetch('https://api.ipify.org?format=json');
-                    const ipData = await ipResponse.json();
-                    const visitorIP = ipData.ip;
+                    const S = await fetch('https://api.ipify.org?format=json');
+                    const T = await S.json();
+                    const U = T.ip;
                     
-                    // Keys for storing visit data
-                    const counterKey = '_dfv_' + btoa(window.location.pathname);
-                    const ipKey = counterKey + '_ips';
+                    const V = '_dfv_' + btoa(window.location.pathname);
+                    const W = V + '_ips';
                     
-                    // Get or initialize visit count
-                    let visits = parseInt(localStorage.getItem(counterKey)) || 0;
+                    let X = parseInt(localStorage.getItem(V)) || 0;
                     
-                    // Get or initialize IP tracking object
-                    let ipTracker = JSON.parse(localStorage.getItem(ipKey) || '{}');
+                    let Y = JSON.parse(localStorage.getItem(W) || '{}');
                     
-                    // Check if this IP has visited recently (within last hour)
-                    const now = Date.now();
-                    const lastVisit = ipTracker[visitorIP] || 0;
-                    const oneHour = 60 * 60 * 1000; // milliseconds
+                    const Z = Date.now();
+                    const aa = Y[U] || 0;
+                    const ab = 60 * 60 * 1000;
                     
-                    if (now - lastVisit >= oneHour) {
-                        // If it's been more than an hour since last visit, count it
-                        visits++;
-                        ipTracker[visitorIP] = now;
+                    if (Z - aa >= ab) {
+                        X++;
+                        Y[U] = Z;
                         
-                        // Store updated values
-                        localStorage.setItem(counterKey, visits);
-                        localStorage.setItem(ipKey, JSON.stringify(ipTracker));
+                        localStorage.setItem(V, X);
+                        localStorage.setItem(W, JSON.stringify(Y));
                         
-                        // Clean up old IP entries (older than 24 hours)
-                        const cleanup = {};
-                        const dayAgo = now - (24 * oneHour);
-                        for (let ip in ipTracker) {
-                            if (ipTracker[ip] > dayAgo) {
-                                cleanup[ip] = ipTracker[ip];
+                        const ac = {};
+                        const ad = Z - (24 * ab);
+                        for (let ae in Y) {
+                            if (Y[ae] > ad) {
+                                ac[ae] = Y[ae];
                             }
                         }
-                        localStorage.setItem(ipKey, JSON.stringify(cleanup));
+                        localStorage.setItem(W, JSON.stringify(ac));
                         
-                        // Encrypt visit count
-                        const encrypt = (val) => btoa(String(val).split('').reverse().join(''));
-                        localStorage.setItem(counterKey + '_enc', encrypt(visits));
+                        const af = (ag) => btoa(String(ag).split('').reverse().join(''));
+                        localStorage.setItem(V + '_enc', af(X));
                     }
-                } catch (error) {
-                    console.error('Error updating visit counter:', error);
+                } catch (ah) {
+                    console.error('Error updating visit counter:', ah);
                 }
             }
             
-            // Update visit counter when page loads
-            updateVisitCounter();
+            R();
             
         })();
     </script>
 </body>
 </html>
-
