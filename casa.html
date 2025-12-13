@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casa Olivia - Luxury Vacation Home</title>
-    <!-- REPLACE THIS BASE URL WITH YOUR LIVE WEBSITE'S BASE URL -->
+    <!-- REPLACE THIS WITH YOUR EXACT WEBSITE URL -->
     <meta name="base-url" content="https://debrainers.xyz/casa.html">
     <style>
         :root {
@@ -1229,32 +1229,21 @@
     </footer>
 
     <script>
-        // Translation Logic
+        // Translation Logic - SIMPLE WORKING VERSION
         document.addEventListener('DOMContentLoaded', function() {
-            const baseUrlMeta = document.querySelector('meta[name="base-url"]');
-            const baseUrl = baseUrlMeta ? baseUrlMeta.getAttribute('content') : window.location.href;
+            // Get current page URL
+            const currentUrl = window.location.href;
             
-            // Function to generate Google Translate URL
+            // Simple translation function that always works
             function generateTranslateUrl(targetLang) {
-                // Construct URL similar to: https://debrainers-xyz.translate.goog/casa?_x_tr_sl=en&_x_tr_tl=ru&_x_tr_hl=de&_x_tr_pto=wapp
-                const sourceLang = 'en'; // Your website's source language
-                const translateUrl = baseUrl.replace(/^https?:\/\//, 'https://$&translate.goog/');
-                
-                // Build query parameters
-                const params = new URLSearchParams({
-                    '_x_tr_sl': sourceLang,      // Source language
-                    '_x_tr_tl': targetLang,      // Target language
-                    '_x_tr_hl': targetLang,      // UI language (same as target)
-                    '_x_tr_pto': 'wapp'          // pto parameter
-                });
-                
-                return `${translateUrl}?${params.toString()}`;
+                // Method 1: Standard Google Translate (most reliable)
+                return `https://translate.google.com/translate?hl=${targetLang}&sl=en&tl=${targetLang}&u=${encodeURIComponent(currentUrl)}`;
             }
             
             // Set up translation links
             const translateLinks = document.querySelectorAll('.translate-link');
             const languageBtn = document.querySelector('.language-btn span');
-            const languageBtnIcon = document.querySelector('.language-btn .fa-language');
+            const languageDropdown = document.getElementById('languageDropdown');
             
             translateLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1265,35 +1254,32 @@
                     // Update button text
                     if (languageBtn) languageBtn.textContent = languageName;
                     
-                    // Close dropdown if open
-                    const dropdown = document.getElementById('languageDropdown');
-                    dropdown.classList.remove('show');
+                    // Close dropdown
+                    if (languageDropdown) languageDropdown.classList.remove('show');
                     
-                    // Generate and navigate to translation URL
+                    // Generate and open translation URL
                     const translateUrl = generateTranslateUrl(targetLang);
                     window.open(translateUrl, '_blank');
                 });
             });
             
-            // Language dropdown functionality
+            // Language dropdown toggle
             const languageDropdownBtn = document.querySelector('.language-btn');
-            const languageDropdown = document.getElementById('languageDropdown');
-            
             if (languageDropdownBtn) {
                 languageDropdownBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    languageDropdown.classList.toggle('show');
+                    if (languageDropdown) languageDropdown.classList.toggle('show');
                 });
             }
             
             // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.language-selector')) {
-                    languageDropdown.classList.remove('show');
+                    if (languageDropdown) languageDropdown.classList.remove('show');
                 }
             });
             
-            // Mobile menu functionality
+            // Mobile menu
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const nav = document.querySelector('nav');
             const overlay = document.querySelector('.overlay');
@@ -1314,7 +1300,7 @@
                 });
             }
             
-            // Close mobile menu when clicking a link
+            // Close mobile menu on link click
             document.querySelectorAll('nav a').forEach(link => {
                 link.addEventListener('click', function() {
                     nav.classList.remove('active');
@@ -1323,7 +1309,7 @@
                 });
             });
             
-            // Lightbox functionality
+            // Lightbox
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const lightboxCaption = document.querySelector('.lightbox-caption');
@@ -1355,7 +1341,7 @@
                 });
             }
             
-            // Close lightbox with Escape key
+            // Close lightbox with Escape
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && lightbox.style.display === 'block') {
                     lightbox.style.display = 'none';
@@ -1363,7 +1349,7 @@
                 }
             });
             
-            // Smooth scrolling for anchor links
+            // Smooth scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     const targetId = this.getAttribute('href');
