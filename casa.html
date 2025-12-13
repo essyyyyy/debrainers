@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casa Olivia - Luxury Vacation Home</title>
-    <!-- REPLACE THIS WITH YOUR EXACT WEBSITE URL -->
+    <!-- YOUR WEBSITE URL - CHANGE THIS TO YOUR ACTUAL URL -->
     <meta name="base-url" content="https://debrainers.xyz/casa.html">
     <style>
         :root {
@@ -800,582 +800,598 @@
             width: 60px;
             height: 60px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: var(--radius-full);
-            transition: var(--transition);
-        }
-        
-        .close-lightbox:hover {
-            background-color: rgba(255,255,255,0.2);
-            transform: rotate(90deg);
-        }
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(255,255,255,0.1);
+                border-radius: var(--radius-full);
+                transition: var(--transition);
+            }
+            
+            .close-lightbox:hover {
+                background-color: rgba(255,255,255,0.2);
+                transform: rotate(90deg);
+            }
 
-        .lightbox-caption {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            text-align: center;
-            width: 100%;
-            padding: 0 20px;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .location-container {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            
-            .location-map {
-                height: 400px;
-            }
-            
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-content p {
-                font-size: 1.1rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2.25rem;
-            }
-            
-            .section {
-                padding: 6rem 5%;
-            }
-            
-            .location-info, .amenity-category, .review-card {
-                padding: 2rem;
-            }
-            
-            .footer-links {
-                gap: 1.5rem;
-            }
-            
-            .image-split-container {
-                flex-direction: column;
-                height: 350px;
-            }
-            
-            .image-split-container img {
+            .lightbox-caption {
+                position: absolute;
+                bottom: 40px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: white;
+                text-align: center;
                 width: 100%;
-                height: 50%;
+                padding: 0 20px;
+                font-size: 1.3rem;
+                font-weight: 600;
             }
-            
-            .image-split-container img:first-child {
-                border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            }
-            
-            .image-split-container img:last-child {
-                border-radius: 0;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero-content {
-                padding: 2rem;
-            }
-            
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
-            }
-            
-            .btn {
-                padding: 1rem 2rem;
-                width: 100%;
-            }
-            
-            .amenities-grid, .reviews-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- Header with Navigation -->
-    <header>
-        <div class="nav-container">
-            <div class="logo">Casa <span>Olivia</span></div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav>
-                <ul>
-                    <li><a href="#home" class="nav-link">Home</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#amenities" class="nav-link">Amenities</a></li>
-                    <li><a href="#reviews" class="nav-link">Reviews</a></li>
-                    <li><a href="#location" class="nav-link">Location</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                    <li>
-                        <div class="language-selector">
-                            <button class="language-btn">
-                                <i class="fas fa-language"></i>
-                                <span>English</span>
-                                <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.5rem;"></i>
-                            </button>
-                            <div class="language-dropdown" id="languageDropdown">
-                                <a href="#" class="translate-link" data-lang="en" data-name="English">
-                                    <img src="https://flagcdn.com/w40/gb.png" class="language-flag">
-                                    English
-                                </a>
-                                <a href="#" class="translate-link" data-lang="es" data-name="Español">
-                                    <img src="https://flagcdn.com/w40/es.png" class="language-flag">
-                                    Español
-                                </a>
-                                <a href="#" class="translate-link" data-lang="fr" data-name="Français">
-                                    <img src="https://flagcdn.com/w40/fr.png" class="language-flag">
-                                    Français
-                                </a>
-                                <a href="#" class="translate-link" data-lang="de" data-name="Deutsch">
-                                    <img src="https://flagcdn.com/w40/de.png" class="language-flag">
-                                    Deutsch
-                                </a>
-                                <a href="#" class="translate-link" data-lang="it" data-name="Italiano">
-                                    <img src="https://flagcdn.com/w40/it.png" class="language-flag">
-                                    Italiano
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <div class="overlay"></div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Experience Luxury at Casa Olivia</h1>
-            <p>Your perfect vacation home with private pool, just minutes from the beach. Modern amenities in a serene setting for unforgettable holidays.</p>
-            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem;">
-                <a href="#contact" class="btn">Book Now</a>
-                <a href="#about" class="btn btn-outline">Explore More</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section - FIXED CARDS -->
-    <section class="section" id="about">
-        <div class="section-title">
-            <h2>Your Home Away From Home</h2>
-            <p>Casa Olivia offers a perfect blend of comfort and luxury in a prime location near the beach and local amenities.</p>
-        </div>
-        <div class="about-grid">
-            <!-- Card 1: Spacious Living -->
-            <div class="about-card">
-                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NzE4ODIwMjU0NDg3MDIwMzgw/original/dace2a77-e90f-43e8-94b3-1eeb331f79bf.jpeg?im_w=1440" alt="Spacious Living Area" class="gallery-img">
-                <div class="about-card-content">
-                    <h3>Spacious Living</h3>
-                    <p>Modern, air-conditioned rooms with comfortable furnishings and all the amenities you need for a perfect stay.</p>
-                </div>
-            </div>
-            
-            <!-- Card 2: Private Heated Pool -->
-            <div class="about-card">
-                <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/42a88971-ec45-4fa7-ba17-df1b6d632f52.jpeg?im_w=1200" alt="Private Heated Pool" class="gallery-img">
-                <div class="about-card-content">
-                    <h3>Private Heated Pool</h3>
-                    <p>Enjoy our saltwater pool available year-round, heated to the perfect temperature for your relaxation.</p>
-                </div>
-            </div>
-            
-            <!-- Card 3: Outdoor Oasis (Split Images) -->
-            <div class="about-card split-images">
-                <div class="image-split-container">
-                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/a5b8913d-4108-47ff-8984-222888bbbff8.jpeg?im_w=1440" alt="Outdoor Dining Area" class="gallery-img">
-                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/6a8a5005-d38f-49bd-b2ab-91ee70a69914.jpeg?im_w=1440" alt="Outdoor Lounge Area" class="gallery-img">
-                </div>
-                <div class="about-card-content">
-                    <h3>Outdoor Oasis</h3>
-                    <p>Beautiful patio with sun loungers, outdoor dining, and BBQ facilities for perfect al fresco evenings.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <img class="lightbox-content" id="lightbox-img">
-        <div class="lightbox-caption"></div>
-    </div>
-
-    <!-- Amenities Section -->
-    <section class="section amenities" id="amenities">
-        <div class="section-title">
-            <h2>What We Offer</h2>
-            <p>Casa Olivia is fully equipped with everything you need for a comfortable and enjoyable stay.</p>
-        </div>
-        <div class="amenities-grid">
-            <div class="amenity-category">
-                <h3>Bathroom</h3>
-                <ul class="amenity-list">
-                    <li>Hair dryer</li>
-                    <li>Cleaning products</li>
-                    <li>Body soap</li>
-                    <li>Bidet</li>
-                    <li>Outdoor shower</li>
-                    <li>Hot water</li>
-                </ul>
-            </div>
-            <div class="amenity-category">
-                <h3>Bedroom & Laundry</h3>
-                <ul class="amenity-list">
-                    <li>Free washer – In unit</li>
-                    <li>Essentials (towels, bed sheets, soap)</li>
-                    <li>Hangers</li>
-                    <li>Bed linens</li>
-                    <li>Extra pillows and blankets</li>
-                    <li>Room-darkening shades</li>
-                    <li>Iron</li>
-                    <li>Drying rack</li>
-                    <li>Walk-in closet</li>
-                </ul>
-            </div>
-            <div class="amenity-category">
-                <h3>Entertainment</h3>
-                <ul class="amenity-list">
-                    <li>Ethernet connection</li>
-                    <li>TV</li>
-                    <li>Family crib available</li>
-                    <li>Pack 'n play/Travel crib</li>
-                </ul>
-            </div>
-            <div class="amenity-category">
-                <h3>Heating & Cooling</h3>
-                <ul class="amenity-list">
-                    <li>Air conditioning</li>
-                    <li>Indoor fireplace: pellet stove</li>
-                    <li>Split type ductless system</li>
-                </ul>
-            </div>
-            <div class="amenity-category">
-                <h3>Kitchen & Dining</h3>
-                <ul class="amenity-list">
-                    <li>Full kitchen</li>
-                    <li>Refrigerator</li>
-                    <li>Microwave</li>
-                    <li>Cooking basics</li>
-                    <li>Dishes and silverware</li>
-                    <li>Freezer</li>
-                    <li>Dishwasher</li>
-                    <li>Induction stove</li>
-                    <li>Single oven</li>
-                    <li>Hot water kettle</li>
-                    <li>Coffee maker</li>
-                    <li>Wine glasses</li>
-                    <li>Toaster</li>
-                    <li>Baking sheet</li>
-                    <li>Blender</li>
-                    <li>Barbecue utensils</li>
-                    <li>Dining table</li>
-                </ul>
-            </div>
-            <div class="amenity-category">
-                <h3>Outdoor & Location</h3>
-                <ul class="amenity-list">
-                    <li>Shared beach access</li>
-                    <li>Private entrance</li>
-                    <li>Private patio/balcony</li>
-                    <li>Backyard</li>
-                    <li>Outdoor furniture</li>
-                    <li>Outdoor dining area</li>
-                    <li>BBQ grill</li>
-                    <li>Sun loungers</li>
-                    <li>Free parking (driveway + street)</li>
-                    <li>Private outdoor pool (heated, saltwater)</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section class="section" id="reviews">
-        <div class="section-title">
-            <h2>What Our Guests Say</h2>
-            <p>Don't just take our word for it - here's what our guests have to say about their stay at Casa Olivia.</p>
-        </div>
-        <div class="reviews-container">
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-avatar">M</div>
-                    <div>
-                        <div class="review-stars">★★★★★</div>
-                        <div class="review-author">Madeleine</div>
-                        <div class="review-date">January 2025</div>
-                    </div>
-                </div>
-                <div class="review-text">
-                    "Had a great time. The place was sleek, clean and everything worked to a high standard (bed comfy, showers hot and powerful, pool over 27° every time we checked...). The location was fantastic; the streets were clean, the buildings smart, we felt safe and obviously the beach and supermarket being within a stones throw all made for a easy, relaxing and enjoyable trip."
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-avatar">T</div>
-                    <div>
-                        <div class="review-stars">★★★★★</div>
-                        <div class="review-author">Terhi</div>
-                        <div class="review-date">December 2024</div>
-                    </div>
-                </div>
-                <div class="review-text">
-                    "The apartment is exactly as described and well located. The kitchen is well-equipped for dining with a larger group. Communication with both Nikolas and the housekeeper, Elena, was smooth and immediate."
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-avatar">M</div>
-                    <div>
-                        <div class="review-stars">★★★★★</div>
-                        <div class="review-author">Maria</div>
-                        <div class="review-date">June 2024</div>
-                    </div>
-                </div>
-                <div class="review-text">
-                    "We are very happy with our stay and would not hesitate to come back for another stay in Nikolas' house! Especially the outdoor area with the pool was much appreciated and exactly what we wanted when travelling with a 6-month old baby. Nikolas is very helpful and reliable and we can warmly recommend others to book this house! :)"
-                </div>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 4rem;">
-            <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn btn-outline">Read All Reviews</a>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="section-title">
-            <h2>Book Your Stay</h2>
-            <p>Ready to experience Casa Olivia for yourself? Contact us to check availability or ask any questions.</p>
-        </div>
-        <div style="text-align: center;">
-            <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn" style="padding: 1.2rem 3rem; font-size: 1.2rem;">
-                <i class="fas fa-calendar-check"></i>
-                Book Now on Airbnb
-            </a>
-        </div>
-    </section>
-
-    <!-- Location Section -->
-    <section class="location-section" id="location">
-        <div class="section-title">
-            <h2>Find Us</h2>
-            <p>Conveniently located in the heart of Torrevieja</p>
-        </div>
-        <div class="location-container">
-            <div class="location-info">
-                <h3>Our Address</h3>
-                <p><strong>18 Avenida Roentgen</strong></p>
-                <p>Torrevieja, Spain</p>
-                <p>Just minutes away from the beach and local amenities</p>
-                <div class="location-details">
-                    <p><i class="fas fa-walking"></i> <span>5 minutes to the beach</span></p>
-                    <p><i class="fas fa-shopping-bag"></i> <span>3 minutes to supermarkets</span></p>
-                    <p><i class="fas fa-utensils"></i> <span>5 minutes to restaurants</span></p>
-                    <p><i class="fas fa-car"></i> <span>Free parking available</span></p>
-                </div>
-            </div>
-            <div class="location-map">
-                <iframe 
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=18+Avenida+Roentgen+Torrevieja+Spain&zoom=16&maptype=satellite"
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">Casa <span>Olivia</span></div>
-            <ul class="footer-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#amenities">Amenities</a></li>
-                <li><a href="#reviews">Reviews</a></li>
-                <li><a href="#location">Location</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="copyright">
-                &copy; 2025 Casa Olivia. All rights reserved. | Luxury Vacation Home in Torrevieja, Spain
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Translation Logic - SIMPLE WORKING VERSION
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get current page URL
-            const currentUrl = window.location.href;
-            
-            // Simple translation function that always works
-            function generateTranslateUrl(targetLang) {
-                // Method 1: Standard Google Translate (most reliable)
-                return `https://translate.google.com/translate?hl=${targetLang}&sl=en&tl=${targetLang}&u=${encodeURIComponent(currentUrl)}`;
-            }
-            
-            // Set up translation links
-            const translateLinks = document.querySelectorAll('.translate-link');
-            const languageBtn = document.querySelector('.language-btn span');
-            const languageDropdown = document.getElementById('languageDropdown');
-            
-            translateLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetLang = this.getAttribute('data-lang');
-                    const languageName = this.getAttribute('data-name');
-                    
-                    // Update button text
-                    if (languageBtn) languageBtn.textContent = languageName;
-                    
-                    // Close dropdown
-                    if (languageDropdown) languageDropdown.classList.remove('show');
-                    
-                    // Generate and open translation URL
-                    const translateUrl = generateTranslateUrl(targetLang);
-                    window.open(translateUrl, '_blank');
-                });
-            });
-            
-            // Language dropdown toggle
-            const languageDropdownBtn = document.querySelector('.language-btn');
-            if (languageDropdownBtn) {
-                languageDropdownBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    if (languageDropdown) languageDropdown.classList.toggle('show');
-                });
-            }
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.language-selector')) {
-                    if (languageDropdown) languageDropdown.classList.remove('show');
+            /* Responsive Design */
+            @media (max-width: 1200px) {
+                .location-container {
+                    grid-template-columns: 1fr;
+                    gap: 3rem;
                 }
-            });
-            
-            // Mobile menu
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const nav = document.querySelector('nav');
-            const overlay = document.querySelector('.overlay');
-            
-            if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    nav.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
-                });
+                
+                .location-map {
+                    height: 400px;
+                }
+                
+                .hero-content h1 {
+                    font-size: 3rem;
+                }
             }
             
-            if (overlay) {
-                overlay.addEventListener('click', function() {
-                    nav.classList.remove('active');
-                    overlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
+            @media (max-width: 768px) {
+                .hero-content h1 {
+                    font-size: 2.5rem;
+                }
+                
+                .hero-content p {
+                    font-size: 1.1rem;
+                }
+                
+                .section-title h2 {
+                    font-size: 2.25rem;
+                }
+                
+                .section {
+                    padding: 6rem 5%;
+                }
+                
+                .location-info, .amenity-category, .review-card {
+                    padding: 2rem;
+                }
+                
+                .footer-links {
+                    gap: 1.5rem;
+                }
+                
+                .image-split-container {
+                    flex-direction: column;
+                    height: 350px;
+                }
+                
+                .image-split-container img {
+                    width: 100%;
+                    height: 50%;
+                }
+                
+                .image-split-container img:first-child {
+                    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+                }
+                
+                .image-split-container img:last-child {
+                    border-radius: 0;
+                }
             }
             
-            // Close mobile menu on link click
-            document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', function() {
-                    nav.classList.remove('active');
-                    overlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
-            });
-            
-            // Lightbox
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const lightboxCaption = document.querySelector('.lightbox-caption');
-            const closeLightbox = document.querySelector('.close-lightbox');
-            const galleryImages = document.querySelectorAll('.gallery-img');
-            
-            galleryImages.forEach(img => {
-                img.addEventListener('click', function() {
-                    lightbox.style.display = 'block';
-                    lightboxImg.src = this.src;
-                    lightboxCaption.textContent = this.alt;
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-            
-            if (closeLightbox) {
-                closeLightbox.addEventListener('click', function() {
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                });
+            @media (max-width: 480px) {
+                .hero-content {
+                    padding: 2rem;
+                }
+                
+                .hero-content h1 {
+                    font-size: 2rem;
+                }
+                
+                .section-title h2 {
+                    font-size: 1.8rem;
+                }
+                
+                .btn {
+                    padding: 1rem 2rem;
+                    width: 100%;
+                }
+                
+                .amenities-grid, .reviews-container {
+                    grid-template-columns: 1fr;
+                }
             }
-            
-            if (lightbox) {
-                lightbox.addEventListener('click', function(e) {
-                    if (e.target === lightbox) {
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Header with Navigation -->
+        <header>
+            <div class="nav-container">
+                <div class="logo">Casa <span>Olivia</span></div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul>
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#amenities" class="nav-link">Amenities</a></li>
+                        <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                        <li><a href="#location" class="nav-link">Location</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li>
+                            <div class="language-selector">
+                                <button class="language-btn">
+                                    <i class="fas fa-language"></i>
+                                    <span>English</span>
+                                    <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 0.5rem;"></i>
+                                </button>
+                                <div class="language-dropdown" id="languageDropdown">
+                                    <a href="#" class="translate-link" data-lang="en" data-name="English">
+                                        <img src="https://flagcdn.com/w40/gb.png" class="language-flag">
+                                        English
+                                    </a>
+                                    <a href="#" class="translate-link" data-lang="es" data-name="Español">
+                                        <img src="https://flagcdn.com/w40/es.png" class="language-flag">
+                                        Español
+                                    </a>
+                                    <a href="#" class="translate-link" data-lang="fr" data-name="Français">
+                                        <img src="https://flagcdn.com/w40/fr.png" class="language-flag">
+                                        Français
+                                    </a>
+                                    <a href="#" class="translate-link" data-lang="de" data-name="Deutsch">
+                                        <img src="https://flagcdn.com/w40/de.png" class="language-flag">
+                                        Deutsch
+                                    </a>
+                                    <a href="#" class="translate-link" data-lang="it" data-name="Italiano">
+                                        <img src="https://flagcdn.com/w40/it.png" class="language-flag">
+                                        Italiano
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="overlay"></div>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Experience Luxury at Casa Olivia</h1>
+                <p>Your perfect vacation home with private pool, just minutes from the beach. Modern amenities in a serene setting for unforgettable holidays.</p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem;">
+                    <a href="#contact" class="btn">Book Now</a>
+                    <a href="#about" class="btn btn-outline">Explore More</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section - FIXED CARDS -->
+        <section class="section" id="about">
+            <div class="section-title">
+                <h2>Your Home Away From Home</h2>
+                <p>Casa Olivia offers a perfect blend of comfort and luxury in a prime location near the beach and local amenities.</p>
+            </div>
+            <div class="about-grid">
+                <!-- Card 1: Spacious Living -->
+                <div class="about-card">
+                    <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NzE4ODIwMjU0NDg3MDIwMzgw/original/dace2a77-e90f-43e8-94b3-1eeb331f79bf.jpeg?im_w=1440" alt="Spacious Living Area" class="gallery-img">
+                    <div class="about-card-content">
+                        <h3>Spacious Living</h3>
+                        <p>Modern, air-conditioned rooms with comfortable furnishings and all the amenities you need for a perfect stay.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Private Heated Pool -->
+                <div class="about-card">
+                    <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/42a88971-ec45-4fa7-ba17-df1b6d632f52.jpeg?im_w=1200" alt="Private Heated Pool" class="gallery-img">
+                    <div class="about-card-content">
+                        <h3>Private Heated Pool</h3>
+                        <p>Enjoy our saltwater pool available year-round, heated to the perfect temperature for your relaxation.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 3: Outdoor Oasis (Split Images) -->
+                <div class="about-card split-images">
+                    <div class="image-split-container">
+                        <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/a5b8913d-4108-47ff-8984-222888bbbff8.jpeg?im_w=1440" alt="Outdoor Dining Area" class="gallery-img">
+                        <img src="https://a0.muscache.com/im/pictures/miso/Hosting-718820254487020380/original/6a8a5005-d38f-49bd-b2ab-91ee70a69914.jpeg?im_w=1440" alt="Outdoor Lounge Area" class="gallery-img">
+                    </div>
+                    <div class="about-card-content">
+                        <h3>Outdoor Oasis</h3>
+                        <p>Beautiful patio with sun loungers, outdoor dining, and BBQ facilities for perfect al fresco evenings.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox -->
+        <div id="lightbox" class="lightbox">
+            <span class="close-lightbox">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <div class="lightbox-caption"></div>
+        </div>
+
+        <!-- Amenities Section -->
+        <section class="section amenities" id="amenities">
+            <div class="section-title">
+                <h2>What We Offer</h2>
+                <p>Casa Olivia is fully equipped with everything you need for a comfortable and enjoyable stay.</p>
+            </div>
+            <div class="amenities-grid">
+                <div class="amenity-category">
+                    <h3>Bathroom</h3>
+                    <ul class="amenity-list">
+                        <li>Hair dryer</li>
+                        <li>Cleaning products</li>
+                        <li>Body soap</li>
+                        <li>Bidet</li>
+                        <li>Outdoor shower</li>
+                        <li>Hot water</li>
+                    </ul>
+                </div>
+                <div class="amenity-category">
+                    <h3>Bedroom & Laundry</h3>
+                    <ul class="amenity-list">
+                        <li>Free washer – In unit</li>
+                        <li>Essentials (towels, bed sheets, soap)</li>
+                        <li>Hangers</li>
+                        <li>Bed linens</li>
+                        <li>Extra pillows and blankets</li>
+                        <li>Room-darkening shades</li>
+                        <li>Iron</li>
+                        <li>Drying rack</li>
+                        <li>Walk-in closet</li>
+                    </ul>
+                </div>
+                <div class="amenity-category">
+                    <h3>Entertainment</h3>
+                    <ul class="amenity-list">
+                        <li>Ethernet connection</li>
+                        <li>TV</li>
+                        <li>Family crib available</li>
+                        <li>Pack 'n play/Travel crib</li>
+                    </ul>
+                </div>
+                <div class="amenity-category">
+                    <h3>Heating & Cooling</h3>
+                    <ul class="amenity-list">
+                        <li>Air conditioning</li>
+                        <li>Indoor fireplace: pellet stove</li>
+                        <li>Split type ductless system</li>
+                    </ul>
+                </div>
+                <div class="amenity-category">
+                    <h3>Kitchen & Dining</h3>
+                    <ul class="amenity-list">
+                        <li>Full kitchen</li>
+                        <li>Refrigerator</li>
+                        <li>Microwave</li>
+                        <li>Cooking basics</li>
+                        <li>Dishes and silverware</li>
+                        <li>Freezer</li>
+                        <li>Dishwasher</li>
+                        <li>Induction stove</li>
+                        <li>Single oven</li>
+                        <li>Hot water kettle</li>
+                        <li>Coffee maker</li>
+                        <li>Wine glasses</li>
+                        <li>Toaster</li>
+                        <li>Baking sheet</li>
+                        <li>Blender</li>
+                        <li>Barbecue utensils</li>
+                        <li>Dining table</li>
+                    </ul>
+                </div>
+                <div class="amenity-category">
+                    <h3>Outdoor & Location</h3>
+                    <ul class="amenity-list">
+                        <li>Shared beach access</li>
+                        <li>Private entrance</li>
+                        <li>Private patio/balcony</li>
+                        <li>Backyard</li>
+                        <li>Outdoor furniture</li>
+                        <li>Outdoor dining area</li>
+                        <li>BBQ grill</li>
+                        <li>Sun loungers</li>
+                        <li>Free parking (driveway + street)</li>
+                        <li>Private outdoor pool (heated, saltwater)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="section" id="reviews">
+            <div class="section-title">
+                <h2>What Our Guests Say</h2>
+                <p>Don't just take our word for it - here's what our guests have to say about their stay at Casa Olivia.</p>
+            </div>
+            <div class="reviews-container">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">M</div>
+                        <div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-author">Madeleine</div>
+                            <div class="review-date">January 2025</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        "Had a great time. The place was sleek, clean and everything worked to a high standard (bed comfy, showers hot and powerful, pool over 27° every time we checked...). The location was fantastic; the streets were clean, the buildings smart, we felt safe and obviously the beach and supermarket being within a stones throw all made for a easy, relaxing and enjoyable trip."
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">T</div>
+                        <div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-author">Terhi</div>
+                            <div class="review-date">December 2024</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        "The apartment is exactly as described and well located. The kitchen is well-equipped for dining with a larger group. Communication with both Nikolas and the housekeeper, Elena, was smooth and immediate."
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">M</div>
+                        <div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-author">Maria</div>
+                            <div class="review-date">June 2024</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        "We are very happy with our stay and would not hesitate to come back for another stay in Nikolas' house! Especially the outdoor area with the pool was much appreciated and exactly what we wanted when travelling with a 6-month old baby. Nikolas is very helpful and reliable and we can warmly recommend others to book this house! :)"
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn btn-outline">Read All Reviews</a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section" id="contact">
+            <div class="section-title">
+                <h2>Book Your Stay</h2>
+                <p>Ready to experience Casa Olivia for yourself? Contact us to check availability or ask any questions.</p>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://www.airbnb.com/rooms/718820254487020380?source_impression_id=p3_1748532300_P3BIu3DWXdxliWSR" target="_blank" class="btn" style="padding: 1.2rem 3rem; font-size: 1.2rem;">
+                    <i class="fas fa-calendar-check"></i>
+                    Book Now on Airbnb
+                </a>
+            </div>
+        </section>
+
+        <!-- Location Section -->
+        <section class="location-section" id="location">
+            <div class="section-title">
+                <h2>Find Us</h2>
+                <p>Conveniently located in the heart of Torrevieja</p>
+            </div>
+            <div class="location-container">
+                <div class="location-info">
+                    <h3>Our Address</h3>
+                    <p><strong>18 Avenida Roentgen</strong></p>
+                    <p>Torrevieja, Spain</p>
+                    <p>Just minutes away from the beach and local amenities</p>
+                    <div class="location-details">
+                        <p><i class="fas fa-walking"></i> <span>5 minutes to the beach</span></p>
+                        <p><i class="fas fa-shopping-bag"></i> <span>3 minutes to supermarkets</span></p>
+                        <p><i class="fas fa-utensils"></i> <span>5 minutes to restaurants</span></p>
+                        <p><i class="fas fa-car"></i> <span>Free parking available</span></p>
+                    </div>
+                </div>
+                <div class="location-map">
+                    <iframe 
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=18+Avenida+Roentgen+Torrevieja+Spain&zoom=16&maptype=satellite"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">Casa <span>Olivia</span></div>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#amenities">Amenities</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#location">Location</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="copyright">
+                    &copy; 2025 Casa Olivia. All rights reserved. | Luxury Vacation Home in Torrevieja, Spain
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // CORRECT TRANSLATION LOGIC - Creates URLs exactly like your example
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get the base URL from meta tag or use current page
+                const baseUrlMeta = document.querySelector('meta[name="base-url"]');
+                const baseUrl = baseUrlMeta ? baseUrlMeta.getAttribute('content') : window.location.href;
+                
+                console.log('Base URL for translation:', baseUrl);
+                
+                // Function to create EXACT Google Translate URLs like your example
+                function generateTranslateUrl(targetLang) {
+                    // Parse the base URL
+                    const url = new URL(baseUrl);
+                    const domain = url.hostname; // "debrainers.xyz"
+                    const path = url.pathname; // "/casa.html"
+                    
+                    // Convert domain to the format Google Translate uses
+                    // "debrainers.xyz" becomes "debrainers-xyz" (dots become hyphens)
+                    const translateDomain = domain.replace(/\./g, '-');
+                    
+                    // Build the EXACT URL format like your example:
+                    // https://debrainers-xyz.translate.goog/casa.html?_x_tr_sl=en&_x_tr_tl=ru&_x_tr_hl=de&_x_tr_pto=wapp
+                    const translateUrl = `https://${translateDomain}.translate.goog${path}?_x_tr_sl=en&_x_tr_tl=${targetLang}&_x_tr_hl=${targetLang}&_x_tr_pto=wapp`;
+                    
+                    console.log('Generated translation URL:', translateUrl);
+                    return translateUrl;
+                }
+                
+                // Set up translation links
+                const translateLinks = document.querySelectorAll('.translate-link');
+                const languageBtn = document.querySelector('.language-btn span');
+                const languageDropdown = document.getElementById('languageDropdown');
+                
+                translateLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetLang = this.getAttribute('data-lang');
+                        const languageName = this.getAttribute('data-name');
+                        
+                        // Update button text
+                        if (languageBtn) languageBtn.textContent = languageName;
+                        
+                        // Close dropdown
+                        if (languageDropdown) languageDropdown.classList.remove('show');
+                        
+                        // Generate and open the EXACT translation URL
+                        const translateUrl = generateTranslateUrl(targetLang);
+                        window.open(translateUrl, '_blank');
+                    });
+                });
+                
+                // Language dropdown toggle
+                const languageDropdownBtn = document.querySelector('.language-btn');
+                if (languageDropdownBtn) {
+                    languageDropdownBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (languageDropdown) languageDropdown.classList.toggle('show');
+                    });
+                }
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.language-selector')) {
+                        if (languageDropdown) languageDropdown.classList.remove('show');
+                    }
+                });
+                
+                // Mobile menu
+                const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+                const nav = document.querySelector('nav');
+                const overlay = document.querySelector('.overlay');
+                
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.addEventListener('click', function() {
+                        nav.classList.toggle('active');
+                        overlay.classList.toggle('active');
+                        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+                    });
+                }
+                
+                if (overlay) {
+                    overlay.addEventListener('click', function() {
+                        nav.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+                
+                // Close mobile menu on link click
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        nav.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+                
+                // Lightbox
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                const lightboxCaption = document.querySelector('.lightbox-caption');
+                const closeLightbox = document.querySelector('.close-lightbox');
+                const galleryImages = document.querySelectorAll('.gallery-img');
+                
+                galleryImages.forEach(img => {
+                    img.addEventListener('click', function() {
+                        lightbox.style.display = 'block';
+                        lightboxImg.src = this.src;
+                        lightboxCaption.textContent = this.alt;
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+                
+                if (closeLightbox) {
+                    closeLightbox.addEventListener('click', function() {
+                        lightbox.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+                
+                if (lightbox) {
+                    lightbox.addEventListener('click', function(e) {
+                        if (e.target === lightbox) {
+                            lightbox.style.display = 'none';
+                            document.body.style.overflow = 'auto';
+                        }
+                    });
+                }
+                
+                // Close lightbox with Escape
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && lightbox.style.display === 'block') {
                         lightbox.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }
                 });
-            }
-            
-            // Close lightbox with Escape
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                    lightbox.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-            
-            // Smooth scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        e.preventDefault();
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
+                
+                // Smooth scrolling
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const targetId = this.getAttribute('href');
+                        if (targetId === '#') return;
+                        
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            e.preventDefault();
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+                
+                // Header scroll effect
+                window.addEventListener('scroll', function() {
+                    const header = document.querySelector('header');
+                    if (window.scrollY > 100) {
+                        header.style.boxShadow = 'var(--shadow-md)';
+                    } else {
+                        header.style.boxShadow = 'var(--shadow-sm)';
                     }
                 });
             });
-            
-            // Header scroll effect
-            window.addEventListener('scroll', function() {
-                const header = document.querySelector('header');
-                if (window.scrollY > 100) {
-                    header.style.boxShadow = 'var(--shadow-md)';
-                } else {
-                    header.style.boxShadow = 'var(--shadow-sm)';
-                }
-            });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
