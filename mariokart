@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mario Kart Cup Picker</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+html,body{height:100%;background:#000}
+body{display:flex;justify-content:center;align-items:center;background:#0a0a0a;padding:15px}
+#a{width:100%;max-width:1400px;height:100%;background:#0f0f0f;border-radius:12px;overflow:hidden;border:1px solid #222;display:flex;flex-direction:column}
+#b{padding:20px 20px 12px;text-align:center;background:#111;border-bottom:1px solid #222}
+#c{font-size:2.2rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:0.5px}
+#d{font-size:0.9rem;color:#888}
+#e{display:flex;gap:10px;justify-content:center;padding:15px;background:#121212;border-bottom:1px solid #222;flex-wrap:wrap}
+.f{background:#1c1c1c;border:1px solid #2c2c2c;color:#ddd;padding:10px 24px;font-size:0.9rem;border-radius:8px;cursor:pointer;transition:all 0.2s ease;font-weight:500}
+.f:hover{background:#242424;border-color:#3c3c3c}
+.f.active{background:#fff;color:#000;border-color:#fff}
+#g{display:flex;gap:8px;justify-content:center;padding:12px;background:#121212;border-bottom:1px solid #222;flex-wrap:wrap}
+.h{background:#1c1c1c;border:1px solid #2c2c2c;color:#bbb;padding:8px 20px;font-size:0.85rem;border-radius:6px;cursor:pointer;transition:all 0.2s ease}
+.h:hover{background:#242424;border-color:#3c3c3c;color:#fff}
+#i{padding:20px;flex:1;overflow-y:auto;background:#0f0f0f}
+#j{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:12px;max-width:1400px;margin:0 auto}
+.k{background:#181818;border:1px solid #282828;border-radius:10px;padding:16px;display:flex;align-items:center;cursor:pointer;transition:all 0.2s ease;position:relative}
+.k:hover{background:#202020;border-color:#383838;transform:translateY(-2px)}
+.k.selected{border:2px solid #fff}
+.k.selected::after{content:'';position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:12px;background:linear-gradient(45deg,transparent,transparent);pointer-events:none}
+.l{width:20px;height:20px;border:1px solid #3c3c3c;border-radius:5px;margin-right:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s ease}
+.k.selected .l{background:#fff;border-color:#fff}
+.l::after{content:'✓';color:#000;font-size:13px;font-weight:bold;opacity:0}
+.k.selected .l::after{opacity:1}
+.m{flex:1}
+.n{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:3px}
+.o{font-size:0.75rem;color:#777;text-transform:uppercase;letter-spacing:1px}
+.p{width:45px;height:45px;object-fit:contain;filter:brightness(0.95)}
+#q{text-align:center;padding:20px;background:#111;border-top:1px solid #222}
+#r{background:#fff;color:#000;border:none;padding:16px 48px;font-size:1.3rem;font-weight:700;border-radius:10px;cursor:pointer;transition:all 0.3s ease;letter-spacing:0.5px;box-shadow:0 6px 20px rgba(0,0,0,0.4)}
+#r:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.5)}
+#r:active{transform:translateY(-1px)}
+#r:disabled{opacity:0.5;cursor:not-allowed}
+#y{color:#888;font-size:0.9rem;text-align:center;margin-top:12px}
+#y span{color:#fff;font-weight:600}
+#s{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.98);display:none;justify-content:center;align-items:center;z-index:1000;flex-direction:column;opacity:0;transition:opacity 0.4s ease}
+#s.show{opacity:1}
+#t{width:320px;height:320px;background:#121212;border-radius:50%;display:flex;justify-content:center;align-items:center;border:3px solid #fff;box-shadow:0 0 50px rgba(255,255,255,0.1);position:relative;overflow:hidden;transform:scale(0.8);transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275)}
+#s.show #t{transform:scale(1)}
+#u{width:180px;height:180px;object-fit:contain;filter:brightness(1)}
+#v{color:#fff;font-size:2.2rem;font-weight:700;margin-top:25px;text-align:center;letter-spacing:0.5px;min-height:50px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all 0.4s ease}
+#w{color:#888;font-size:0.9rem;margin-top:5px;text-transform:uppercase;letter-spacing:1px;min-height:20px;opacity:0;transform:translateY(20px);transition:all 0.4s ease}
+#x{position:absolute;bottom:30px;background:#1c1c1c;border:1px solid #2c2c2c;color:#ccc;padding:10px 32px;border-radius:8px;cursor:pointer;font-size:0.95rem;transition:all 0.2s ease;opacity:0;transform:translateY(20px)}
+#x:hover{background:#242424;border-color:#3c3c3c}
+.show-result{opacity:1!important;transform:translateY(0)!important}
+.spin-fast{animation:spin1 0.08s linear infinite}
+.spin-medium{animation:spin2 0.12s linear infinite}
+.spin-slow{animation:spin3 0.18s linear infinite}
+.spin-very-slow{animation:spin4 0.25s linear infinite}
+.spin-final{animation:spin5 0.4s ease-in-out infinite}
+@keyframes spin1{0%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.02) rotate(1.5deg)}100%{transform:scale(1) rotate(0deg)}}
+@keyframes spin2{0%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.01) rotate(0.8deg)}100%{transform:scale(1) rotate(0deg)}}
+@keyframes spin3{0%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.005) rotate(0.4deg)}100%{transform:scale(1) rotate(0deg)}}
+@keyframes spin4{0%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.002) rotate(0.2deg)}100%{transform:scale(1) rotate(0deg)}}
+@keyframes spin5{0%,100%{transform:scale(1)}50%{transform:scale(1.008)}}
+.pulse-reveal{animation:pulseReveal 0.8s cubic-bezier(0.175,0.885,0.32,1.275) forwards}
+@keyframes pulseReveal{0%{transform:scale(0.7);opacity:0}70%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
+.select-pop{animation:selectPop 0.3s ease}
+@keyframes selectPop{0%{transform:scale(1)}50%{transform:scale(0.92)}100%{transform:scale(1)}}
+@media (max-width:768px){#c{font-size:1.8rem}#j{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}#t{width:280px;height:280px}#u{width:150px;height:150px}}
+@media (max-width:480px){#j{grid-template-columns:1fr}#c{font-size:1.6rem}.f,.h{padding:8px 16px}#e,#g{gap:6px}#t{width:240px;height:240px}#u{width:130px;height:130px}}
+</style>
+</head>
+<body>
+<div id="a">
+<div id="b">
+<div id="c">Mario Kart Cup Picker</div>
+<div id="d">Select cups and spin to randomize</div>
+</div>
+<div id="e">
+<div class="f active" data-filter="all">All Cups</div>
+<div class="f" data-filter="standard">Standard</div>
+<div class="f" data-filter="dlc">DLC</div>
+</div>
+<div id="g">
+<div class="h" data-select="all">Select All</div>
+<div class="h" data-select="none">Select None</div>
+<div class="h" data-select="standard">Standard</div>
+<div class="h" data-select="dlc">DLC</div>
+</div>
+<div id="i">
+<div id="j"></div>
+</div>
+<div id="q">
+<button id="r">Spin Wheel</button>
+<div id="y">Selected: <span id="z">24</span> / 24 cups</div>
+</div>
+</div>
+<div id="s">
+<div id="t">
+<img id="u" src="" class="spin-fast">
+</div>
+<div id="v"></div>
+<div id="w"></div>
+<button id="x">Spin Again</button>
+</div>
+<script>
+const a=[
+{name:"Mushroom Cup",type:"standard",icon:"https://www.mariowiki.com/images/1/15/MK8_MushroomCup.png?fea4f"},
+{name:"Flower Cup",type:"standard",icon:"https://www.mariowiki.com/images/a/a8/MK8_FlowerCup.png?5435f"},
+{name:"Star Cup",type:"standard",icon:"https://www.mariowiki.com/images/7/78/MK8_Star_Cup_Emblem.png?7d30a"},
+{name:"Special Cup",type:"standard",icon:"https://www.mariowiki.com/images/6/65/MK8_Special_Cup_Emblem.png?69cfa"},
+{name:"Egg Cup",type:"standard",icon:"https://www.mariowiki.com/images/e/ea/MK8_Egg_Cup_Emblem.png?d0208"},
+{name:"Crossing Cup",type:"standard",icon:"https://www.mariowiki.com/images/9/92/MK8_Crossing_Cup_Emblem.png?1f8d7"},
+{name:"Shell Cup",type:"standard",icon:"https://www.mariowiki.com/images/c/cc/MK8_Shell_Cup_Emblem.png?222a8"},
+{name:"Banana Cup",type:"standard",icon:"https://www.mariowiki.com/images/7/76/MK8_Banana_Cup_Emblem.png?00e77"},
+{name:"Leaf Cup",type:"standard",icon:"https://www.mariowiki.com/images/2/28/MK8_Leaf_Cup_Emblem.png?7a22b"},
+{name:"Lightning Cup",type:"standard",icon:"https://www.mariowiki.com/images/1/19/MK8_Lightning_Cup_Emblem.png?74c18"},
+{name:"Triforce Cup",type:"standard",icon:"https://www.mariowiki.com/images/6/6b/MK8_Triforce_Cup_Emblem.png?4049f"},
+{name:"Bell Cup",type:"standard",icon:"https://www.mariowiki.com/images/8/82/MK8_Bell_Cup_Emblem.png?e7dea"},
+{name:"Golden Dash Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/golden-dash-cup.png"},
+{name:"Lucky Cat Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/lucky-cat-cup.png"},
+{name:"Turnip Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/turnip-cup.png"},
+{name:"Propeller Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/propeller-cup.png"},
+{name:"Rock Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/rock-cup.png"},
+{name:"Moon Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/moon-cup.png"},
+{name:"Fruit Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/fruit-cup.png"},
+{name:"Boomerang Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/boomerang-cup.png"},
+{name:"Feather Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/feather-cup.png"},
+{name:"Cherry Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/cherry-cup.png"},
+{name:"Acorn Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/acorn-cup.png"},
+{name:"Spiny Cup",type:"dlc",icon:"https://mariokart8.nintendo.com/assets/img/booster/cup-badges/spiny-cup.png"}
+];
+let b=[...a];
+let c="all";
+const d=document.getElementById('j');
+const e=document.querySelectorAll('.f');
+const f=document.querySelectorAll('.h');
+const g=document.getElementById('z');
+const h=document.getElementById('r');
+const i=document.getElementById('s');
+const j=document.getElementById('u');
+const k=document.getElementById('v');
+const l=document.getElementById('w');
+const m=document.getElementById('x');
+function n(){
+d.innerHTML='';
+let o=[...a];
+if(c==="standard"){o=o.filter(q=>q.type==="standard");b=b.filter(q=>q.type==="standard")}
+else if(c==="dlc"){o=o.filter(q=>q.type==="dlc");b=b.filter(q=>q.type==="dlc")}
+o.forEach((p,q)=>{
+const r=document.createElement('div');
+r.className='k';
+if(b.includes(p)){r.classList.add('selected')}
+r.innerHTML=`
+<div class="l"></div>
+<div class="m">
+<div class="n">${p.name}</div>
+<div class="o">${p.type.toUpperCase()}</div>
+</div>
+<img src="${p.icon}" class="p">
+`;
+r.addEventListener('click',()=>{
+if(c==="all"||p.type===c){
+const s=b.includes(p);
+if(s){b=b.filter(t=>t!==p);r.classList.remove('selected')}
+else{b.push(p);r.classList.add('selected');r.classList.add('select-pop')}
+setTimeout(()=>r.classList.remove('select-pop'),300);
+g.textContent=b.length;
+}
+});
+d.appendChild(r);
+});
+g.textContent=b.length;
+}
+function o(){
+e.forEach(p=>{
+p.addEventListener('click',()=>{
+e.forEach(q=>q.classList.remove('active'));
+p.classList.add('active');
+c=p.dataset.filter;
+n();
+});
+});
+}
+function p(){
+f.forEach(q=>{
+q.addEventListener('click',()=>{
+const r=q.dataset.select;
+if(r==='all'){b=[...a]}
+else if(r==='none'){b=[]}
+else if(r==='standard'){b=a.filter(s=>s.type==='standard')}
+else if(r==='dlc'){b=a.filter(s=>s.type==='dlc')}
+if(c!=="all"){
+if(c==="standard"){b=b.filter(s=>s.type==="standard")}
+else if(c==="dlc"){b=b.filter(s=>s.type==="dlc")}
+}
+n();
+});
+});
+}
+function q(){
+if(b.length===0){return}
+h.disabled=true;
+setTimeout(()=>{
+i.style.display='flex';
+setTimeout(()=>i.classList.add('show'),10);
+k.classList.remove('show-result');
+l.classList.remove('show-result');
+m.classList.remove('show-result');
+k.style.opacity="0";
+l.style.opacity="0";
+m.style.opacity="0";
+k.textContent="";
+l.textContent="";
+},300);
+let r=null;
+let s=0;
+const t=[[10,50],[8,62.5],[5,100],[3,166.67],[2,250],[1,500]];
+const u=["spin-fast","spin-medium","spin-slow","spin-very-slow","spin-final","spin-final"];
+let v=0;
+let w=0;
+function x(){
+const y=b[Math.floor(Math.random()*b.length)];
+j.src=y.icon;
+j.className=u[v];
+s++;
+if(w<t[v][0]){
+setTimeout(x,t[v][1]);
+w++;
+}else{
+v++;
+w=0;
+if(v<t.length){
+setTimeout(x,t[v][1]);
+}else{
+r=y;
+setTimeout(()=>{
+j.classList.remove(u[u.length-1]);
+j.classList.add("pulse-reveal");
+setTimeout(()=>{
+setTimeout(()=>{
+k.textContent=r.name;
+l.textContent=r.type.toUpperCase()+' CUP';
+setTimeout(()=>{
+k.classList.add("show-result");
+l.classList.add("show-result");
+setTimeout(()=>{
+m.classList.add("show-result");
+h.disabled=false;
+},200);
+},100);
+},500);
+},400);
+},100);
+}
+}
+}
+setTimeout(x,300);
+}
+h.addEventListener('click',q);
+m.addEventListener('click',()=>{
+i.classList.remove('show');
+setTimeout(()=>{
+i.style.display='none';
+k.classList.remove('show-result');
+l.classList.remove('show-result');
+m.classList.remove('show-result');
+k.textContent="";
+l.textContent="";
+j.classList.remove("pulse-reveal");
+j.className="spin-fast";
+},400);
+});
+n();
+o();
+p();
+</script>
+</body>
+</html>
