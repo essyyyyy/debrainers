@@ -395,7 +395,7 @@ Slider25.Size = Vector2.new(189, 10)
 Slider25.Position = Vector2.new(34.5, 117.5)
 Slider25.ZIndex = 30
 Slider25.Corner = 18
-local Slider25_Value = 0
+local Slider25_Value = 0.0
 local Slider25_Knob = Drawing.new("Square")
 Slider25_Knob.Visible = true
 Slider25_Knob.Transparency = 1
@@ -407,7 +407,7 @@ Slider25_Knob.ZIndex = 31
 Slider25_Knob.Corner = 100
 local Slider25_ValueText = Drawing.new("Text")
 Slider25_ValueText.Visible = true
-Slider25_ValueText.Text = tostring(math.floor(Slider25_Value)) .. ""
+Slider25_ValueText.Text = string.format("%.3f", Slider25_Value)
 Slider25_ValueText.Size = 16
 Slider25_ValueText.Center = true
 Slider25_ValueText.Outline = true
@@ -559,6 +559,64 @@ Square32_Border.Position = Square32.Position
 Square32_Border.Size = Square32.Size
 Square32_Border.Corner = 29
 
+-- Switch36 (Switch) - Anti Stomp toggle
+local Switch36 = Drawing.new("Switch")
+Switch36.Visible = true
+Switch36.Transparency = 1
+Switch36.ZIndex = 130
+Switch36.Color = Color3.fromHex("#ffffff")
+Switch36.Position = Square1.Position + Vector2.new(12, 398)
+
+-- Switch Switch36
+local Switch36_IsChecked = false
+local Switch36 = Drawing.new("Square")
+Switch36.Visible = true
+Switch36.Transparency = 1
+Switch36.Color = Color3.fromHex("#000000")
+Switch36.Thickness = 1
+Switch36.Filled = false
+Switch36.Size = Vector2.new(40, 26)
+Switch36.Position = Vector2.new(21, 406)
+Switch36.ZIndex = 130
+Switch36.Corner = 18
+local Switch36_Bg = Drawing.new("Square")
+Switch36_Bg.Visible = true
+Switch36_Bg.Transparency = 1
+Switch36_Bg.Color = Color3.fromHex("#ffffff")
+Switch36_Bg.Filled = true
+Switch36_Bg.Size = Switch36.Size
+Switch36_Bg.Position = Switch36.Position
+Switch36_Bg.ZIndex = 130
+Switch36_Bg.Corner = 18
+local Switch36_IndBorder = Drawing.new("Square")
+Switch36_IndBorder.Visible = true
+Switch36_IndBorder.Transparency = 1
+Switch36_IndBorder.Color = Color3.fromHex("#000000")
+Switch36_IndBorder.Thickness = 1
+Switch36_IndBorder.Filled = false
+Switch36_IndBorder.Size = Vector2.new(24, 24)
+Switch36_IndBorder.ZIndex = 132
+Switch36_IndBorder.Corner = 18
+local Switch36_Ind = Drawing.new("Square")
+Switch36_Ind.Visible = true
+Switch36_Ind.Transparency = 1
+Switch36_Ind.Color = Color3.fromHex("#444444")
+Switch36_Ind.Filled = true
+Switch36_Ind.Size = Vector2.new(24, 24)
+Switch36_Ind.ZIndex = 132
+Switch36_Ind.Corner = 18
+Switch36_IndBorder.Position = Switch36.Position + Vector2.new(1, 1)
+Switch36_Ind.Position = Switch36.Position + Vector2.new(1, 1)
+local Switch36_Label = Drawing.new("Text")
+Switch36_Label.Visible = true
+Switch36_Label.Text = "anti stomp"
+Switch36_Label.Size = 16
+Switch36_Label.Color = Color3.fromHex("#FFFFFF")
+Switch36_Label.Outline = true
+Switch36_Label.Font = Drawing.Fonts.UI
+Switch36_Label.Position = Switch36.Position + Vector2.new(50, 5)
+Switch36_Label.ZIndex = 131
+
 local KeyNames = {
     [48] = "0", [49] = "1", [50] = "2", [51] = "3", [52] = "4", [53] = "5", [54] = "6", [55] = "7", [56] = "8", [57] = "9",
     [1] = "LeftMouse", [2] = "RightMouse", [4] = "MiddleMouse",
@@ -577,6 +635,8 @@ local KeyNames = {
 local targetPlayer = nil
 local orbitEnabled = false
 local autoStompEnabled = false
+local antiStompEnabled = false
+local antiStompActive = false
 local manualVoidEnabled = false
 local teleporting = false
 local autoVoidActive = false
@@ -594,6 +654,58 @@ local lastStompTime = 0
 local stompActive = false
 local stompEndTime = 0
 local orbitActive = false
+
+local OFFSET = 0x18C
+
+function resetHumanoidState()
+    local character = player.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChild("Humanoid")
+    if not humanoid then return end
+    
+    local addr = humanoid.Address
+    if not addr then return end
+    
+    local v = Vector3.new(0, 0, 0)
+    
+    pcall(function()
+        memory_write("float", addr + OFFSET,     v.X)
+        memory_write("float", addr + OFFSET + 4, v.Y)
+        memory_write("float", addr + OFFSET + 8, v.Z)
+    end)
+end
+
+function checkAntiStomp()
+    if not antiStompEnabled then 
+        antiStompActive = false
+        return 
+    end
+    
+    local character = player.Character
+    if not character then return end
+    
+    local bodyEffects = character:FindFirstChild("BodyEffects")
+    if not bodyEffects then return end
+    
+    local koValue = bodyEffects:FindFirstChild("K.O")
+    if koValue and koValue.Value then
+        resetHumanoidState()
+        if not antiStompActive then
+            antiStompActive = true
+            notify("anti stomp activated", "anti stomp", 5)
+        end
+    else
+        antiStompActive = false
+    end
+end
+
+task.spawn(function()
+    while true do
+        task.wait(0.1)
+        checkAntiStomp()
+    end
+end)
 
 function speedToPercent(speed)
     local maxSpeed = 0.1
@@ -787,13 +899,6 @@ end
 function shouldAutoVoid()
     if targetPlayer and hasSpawnProtection(targetPlayer) then
         return true, "spawn protection"
-    end
-    local character = player.Character
-    if character then
-        local humanoid = character:FindFirstChild("Humanoid")
-        if humanoid and humanoid.Health < 30 then
-            return true, "health below 30"
-        end
     end
     return false, nil
 end
@@ -1100,6 +1205,7 @@ while true do
                 autoVoidActive = false
                 returnToStartPosition()
                 orbitStartPosition = nil
+                notify("stomp off", "stomp", 5)
             end
             task.wait(0.2)
         end
@@ -1135,6 +1241,7 @@ while true do
                 Switch21_IndBorder.Position = Switch21.Position + Vector2.new(1, 1)
                 Switch21_Ind.Position = Switch21.Position + Vector2.new(1, 1)
                 returnToVoidStartPosition()
+                notify("returned to start", "void", 5)
             end
             task.wait(0.2)
         end
@@ -1160,6 +1267,7 @@ while true do
             else
                 Switch28_IndBorder.Position = Switch28.Position + Vector2.new(1, 1)
                 Switch28_Ind.Position = Switch28.Position + Vector2.new(1, 1)
+                notify("stomp off", "stomp", 5)
             end
             task.wait(0.2)
         end
@@ -1229,6 +1337,11 @@ while true do
             Text31.Visible = newState
             Square32.Visible = newState
             Square32_Border.Visible = newState
+            Switch36.Visible = newState
+            Switch36_Bg.Visible = newState
+            Switch36_IndBorder.Visible = newState
+            Switch36_Ind.Visible = newState
+            Switch36_Label.Visible = newState
             task.wait(0.2)
         end
         
@@ -1294,6 +1407,7 @@ while true do
                     autoVoidActive = false
                     returnToStartPosition()
                     orbitStartPosition = nil
+                    notify("stomp off", "stomp", 5)
                 end
             end
             
@@ -1320,6 +1434,7 @@ while true do
                     Switch21_IndBorder.Position = Switch21.Position + Vector2.new(1, 1)
                     Switch21_Ind.Position = Switch21.Position + Vector2.new(1, 1)
                     returnToVoidStartPosition()
+                    notify("returned to start", "void", 5)
                 end
             end
             
@@ -1334,6 +1449,23 @@ while true do
                 else
                     Switch28_IndBorder.Position = Switch28.Position + Vector2.new(1, 1)
                     Switch28_Ind.Position = Switch28.Position + Vector2.new(1, 1)
+                    notify("stomp off", "stomp", 5)
+                end
+            end
+            
+            if Switch36_Label.Visible and mPos.X >= Switch36.Position.X and mPos.X <= Switch36.Position.X + Switch36.Size.X and
+               mPos.Y >= Switch36.Position.Y and mPos.Y <= Switch36.Position.Y + Switch36.Size.Y then
+                Switch36_IsChecked = not Switch36_IsChecked
+                antiStompEnabled = Switch36_IsChecked
+                if Switch36_IsChecked then
+                    Switch36_IndBorder.Position = Switch36.Position + Vector2.new(15, 1)
+                    Switch36_Ind.Position = Switch36.Position + Vector2.new(15, 1)
+                    notify("anti stomp on", "anti stomp", 5)
+                else
+                    Switch36_IndBorder.Position = Switch36.Position + Vector2.new(1, 1)
+                    Switch36_Ind.Position = Switch36.Position + Vector2.new(1, 1)
+                    antiStompActive = false
+                    notify("anti stomp off", "anti stomp", 5)
                 end
             end
             
@@ -1413,9 +1545,9 @@ while true do
                 if dragging.Position.X > maxX then dragging.Position = Vector2.new(maxX, dragging.Position.Y) end
                 dragging.Position = Vector2.new(dragging.Position.X, Slider25.Position.Y + 5 - dragging.Size.Y/2)
                 local percent = (dragging.Position.X - minX) / (Slider25.Size.X)
-                local value = 0 + (0.1 - 0) * percent
+                local value = percentToSpeed(percent)
                 Slider25_Value = value
-                Slider25_ValueText.Text = tostring(math.floor(value)) .. ""
+                Slider25_ValueText.Text = string.format("%.3f", value)
                 pcall(function() onChanged(value) end)
             end
             if dragging == Square1 then
@@ -1489,6 +1621,16 @@ while true do
                 Text31.Position = dragging.Position + Vector2.new(64.5, 435)
                 Square32.Position = dragging.Position + Vector2.new(10, 434)
                 Square32_Border.Position = Square32.Position
+                Switch36.Position = dragging.Position + Vector2.new(12, 398)
+                Switch36_Bg.Position = Switch36.Position
+                Switch36_Label.Position = Switch36.Position + Vector2.new(50, 5)
+                if Switch36_IsChecked then
+                    Switch36_IndBorder.Position = Switch36.Position + Vector2.new(15, 1)
+                    Switch36_Ind.Position = Switch36.Position + Vector2.new(15, 1)
+                else
+                    Switch36_IndBorder.Position = Switch36.Position + Vector2.new(1, 1)
+                    Switch36_Ind.Position = Switch36.Position + Vector2.new(1, 1)
+                end
             end
         end
         
@@ -1496,4 +1638,4 @@ while true do
     end
 end
 
-notify("orbit loaded", "orbit", 5)
+notify("orbit thingy loaded - made by debrainers", "orbit", 5)
