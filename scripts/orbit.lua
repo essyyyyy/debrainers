@@ -1,7 +1,7 @@
 loadstring(game:HttpGet("https://arcanecheats.xyz/api/matcha/uilib"))()
 repeat wait() until Arcane
 
-local Window = Arcane:CreateWindow("@debrainers", Vector2.new(650, 500), "Default")
+local Window = Arcane:CreateWindow("@debrainers", Vector2.new(650, 350), "Default")
 
 Window:CreateTabSection("Cheats")
 local Tab = Window:CreateTab("Main")
