@@ -1,12 +1,14 @@
 loadstring(game:HttpGet("https://arcanecheats.xyz/api/matcha/uilib"))()
 repeat wait() until Arcane
 
-local Window = Arcane:CreateWindow("@debrainers", Vector2.new(650, 350), "Default")
+local Window = Arcane:CreateWindow("@debrainers", Vector2.new(650, 500), "Default")
 
 Window:CreateTabSection("Cheats")
 local Tab = Window:CreateTab("Main")
 
-local Mouse = game.Players.LocalPlayer:GetMouse()
+local Players = game:GetService("Players")
+local Mouse = Players.LocalPlayer:GetMouse()
+local player = Players.LocalPlayer
 local targetPlayer = nil
 local orbitEnabled = false
 local autoStompEnabled = false
@@ -15,7 +17,6 @@ local antiStompActive = false
 local manualVoidEnabled = false
 local teleporting = false
 local autoVoidActive = false
-local player = game:GetService("Players").LocalPlayer
 local lastKnownTargetPosition = nil
 local lastKnownTarget = nil
 local lastKnownTargetName = nil
@@ -46,7 +47,7 @@ end
 
 local function updatePlayerList()
     local newNames = {}
-    for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+    for _, plr in ipairs(Players:GetPlayers()) do
         if plr ~= player then
             table.insert(newNames, plr.Name)
         end
@@ -60,7 +61,7 @@ end
 
 updatePlayerList()
 
-game:GetService("Players").PlayerAdded:Connect(function(plr)
+Players.PlayerAdded:Connect(function(plr)
     updatePlayerList()
     if lastKnownTargetName and plr.Name == lastKnownTargetName then
         targetPlayer = plr
@@ -74,7 +75,7 @@ game:GetService("Players").PlayerAdded:Connect(function(plr)
     end
 end)
 
-game:GetService("Players").PlayerRemoving:Connect(function(plr)
+Players.PlayerRemoving:Connect(function(plr)
     updatePlayerList()
     if plr == targetPlayer or (lastKnownTargetName and plr.Name == lastKnownTargetName) then
         lastKnownTarget = targetPlayer
@@ -279,7 +280,7 @@ function startOrbit()
     end
     
     local targetStillExists = false
-    for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+    for _, plr in ipairs(Players:GetPlayers()) do
         if plr.Name == targetPlayer.Name then
             targetStillExists = true
             targetPlayer = plr
@@ -331,7 +332,7 @@ function startOrbit()
             end
             
             local targetExists = false
-            for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+            for _, plr in ipairs(Players:GetPlayers()) do
                 if plr.Name == lastKnownTargetName then
                     targetExists = true
                     if targetPlayer ~= plr then
@@ -476,7 +477,7 @@ function startVoid(isAutoVoid)
                 local status = "no target"
                 
                 if lastKnownTargetName then
-                    for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+                    for _, plr in ipairs(Players:GetPlayers()) do
                         if plr.Name == lastKnownTargetName then
                             targetValid = true
                             if targetPlayer ~= plr then
@@ -569,7 +570,7 @@ local targetSection = Window:CreateSection("Target Selection", "Main")
 
 dropdown = targetSection:AddDropdown("Select Player", playerNames, "", function(selected)
     if selected and selected ~= "" then
-        for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+        for _, plr in ipairs(Players:GetPlayers()) do
             if plr.Name == selected then
                 targetPlayer = plr
                 lastKnownTarget = targetPlayer
@@ -595,7 +596,7 @@ end)
 playerInput = targetSection:AddTextBox("Search Player", "", function(text)
     if text and text ~= "" then
         local found = false
-        for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+        for _, plr in ipairs(Players:GetPlayers()) do
             if plr ~= player and string.find(plr.Name:lower(), text:lower()) then
                 targetPlayer = plr
                 lastKnownTarget = targetPlayer
