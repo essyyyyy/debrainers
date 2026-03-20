@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="live update counter">
+    <meta property="og:description" content="made with love">
+    <meta property="og:image" content="https://framerusercontent.com/images/TQvHFW21OJ2XzsKmceoaj48nQo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="live update counter">
+    <meta name="twitter:description" content="made with love">
+    <meta name="twitter:image" content="https://framerusercontent.com/images/TQvHFW21OJ2XzsKmceoaj48nQo.png">
+    <title>live update counter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: black;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', 'SF Mono', 'Fira Code', monospace;
+        }
+        .counter-container {
+            text-align: center;
+            padding: 2rem;
+        }
+        .counter-value {
+            color: white;
+            font-size: clamp(1.5rem, 8vw, 4.5rem);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            margin-bottom: 1.5rem;
+        }
+        .target-date {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: clamp(0.8rem, 3.5vw, 1rem);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 700px) {
+            .counter-value {
+                white-space: normal;
+                word-break: keep-all;
+                font-size: clamp(1.2rem, 6vw, 3rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <div class="counter-value" id="countdown">--:--:--:--:--</div>
+        <div class="target-date" id="targetDate">2028.03.20</div>
+    </div>
+    <script>
+        (function() {
+            const targetDate = new Date(2028, 2, 20, 0, 0, 0);
+            
+            function formatNumber(num) {
+                return num.toString().padStart(2, '0');
+            }
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = targetDate - now;
+                
+                if (diff <= 0) {
+                    document.getElementById('countdown').innerText = '00:00:00:00:00';
+                    return;
+                }
+                
+                const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+                const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('countdown').innerText = `${formatNumber(years)}:${formatNumber(days)}:${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        })();
+    </script>
+</body>
+</html>
