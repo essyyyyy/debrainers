@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>debrainers</title>
+<meta name="description" content="debrainers. Reverse engineering, binary analysis, low level tinkering from Dortmund, Germany.">
+<meta name="theme-color" content="#111310">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#111310;
+    --line:#242b27;
+    --text:#e6ebe4;
+    --muted:#8a958c;
+    --dim:#566159;
+    --accent:#5f9a6b;
+    --serif:"Newsreader","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --max:1000px;
+    --pad:clamp(1.5rem, 5vw, 3rem);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  a{ color:var(--text); text-decoration:none; }
+  a:hover{ color:var(--accent); }
+  p{ text-wrap:pretty; }
+  h1,h2,h3{ text-wrap:balance; }
+  ::selection{ background:var(--accent); color:#0d1a10; }
+
+  .skip{
+    position:absolute; left:-9999px; top:0;
+    background:var(--accent); color:#0d1a10;
+    padding:.6rem 1rem; font-family:var(--mono); font-size:.8rem;
+    z-index:100;
+  }
+  .skip:focus{ left:0; }
+
+  .masthead{
+    border-bottom:1px solid var(--line);
+    padding:1.4rem 0 1.15rem;
+  }
+  .masthead-inner{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 var(--pad);
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:1.5rem;
+  }
+  .masthead-name{
+    font-family:var(--mono);
+    font-size:.9rem;
+    font-weight:500;
+    color:var(--text);
+    letter-spacing:-.01em;
+  }
+  .masthead-status{
+    font-family:var(--mono);
+    font-size:.64rem;
+    color:var(--dim);
+    letter-spacing:.16em;
+    text-transform:uppercase;
+  }
+
+  main{ max-width:var(--max); margin:0 auto; padding:0 var(--pad); }
+
+  .hero{
+    padding:clamp(3.5rem, 9vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
+  }
+
+  h1{
+    font-family:var(--serif);
+    font-size:clamp(2.5rem, 6.6vw, 5rem);
+    line-height:1.02;
+    letter-spacing:-.035em;
+    font-weight:500;
+    margin:0 0 clamp(2.5rem, 6vw, 4.5rem);
+    max-width:19ch;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--accent);
+  }
+
+  .hero-columns{
+    display:grid;
+    grid-template-columns:1.25fr .75fr;
+    gap:clamp(2rem, 5vw, 4.5rem);
+    align-items:start;
+  }
+  .hero-prose p{
+    margin:0 0 1.2rem;
+    color:var(--muted);
+    font-size:1.02rem;
+    line-height:1.72;
+    max-width:47ch;
+  }
+  .hero-prose p:last-child{ margin-bottom:0; }
+
+  .notes{ margin-top:.5rem; }
+  .notes pre{
+    font-family:var(--mono);
+    font-size:.78rem;
+    line-height:2.05;
+    color:var(--muted);
+    margin:0;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .notes .prompt{ color:var(--accent); margin-right:.4rem; }
+  .notes .quote{ color:var(--text); font-style:italic; }
+
+  .sec{
+    border-top:1px solid var(--line);
+    padding:clamp(3rem, 6vw, 5rem) 0;
+  }
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:1.2rem;
+    margin-bottom:2.75rem;
+  }
+  .sec-num{
+    font-family:var(--mono);
+    font-size:.68rem;
+    color:var(--accent);
+    letter-spacing:.12em;
+  }
+  .sec-head h2{
+    font-family:var(--serif);
+    font-size:clamp(1.55rem, 3vw, 2.1rem);
+    font-weight:500;
+    letter-spacing:-.025em;
+    margin:0;
+  }
+
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:clamp(2rem, 6vw, 5rem);
+    align-items:start;
+  }
+  .prose p{
+    margin:0 0 1.35rem;
+    color:var(--muted);
+    font-size:1.02rem;
+    line-height:1.72;
+    max-width:48ch;
+  }
+  .prose p:last-child{ margin-bottom:0; }
+  .prose p:first-child::first-letter{
+    font-family:var(--serif);
+    font-size:3.6em;
+    line-height:.84;
+    float:left;
+    margin:.06em .14em 0 0;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  .prose a,
+  .foot-inner a{
+    text-decoration:underline;
+    text-underline-offset:3px;
+    text-decoration-color:var(--line);
+    transition:color .2s, text-decoration-color .2s;
+  }
+  .prose a{ color:var(--text); }
+  .foot-inner a{ color:var(--muted); }
+  .prose a:hover,
+  .foot-inner a:hover{
+    color:var(--accent);
+    text-decoration-color:var(--accent);
+  }
+
+  .path{
+    border-left:1px solid var(--line);
+    padding-left:1.5rem;
+    margin-top:.35rem;
+  }
+  .path-row{
+    margin-bottom:1.9rem;
+    display:flex;
+    flex-direction:column;
+    gap:.2rem;
+  }
+  .path-row:last-of-type{ margin-bottom:0; }
+  .path-when{
+    font-family:var(--mono);
+    font-size:.6rem;
+    color:var(--accent);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  .path-what{
+    font-family:var(--serif);
+    font-size:1.06rem;
+    color:var(--text);
+    font-weight:500;
+    letter-spacing:-.01em;
+    line-height:1.3;
+  }
+  .path-detail{
+    font-family:var(--mono);
+    font-size:.7rem;
+    color:var(--muted);
+    letter-spacing:.02em;
+    line-height:1.5;
+    margin-top:.15rem;
+  }
+
+  .toolkit{
+    margin:0;
+    border-top:1px solid var(--line);
+  }
+  .toolkit-row{
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:1.5rem;
+    padding:1.35rem 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  .toolkit dt{
+    font-family:var(--mono);
+    font-size:.64rem;
+    color:var(--accent);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  .toolkit dd{
+    margin:0;
+    font-family:var(--serif);
+    font-size:1.05rem;
+    color:var(--text);
+    letter-spacing:-.005em;
+    line-height:1.55;
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:1.75rem 0 2rem;
+    font-family:var(--mono);
+    font-size:.66rem;
+    color:var(--dim);
+    letter-spacing:.08em;
+  }
+  .foot-inner{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 var(--pad);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:1rem;
+  }
+
+  @media (max-width:780px){
+    .hero-columns{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; }
+    .notes{ margin-top:1.75rem; }
+    .path{ border-left:0; border-top:1px solid var(--line); padding-left:0; padding-top:1.5rem; }
+    .toolkit-row{ grid-template-columns:1fr; gap:.4rem; }
+    .foot-inner{ flex-direction:column; }
+  }
+  @media (max-width:480px){
+    body{ font-size:18px; }
+    .notes pre{ font-size:.72rem; }
+    .prose p:first-child::first-letter{ font-size:3.2em; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{ animation:none !important; transition:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="#top" class="masthead-name">debrainers</a>
+    <span class="masthead-status">Available for work</span>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <h1>im debrainers.<br>i take software apart to see how it <em>actually</em> works.</h1>
+
+    <div class="hero-columns">
+      <div class="hero-prose">
+        <p>Most of my time goes into Ghidra and x64dbg. Unpacking binaries, tracing protocols, keeping notes on the parts that were interesting. It is slow work, but the four pass rule holds up. Somewhere around the fourth read of the same function, the shape of the thing finally makes sense.</p>
+        <p>Python when I need a script or a parser. HTML and CSS when a front end is needed. Enough JavaScript to not regret it.</p>
+      </div>
+
+      <aside class="notes" aria-label="Recent shell session">
+<pre><span class="prompt">$</span> whoami
+reverse engineer / low level tinkerer
+
+<span class="prompt">$</span> ls ./toolkit
+ghidra  ida  x64dbg  radare2  frida  pwntools
+
+<span class="prompt">$</span> cat focus.txt
+<span class="quote">"read the assembly, not the docs."</span></pre>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>About</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="prose">
+        <p>The work I care about is slow and mostly invisible from the outside. You read a function, guess at what it does, test the guess, and usually find out you were wrong. Then you read it again. The interesting parts are rarely where you expect them to be.</p>
+        <p>I write in Python when something needs a script, a parser, or automation around a tool that was not built to be automated. I know HTML and CSS well enough to build a clean page, and JavaScript well enough to not break it.</p>
+        <p>I'm 16, in Dortmund. German and English both fluent, Russian I can understand but not really speak. Off screen it's music, and games when there's time. <a href="https://discord.com/users/847903597067894784">Discord</a> is easiest if you want to reach me.</p>
+      </div>
+
+      <aside class="path" aria-label="Path">
+        <div class="path-row">
+          <span class="path-when">Now</span>
+          <span class="path-what">Business Assistant</span>
+          <span class="path-detail">Information processing</span>
+        </div>
+        <div class="path-row">
+          <span class="path-when">Next</span>
+          <span class="path-what">B.Sc. Cyber Security</span>
+          <span class="path-detail">BWI GmbH, Bonn</span>
+        </div>
+        <div class="path-row">
+          <span class="path-when">Always</span>
+          <span class="path-what">Reversing and tooling</span>
+          <span class="path-detail">Independent work</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec" id="toolkit">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>The toolkit</h2>
+    </div>
+
+    <dl class="toolkit">
+      <div class="toolkit-row">
+        <dt>Reversing</dt>
+        <dd>Ghidra, IDA, x64dbg, radare2, static analysis, dynamic analysis</dd>
+      </div>
+      <div class="toolkit-row">
+        <dt>Languages</dt>
+        <dd>Python, JavaScript (basic), HTML, CSS</dd>
+      </div>
+      <div class="toolkit-row">
+        <dt>Tools</dt>
+        <dd>pwntools, Frida, Wireshark, Git, Linux</dd>
+      </div>
+      <div class="toolkit-row">
+        <dt>Other</dt>
+        <dd>Malware triage, CTF, technical writing, automation</dd>
+      </div>
+    </dl>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>debrainers</span>
+    <a href="https://discord.com/users/847903597067894784">discord</a>
+    <span>© <span id="year">2026</span></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
