@@ -128,6 +128,25 @@
   .notes .prompt{ color:var(--accent); margin-right:.4rem; }
   .notes .quote{ color:var(--text); font-style:italic; }
 
+  .scroll-cue{
+    display:inline-flex;
+    align-items:center;
+    gap:.55rem;
+    margin-top:clamp(2.5rem, 6vw, 4rem);
+    font-family:var(--mono);
+    font-size:.64rem;
+    color:var(--dim);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    transition:color .2s;
+  }
+  .scroll-cue:hover{ color:var(--accent); text-decoration:none; }
+  .cue-arrow{ display:inline-block; animation:bob 2.2s ease-in-out infinite; }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(3px); }
+  }
+
   .sec{
     border-top:1px solid var(--line);
     padding:clamp(3rem, 6vw, 5rem) 0;
@@ -326,6 +345,11 @@ ghidra  ida  x64dbg  radare2  frida  pwntools
 <span class="quote">"read the assembly, not the docs."</span></pre>
       </aside>
     </div>
+
+    <a class="scroll-cue" href="#about">
+      <span>scroll</span>
+      <span class="cue-arrow" aria-hidden="true">↓</span>
+    </a>
   </section>
 
   <section class="sec" id="about">
