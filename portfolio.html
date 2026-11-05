@@ -3,9 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title>debrainers</title>
 <meta name="description" content="debrainers. Reverse engineering, binary analysis, low level tinkering from Dortmund, Germany.">
+<meta name="author" content="debrainers">
 <meta name="theme-color" content="#131612">
+<link rel="canonical" href="https://debrainers.xyz/portfolio">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://debrainers.xyz/portfolio">
+<meta property="og:site_name" content="debrainers">
+<meta property="og:title" content="debrainers">
+<meta property="og:description" content="debrainers. Reverse engineering, binary analysis, low level tinkering from Dortmund, Germany.">
+<meta property="og:image" content="https://framerusercontent.com/images/TQvHFW21OJ2XzsKmceoaj48nQo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="debrainers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="debrainers">
+<meta name="twitter:description" content="Reverse engineering, binary analysis, low level tinkering.">
+<meta name="twitter:image" content="https://framerusercontent.com/images/TQvHFW21OJ2XzsKmceoaj48nQo.png">
+<link rel="icon" type="image/png" href="https://framerusercontent.com/images/H8uqgB2hKFNbmapE7iZ77ftuQqw.png">
+<link rel="apple-touch-icon" href="https://framerusercontent.com/images/H8uqgB2hKFNbmapE7iZ77ftuQqw.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,12 +33,13 @@
     --line:#232a24;
     --text:#e6ebe4;
     --muted:#8a958c;
-    --dim:#545e52;
+    --dim:#767f76;
     --accent:#66a372;
     --serif:"Newsreader","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
     --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --max:1000px;
     --pad:clamp(1.5rem, 5vw, 3rem);
+    --nav-h:56px;
   }
 
   *,*::before,*::after{ box-sizing:border-box; }
@@ -34,7 +53,9 @@
     font-size:19px;
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
+    -webkit-tap-highlight-color:rgba(102,163,114,0.15);
   }
 
   a{ color:var(--text); text-decoration:none; }
@@ -42,6 +63,14 @@
   p{ text-wrap:pretty; }
   h1,h2,h3{ text-wrap:balance; }
   ::selection{ background:var(--accent); color:#0d1a10; }
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  main:focus{ outline:none; }
 
   .skip{
     position:absolute; left:-9999px; top:0;
@@ -53,7 +82,7 @@
 
   .masthead{
     border-bottom:1px solid var(--line);
-    padding:1.4rem 0 1.15rem;
+    padding:1.25rem 0 1.1rem;
   }
   .masthead-inner{
     max-width:var(--max);
@@ -61,7 +90,7 @@
     padding:0 var(--pad);
     display:flex;
     justify-content:space-between;
-    align-items:baseline;
+    align-items:center;
     gap:1.5rem;
   }
   .masthead-name{
@@ -70,6 +99,20 @@
     font-weight:500;
     color:var(--text);
     letter-spacing:-.01em;
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    padding:.35rem .5rem;
+    margin:-.35rem -.5rem;
+  }
+  .masthead-avatar{
+    width:28px;
+    height:28px;
+    border-radius:3px;
+    object-fit:cover;
+    display:block;
+    flex-shrink:0;
+    background:var(--line);
   }
   .masthead-status{
     font-family:var(--mono);
@@ -123,7 +166,7 @@
     color:var(--muted);
     margin:0;
     white-space:pre-wrap;
-    word-break:break-word;
+    overflow-wrap:break-word;
   }
   .notes .prompt{ color:var(--accent); margin-right:.4rem; }
   .notes .quote{ color:var(--text); font-style:italic; }
@@ -133,6 +176,8 @@
     align-items:center;
     gap:.55rem;
     margin-top:clamp(2.5rem, 6vw, 4rem);
+    padding:.5rem .5rem;
+    margin-left:-.5rem;
     font-family:var(--mono);
     font-size:.64rem;
     color:var(--dim);
@@ -150,6 +195,7 @@
   .sec{
     border-top:1px solid var(--line);
     padding:clamp(3rem, 6vw, 5rem) 0;
+    scroll-margin-top:2rem;
   }
   .sec-head{
     display:flex;
@@ -196,15 +242,18 @@
   }
 
   .prose a,
+  .toolkit dd a,
   .foot-inner a{
     text-decoration:underline;
     text-underline-offset:3px;
-    text-decoration-color:var(--line);
+    text-decoration-color:var(--dim);
     transition:color .2s, text-decoration-color .2s;
   }
-  .prose a{ color:var(--text); }
+  .prose a,
+  .toolkit dd a{ color:var(--text); }
   .foot-inner a{ color:var(--muted); }
   .prose a:hover,
+  .toolkit dd a:hover,
   .foot-inner a:hover{
     color:var(--accent);
     text-decoration-color:var(--accent);
@@ -248,16 +297,16 @@
 
   .toolkit{
     margin:0;
-    border-top:1px solid var(--line);
   }
   .toolkit-row{
     display:grid;
     grid-template-columns:150px 1fr;
     gap:1.5rem;
-    padding:1.35rem 0;
-    border-bottom:1px solid var(--line);
+    padding:.85rem 0;
     align-items:baseline;
   }
+  .toolkit-row:first-child{ padding-top:0; }
+  .toolkit-row:last-child{ padding-bottom:0; }
   .toolkit dt{
     font-family:var(--mono);
     font-size:.64rem;
@@ -272,6 +321,7 @@
     color:var(--text);
     letter-spacing:-.005em;
     line-height:1.55;
+    overflow-wrap:break-word;
   }
 
   footer{
@@ -292,23 +342,89 @@
     gap:1rem;
   }
 
+  .mobile-nav{ display:none; }
+
   @media (max-width:780px){
+    body{
+      padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));
+    }
     .hero-columns{ grid-template-columns:1fr; }
     .about-grid{ grid-template-columns:1fr; }
     .notes{ margin-top:1.75rem; }
     .path{ border-left:0; border-top:1px solid var(--line); padding-left:0; padding-top:1.5rem; }
-    .toolkit-row{ grid-template-columns:1fr; gap:.4rem; }
+    .toolkit-row{ grid-template-columns:1fr; gap:.25rem; padding:1rem 0; }
     .foot-inner{ flex-direction:column; }
+    .foot-inner a{ padding:.5rem 0; }
+    .scroll-cue{ display:none; }
+
+    .mobile-nav{
+      display:flex;
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      z-index:90;
+      justify-content:space-around;
+      align-items:center;
+      background:rgba(19,22,18,0.94);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-top:1px solid var(--line);
+      padding:.55rem 0 calc(.55rem + env(safe-area-inset-bottom));
+      font-family:var(--mono);
+      font-size:.66rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .mobile-nav a{
+      color:var(--dim);
+      padding:.5rem .85rem;
+      transition:color .2s;
+    }
+    .mobile-nav a:hover,
+    .mobile-nav a:focus-visible{
+      color:var(--accent);
+    }
   }
   @media (max-width:480px){
     body{ font-size:18px; }
-    .notes pre{ font-size:.72rem; }
+    .notes pre{ font-size:.68rem; }
     .prose p:first-child::first-letter{ font-size:3.2em; }
+    .masthead-avatar{ width:24px; height:24px; }
+  }
+  @media (max-width:400px){
+    body{ font-size:17px; }
+    h1{ font-size:2.2rem; }
   }
 
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{ animation:none !important; transition:none !important; }
     html{ scroll-behavior:auto; }
+  }
+
+  @media print{
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --muted:#333333;
+      --dim:#555555;
+      --line:#cccccc;
+      --accent:#2d6a3f;
+    }
+    body{ background:#fff; color:#111; padding-bottom:0; }
+    .masthead-avatar,
+    .masthead-status,
+    .scroll-cue,
+    .mobile-nav{ display:none; }
+    .prose a[href]::after,
+    .toolkit dd a[href]::after,
+    .foot-inner a[href]::after{
+      content:" (" attr(href) ")";
+      color:#666;
+      font-size:.85em;
+      font-family:var(--mono);
+      word-break:break-all;
+    }
   }
 </style>
 </head>
@@ -318,12 +434,15 @@
 
 <header class="masthead">
   <div class="masthead-inner">
-    <a href="#top" class="masthead-name">debrainers</a>
-    <span class="masthead-status">Available for work</span>
+    <a href="#top" class="masthead-name">
+      <img class="masthead-avatar" src="https://framerusercontent.com/images/H8uqgB2hKFNbmapE7iZ77ftuQqw.png" alt="" width="28" height="28" loading="eager">
+      debrainers
+    </a>
+    <span class="masthead-status">Open to projects</span>
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
   <section class="hero" id="top">
     <h1>im debrainers.<br>i take software apart to see how it <em>actually</em> works.</h1>
@@ -362,7 +481,7 @@ ghidra  ida  x64dbg  radare2  frida  pwntools
       <div class="prose">
         <p>The work I care about is slow and mostly invisible from the outside. You read a function, guess at what it does, test the guess, and usually find out you were wrong. Then you read it again. The interesting parts are rarely where you expect them to be.</p>
         <p>I write in Python when something needs a script, a parser, or automation around a tool that was not built to be automated. I know HTML and CSS well enough to build a clean page, and JavaScript well enough to not break it.</p>
-        <p>I'm 16, in Dortmund. German and English both fluent, Russian I can understand but not really speak. Off screen it's music, and games when there's time. <a href="https://discord.com/users/847903597067894784">Discord</a> is easiest if you want to reach me.</p>
+        <p>I'm 16, in Dortmund. German and English both fluent, Russian I can understand but not really speak. Off screen it's music, and games when there's time.</p>
       </div>
 
       <aside class="path" aria-label="Path">
@@ -411,18 +530,52 @@ ghidra  ida  x64dbg  radare2  frida  pwntools
     </dl>
   </section>
 
+  <section class="sec" id="contact">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>Contact</h2>
+    </div>
+
+    <dl class="toolkit">
+      <div class="toolkit-row">
+        <dt>Email</dt>
+        <dd><a href="#" class="email-link" data-user="idebrainers" data-domain="gmail.com" aria-label="Email debrainers">email</a></dd>
+      </div>
+      <div class="toolkit-row">
+        <dt>Discord</dt>
+        <dd><a href="https://discord.com/users/847903597067894784" target="_blank" rel="noopener">debrainers</a></dd>
+      </div>
+    </dl>
+  </section>
+
 </main>
+
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <a href="#about">about</a>
+  <a href="#toolkit">toolkit</a>
+  <a href="#contact">contact</a>
+</nav>
 
 <footer>
   <div class="foot-inner">
-    <span>debrainers</span>
-    <a href="https://discord.com/users/847903597067894784">discord</a>
-    <span>© <span id="year">2026</span></span>
+    <span>© <span id="year">2026</span> debrainers</span>
+    <a href="https://debrainers.xyz/portfolio">debrainers.xyz/portfolio</a>
+    <a href="#top">back to top ↑</a>
   </div>
 </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  document.querySelectorAll('.email-link').forEach(function(el){
+    var user = el.getAttribute('data-user');
+    var domain = el.getAttribute('data-domain');
+    if (user && domain) {
+      var addr = user + '@' + domain;
+      el.href = 'mailto:' + addr;
+      el.textContent = addr;
+    }
+  });
 </script>
 
 </body>
